@@ -103,7 +103,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # Third party apps
-    # 'social.apps.django_app.default',
+    'social.apps.django_app.default',
     'rest_framework',
 
     # Trinket apps
@@ -119,7 +119,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    # 'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
+    'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
 )
 
 ## Internationalization
@@ -148,7 +148,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # 'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.backends',
             ],
         },
     },
@@ -197,10 +197,10 @@ GRAPPELLI_ADMIN_TITLE = "DDL Trinket CMS"
 ##########################################################################
 
 ## Support for Social Auth authentication backends
-# AUTHENTICATION_BACKENDS = (
-#     'social.backends.google.GoogleOAuth2',
-#     'django.contrib.auth.backends.ModelBackend',
-# )
+AUTHENTICATION_BACKENDS = (
+    'social.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 ## Social authentication strategy
 SOCIAL_AUTH_STRATEGY = 'social.strategies.django_strategy.DjangoStrategy'

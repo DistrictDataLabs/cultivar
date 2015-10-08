@@ -48,7 +48,7 @@ urlpatterns = [
     url(r'^privacy/$', TemplateView.as_view(template_name='site/legal/privacy.html'), name='privacy'),
 
     # Authentication URLs
-    # url('', include('social.apps.django_app.urls', namespace='social')),
+    url('', include('social.apps.django_app.urls', namespace='social')),
     url('^accounts/', include('django.contrib.auth.urls')),
 
     ## REST API Urls
