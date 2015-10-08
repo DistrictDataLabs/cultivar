@@ -1,0 +1,34 @@
+language: python
+python:
+  - '2.7'
+
+before_install:
+  - pip install coveralls
+
+install: pip install -r requirements.txt
+
+before_script:
+  - psql -c 'create database trinket;' -U postgres
+
+script: make test
+
+after_success: coveralls
+
+env:
+  global:
+    - DJANGO_SETTINGS_MODULE=trinket.settings.testing
+    - SECRET_KEY=supersecretkey
+    - DATABASE_URL=postgresql+psycopg2://localhost/trinket
+    - EMAIL_HOST_USER=''
+    - EMAIL_HOST_PASSWORD=''
+    - GOOGLE_OAUTH2_KEY=''
+    - GOOGLE_OAUTH2_SECRET=''
+
+notifications:
+  email:
+    recipients:
+      - bbengfort@districtdatalabs.com
+      - tojeda@districtdatalabs.com
+      - rbilbro@districtdatalabs.com
+    on_success: change
+    on_failure: always
