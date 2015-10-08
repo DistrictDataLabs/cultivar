@@ -1,0 +1,161 @@
+{% extends "page.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="container" style="margin-top:40px;">
+  <div class="row">
+    <div class="col-sm-6 col-md-6 col-md-offset-3">
+
+      {% block login-panel %}
+      <div class="panel panel-default">
+
+        <div class="panel-heading">
+          {% block login-heading %}
+          <h4 class="panel-title">{% block login-title %}Enter Access Controlled Area{% endblock %}</h4>
+          {% endblock %}
+        </div>
+
+        <div class="panel-body">
+          {% block login-body %}
+
+            {% block login-alert %}
+            {% if form.errors %}
+              <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Whoops!</strong> Credentials invalid. Please try again.
+              </div>
+            {% endif %}
+
+            {% if messages %}
+              {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                  <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Unauthorized!</strong> {{ message }}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
+            {% if next %}
+              {% if user.is_authenticated %}
+              <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Warning!</strong> Your account does not have access to this page.
+              </div>
+              {% else %}
+              <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Warning!</strong> You must login to access the DDL Topic Maps Admin
+              </div>
+              {% endif %}
+            {% endif %}
+            {% endblock %}
+
+            {% block login-form %}
+            <form role="form" action="{% url 'login' %}" method="post">
+              <fieldset>
+                <div class="row">
+                  <div class="form-group" style="padding: 10px 0">
+                    <img class="img-responsive center-block" src="{% static 'img/long-logo.png' %}" alt="" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 col-md-10 col-md-offset-1">
+                    <div class="form-group">
+                      <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-lg btn-primary btn-block">
+                        <i class="fa fa-google-plus-square"></i>
+                        Sign in with Google
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-10 col-md-offset-1">
+                      <strong><hr /></strong>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 col-md-10 col-md-offset-1">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input class="form-control" placeholder="Username"
+                               type="text" id="id_username" name="username"
+                               maxlength="254" autofocus />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        <input class="form-control" placeholder="Password"
+                               type="password" id="id_password" name="password"
+                               value="" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" value="login" class="btn btn-lg btn-info btn-block">
+                        Sign In
+                      </button>
+                      <input type="hidden" name="next" value="{{ next }}" />
+                      {% csrf_token %}
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+            {% endblock %}
+
+          {% endblock %}
+        </div>
+
+        <div class="panel-footer">
+          {% block login-footer %}
+            <div class="row">
+              <div class="col-sm-12 col-md-10 col-md-offset-1">
+                <div class="pull-left">
+                  <small><a href="{% url 'password_reset' %}">Forgot Password?</a></small>
+                </div>
+                <div class="pull-right">
+                  <small><a href="#" data-toggle="modal" data-target="#createAccountModal">Need an Account?</a></small>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          {% endblock %}
+        </div>
+
+      </div>
+      {% endblock %}
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Login Modals -->
+<div class="modal fade" id="createAccountModal" tabindex="-1" role="dialog" aria-labelledby="caModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="caModalLabel">Accessing the DDL Topic Maps Admin</h4>
+      </div>
+      <div class="modal-body">
+        <p class="lead">So you want special access behind the scenes eh?</p>
+        <p>Turns out that's fairly easy, so long as you're a member of the District Data Labs faculty. All you have to do is sign in with Google using your <span class="text-info">@districtdatalabs.com</span> email address and you'll be given access. If you'd like to set a password so that you don't have to use Google, you can do so in the administrative interface. Note if you can login but still can't access the admin, please email Ben.</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-primary">
+          <i class="fa fa-google-plus-square"></i>
+          Sign in with Google
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

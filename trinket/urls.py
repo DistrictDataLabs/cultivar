@@ -18,6 +18,7 @@ Application url definition and routers.
 ##########################################################################
 
 from django.contrib import admin
+from rest_framework import routers
 from django.conf.urls import include, url
 
 from django.views.generic import TemplateView
@@ -29,8 +30,8 @@ from trinket.views import *
 ##########################################################################
 
 ## API
-# router = routers.DefaultRouter()
-# router.register(r'status', HeartbeatViewSet, "status")
+router = routers.DefaultRouter()
+router.register(r'status', HeartbeatViewSet, "status")
 
 ##########################################################################
 ## URL Patterns
@@ -48,8 +49,8 @@ urlpatterns = [
 
     # Authentication URLs
     # url('', include('social.apps.django_app.urls', namespace='social')),
-    # url('^accounts/', include('django.contrib.auth.urls')),
+    url('^accounts/', include('django.contrib.auth.urls')),
 
     ## REST API Urls
-    # url(r'^api/', include(router.urls, namespace="api")),
+    url(r'^api/', include(router.urls, namespace="api")),
 ]

@@ -22,8 +22,8 @@ import trinket
 from datetime import datetime
 from django.views.generic import TemplateView
 
-# from rest_framework import viewsets
-# from rest_framework.response import Response
+from rest_framework import viewsets
+from rest_framework.response import Response
 
 ##########################################################################
 ## Views
@@ -41,14 +41,14 @@ class HomePageView(TemplateView):
 ## API Views for this application
 ##########################################################################
 
-# class HeartbeatViewSet(viewsets.ViewSet):
-#     """
-#     Endpoint for heartbeat checking, including the status and version.
-#     """
-#
-#     def list(self, request):
-#         return Response({
-#             "status": "ok",
-#             "version": trinket.get_version(),
-#             "timestamp": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
-#         })
+class HeartbeatViewSet(viewsets.ViewSet):
+    """
+    Endpoint for heartbeat checking, including the status and version.
+    """
+
+    def list(self, request):
+        return Response({
+            "status": "ok",
+            "version": trinket.get_version(),
+            "timestamp": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+        })
