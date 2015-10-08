@@ -1,0 +1,17 @@
+/* TEAM */
+
+    Developer: Benjamin Bengfort
+    Contact: bbengfort [at] districtdatalabs.com
+    Twitter: @bbengfort
+    From: Washington, DC
+
+    Developer: Tony Ojeda
+    Contact: tojeda [at] districtdatalabs.com
+    From: Washington, DC
+
+/* SITE */
+
+    Last update: 2015/06/30
+    Language: English
+    Doctype: HTML5
+    IDE: Github Atom.io Editor

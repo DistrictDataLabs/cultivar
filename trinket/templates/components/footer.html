@@ -1,0 +1,29 @@
+<div id="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-6">
+        <ul class="list-unstyled list-inline">
+          <li><a href="{% url 'terms' %}">Terms</a></li>
+          <li><a href="{% url 'privacy' %}">Privacy</a></li>
+          <li><a href="{# url 'api:api-root' #}">API</a></li>
+          <li><a href="https://github.com/districtdatalabs/"><i class="fa fa-github"></i></a></li>
+          <li><a href="https://twitter.com/DistrictDataLab/"><i class="fa fa-twitter"></i></a></li>
+        </ul>
+      </div>
+      <div class="col-xs-6">
+        <p class="text-right text-muted">
+          <small>
+            Copyright &copy; 2015 District Data Labs, All Rights Reserved
+          </small>
+        </p>
+        <p class="text-right text-muted">
+          <small>
+            DDL Trinket v<span id="footerVersion"></span>
+            &middot
+            status: <span id="footerStatus"><i class="fa fa-circle"></i></span>
+          </small>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

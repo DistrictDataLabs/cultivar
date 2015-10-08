@@ -1,0 +1,41 @@
+/* Global Styles for Topic Maps */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  /*padding-top: 76px;*/
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -106px;
+  /* Pad bottom by footer height */
+  padding: 0 0 106px;
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    padding: 30px 15px;
+    font-size: 16px;
+}
+
+#footer p {
+    margin: 0;
+}
+
+.navbar .profile-image{
+    margin: -10px 4px;
+    height: 30px;
+}
+
+#footerStatus {
+    font-size: 12px;
+}
