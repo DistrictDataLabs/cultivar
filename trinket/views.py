@@ -29,6 +29,7 @@ from rest_framework.response import Response
 ## Views
 ##########################################################################
 
+
 class HomePageView(TemplateView):
 
     template_name = "site/home.html"
@@ -40,6 +41,7 @@ class HomePageView(TemplateView):
 ##########################################################################
 ## API Views for this application
 ##########################################################################
+
 
 class HeartbeatViewSet(viewsets.ViewSet):
     """
