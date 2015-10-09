@@ -105,6 +105,7 @@ INSTALLED_APPS = (
     # Third party apps
     'social.apps.django_app.default',
     'rest_framework',
+    'django_gravatar',
 
     # Trinket apps
 )
