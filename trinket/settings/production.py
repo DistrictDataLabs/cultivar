@@ -31,4 +31,4 @@ DEBUG            = False
 ALLOWED_HOSTS    = ['ddl-trinket.herokuapp.com', 'trinket.districtdatalabs.com']
 
 ## Static files served by WhiteNoise
-STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = os.path.join(PROJECT, 'staticfiles')
