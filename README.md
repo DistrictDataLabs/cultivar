@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/DistrictDataLabs/trinket.png?label=ready&title=Ready)](https://waffle.io/DistrictDataLabs/trinket)
 # Trinket
 **Multidimensional data explorer and visualization tool.**
 
