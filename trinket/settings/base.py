@@ -106,8 +106,10 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'rest_framework',
     'django_gravatar',
+    'storages',
 
     # Trinket apps
+    'coffer',
 )
 
 ## Request Handling
@@ -169,6 +171,16 @@ STATICFILES_DIRS = (
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+##########################################################################
+## AWS S3 Storage
+##########################################################################
+
+DEFAULT_FILE_STORAGE    = 'storages.backends.s3boto.S3BotoStorage'
+
+AWS_ACCESS_KEY_ID       = environ_setting("AWS_ACCESS_KEY_ID", "")
+AWS_SECRET_ACCESS_KEY   = environ_setting("AWS_SECRET_ACCESS_KEY", "")
+AWS_STORAGE_BUCKET_NAME = environ_setting("AWS_STORAGE_BUCKET_NAME", "trinket-coffer")
 
 ##########################################################################
 ## Logging and Error Reporting

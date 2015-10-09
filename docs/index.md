@@ -1,4 +1,4 @@
-# Welcome to MkDocs
+# DDL Trinket Documentation
 
 For full documentation visit [mkdocs.org](http://mkdocs.org).
 
