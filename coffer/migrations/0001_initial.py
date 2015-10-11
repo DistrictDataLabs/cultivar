@@ -23,12 +23,16 @@ class Migration(migrations.Migration):
                 ('dataset', models.FileField(upload_to=b'datasets')),
                 ('dimensions', models.PositiveIntegerField(default=0)),
                 ('length', models.PositiveIntegerField(default=0)),
-                ('signature', models.CharField(unique=True, max_length=44)),
+                ('filesize', models.PositiveIntegerField(default=0)),
+                ('signature', models.CharField(unique=True, max_length=44, blank=True)),
+                ('datatype', models.CharField(default=b'csv', max_length=4, choices=[(b'csv', b'csv'), (b'json', b'json'), (b'xml', b'xml')])),
                 ('delimiter', models.CharField(default=b',', max_length=1)),
                 ('uploader', models.ForeignKey(related_name='datasets', to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'abstract': False,
+                'ordering': ('-created',),
+                'db_table': 'datasets',
+                'get_latest_by': 'created',
             },
         ),
     ]
