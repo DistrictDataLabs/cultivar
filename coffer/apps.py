@@ -1,25 +1,31 @@
-# coffer
-# Dataset manager and collection application.
+# coffer.apps
+# Describes the Coffer application to Django
 #
 # Author:   Benjamin Bengfort <bbengfort@districtdatalabs.com>
-# Created:  Thu Oct 08 21:44:00 2015 -0400
+# Created:  Sun Oct 11 17:07:54 2015 -0400
 #
 # Copyright (C) 2015 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: __init__.py [] benjamin@bengfort.com $
+# ID: apps.py [] benjamin@bengfort.com $
 
 """
-Dataset manager and collection application.
+Describes the Coffer application to Django
 """
 
 ##########################################################################
 ## Imports
 ##########################################################################
 
+from django.apps import AppConfig
 
 ##########################################################################
-## Configuration
+## Coffer Config
 ##########################################################################
 
-default_app_config = 'coffer.apps.CofferConfig'
+class CofferConfig(AppConfig):
+    name = 'coffer'
+    verbose_name = "Dataset Coffer"
+
+    def ready(self):
+        import coffer.signals
