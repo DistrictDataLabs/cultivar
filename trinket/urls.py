@@ -24,6 +24,7 @@ from django.conf.urls import include, url
 from django.views.generic import TemplateView
 
 from trinket.views import *
+from coffer.views import *
 
 ##########################################################################
 ## Endpoint Discovery
@@ -46,6 +47,7 @@ urlpatterns = [
     url(r'^$', HomePageView.as_view(), name='home'),
     url(r'^terms/$', TemplateView.as_view(template_name='site/legal/terms.html'), name='terms'),
     url(r'^privacy/$', TemplateView.as_view(template_name='site/legal/privacy.html'), name='privacy'),
+    url(r'^upload/$', DatasetUploadView.as_view(), name='upload'),
 
     # Authentication URLs
     url('', include('social.apps.django_app.urls', namespace='social')),

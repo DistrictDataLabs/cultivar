@@ -17,6 +17,8 @@ Models for dataset management and collection.
 ## Imports
 ##########################################################################
 
+import os
+
 from django.db import models
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
@@ -47,7 +49,14 @@ class Dataset(TimeStampedModel):
         ordering = ('-created',)
         get_latest_by = 'created'
 
+    @property
+    def filename(self):
+        """
+        Returns the basename of the dataset
+        """
+        return os.path.basename(self.dataset.name)
+
     def __unicode__(self):
-        return "{} dataset with {} rows and {} dimensions, uploaded by {}".format(
-            self.datatype, self.length, self.dimensions, self.uploader
+        return "{} - {} dataset with {} rows and {} dimensions, uploaded by {}".format(
+            self.filename, self.datatype, self.length, self.dimensions, self.uploader
         )

@@ -1,6 +1,6 @@
 /*
  * main.js
- * Main javascript function that should be run first thing in the TopicMaps App.
+ * Main javascript function that should be run first thing in the Trinket App.
  *
  * Author:  Benjamin Bengfort <bbengfort@districtdatalabs.com>
  * Created: Sun Aug 23 09:58:00 2015 -0500
@@ -42,6 +42,6 @@
     });
   });
 
-  console.log("Topic Maps App is started and ready");
+  console.log("Trinket App is started and ready");
 
 })(jQuery);

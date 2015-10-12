@@ -1,0 +1,109 @@
+{% extends 'page.html' %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+      <!-- Primary content area -->
+      <div class="row">
+
+        <!-- Upload Panel -->
+        <div class="panel panel-default">
+				  <div class="panel-heading">
+            <h3 class="panel-title">Upload Datasets</h3>
+          </div>
+				  <div class="panel-body">
+            <form class="dataset-upload-form" action="{% url 'upload' %}" method="POST">
+
+              <div class="input-group image-preview">
+						    <input placeholder="" type="text" class="form-control image-preview-filename" disabled="disabled">
+						    <span class="input-group-btn">
+						      <!-- image-preview-clear button -->
+						      <button type="button" class="btn btn-default image-preview-clear hidden">
+                    <i class="fa fa-trash"></i> Clear
+                  </button>
+
+                  <!-- image-preview-input -->
+                  <!-- Cleverly hide a file upload button in front of another button -->
+						      <div class="btn btn-default image-preview-input">
+                    <i class="fa fa-folder-open"></i> <span class="image-preview-input-title">Browse</span>
+							      <input type="file" accept="text/csv, application/csv, application/vnd.ms-excel" name="dataset"/>
+						      </div>
+
+                  <!-- Upload button -->
+                  <button type="submit" class="btn btn-labeled btn-default">
+                    <span class="btn-label"><i class="fa fa-upload"></i> </span>Upload</button>
+						    </span>
+              </div>
+              {% csrf_token %}
+            </form>
+
+  					<!-- Drop Zone -->
+            <form id="dropForm" class="dataset-upload-form" action="{% url 'upload' %}" method="POST">
+  					<div class="upload-drop-zone" id="drop-zone">
+              Or drag and drop dataset here
+              <input type="file" name="dataset"/>
+            </div>
+            {% csrf_token %}
+            </form>
+
+  					<!-- Upload History -->
+  					<div class="js-upload-finished">
+  						<h4>Recent Uploads</h4>
+  						<div class="list-group">
+                {% for dataset in upload_history %}
+                <a href="#" class="list-group-item list-group-item-success">
+                  <span class="badge alert-success pull-right">{{ dataset.created }}</span>
+                  {{ dataset }}
+                </a>
+                {% empty %}
+                <a href="#" class="list-group-item list-group-item-warning">No Recently Uploaded Datasets</a>
+                {% endfor %}
+              </div>
+  					</div>
+
+
+  				</div><!-- upload panel body ends -->
+        </div><!-- upload panel ends -->
+
+
+      </div><!-- primary content area ends -->
+    </div><!-- container ends -->
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+  <script type="text/javascript">
+    $(document).ready(function() {
+
+      // Display preview in text body on file selection
+      $("input[type=file]").change(function(e) {
+        var fullPath = $(e.target).val();
+
+        if (fullPath) {
+        	var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+        	var filename = fullPath.substring(startIndex);
+        	if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+        		filename = filename.substring(1);
+        	}
+
+          $(".image-preview-filename").val(filename);
+
+        }
+      });
+
+      $(".upload-drop-zone input[type=file]").change(function(e) {
+        $("#dropForm").submit();
+      });
+
+      console.log("Trinket Uploader is started and ready!");
+
+    });
+  </script>
+{% endblock %}

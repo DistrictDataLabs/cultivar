@@ -1,6 +1,6 @@
 /*
  * utils.js
- * Helper functions for global use in Topic Maps front-end apps
+ * Helper functions for global use in Trinket front-end apps
  *
  * Author:  Benjamin Bengfort <bbengfort@districtdatalabs.com>
  * Created: Sun Aug 23 10:09:11 2015 -0500
