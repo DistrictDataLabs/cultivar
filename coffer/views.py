@@ -17,6 +17,7 @@ Views and interaction logic for the coffer app.
 ## Imports
 ##########################################################################
 
+from django.db import IntegrityError
 from braces.views import LoginRequiredMixin
 from django.views.generic.edit import FormView
 
@@ -40,7 +41,16 @@ class DatasetUploadView(LoginRequiredMixin, FormView):
         """
         kwargs = super(DatasetUploadView, self).get_form_kwargs()
         kwargs['request'] = self.request
+        print kwargs
         return kwargs
+
+    def form_valid(self, form):
+        try:
+            form.save()
+            return super(DatasetUploadView, self).form_valid(form)
+        except IntegrityError:
+            form.add_error(None, "Duplicate file detected! Cannot upload the same file twice.")
+            return super(DatasetUploadView, self).form_invalid(form)
 
     def get_context_data(self, **kwargs):
         """
