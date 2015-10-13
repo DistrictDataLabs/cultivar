@@ -52,6 +52,9 @@ def dataset_file_compute(sender, instance, **kwargs):
         instance.dimensions = len(header)
         instance.length = sum(1 for row in reader)
 
+    if not instance.title:
+        instance.title = instance.filename
+
     instance.signature = base64.b64encode(sha.digest())
     instance.filesize  = instance.dataset.size
 

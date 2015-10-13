@@ -71,7 +71,7 @@
   						<h4>Recent Uploads</h4>
   						<div class="list-group">
                 {% for dataset in upload_history %}
-                <a href="#" class="list-group-item list-group-item-primary">
+                <a href="{{ dataset.get_absolute_url }}" class="list-group-item list-group-item-primary">
                   <span class="pull-right">uploaded {{ dataset.created|date }} by {{ dataset.uploader }}</span>
                   <strong>{{ dataset.filename }}</strong>
                   &middot;
