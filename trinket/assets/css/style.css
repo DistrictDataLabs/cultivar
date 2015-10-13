@@ -39,3 +39,11 @@ body {
 #footerStatus {
     font-size: 12px;
 }
+
+td.details-key {
+    font-weight: bold;
+}
+
+div.header-buttons {
+    padding-top: 30px;
+}
