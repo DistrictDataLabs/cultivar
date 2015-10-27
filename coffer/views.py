@@ -66,7 +66,7 @@ class DatasetUploadView(LoginRequiredMixin, FormView):
 class DatasetListView(LoginRequiredMixin, ListView):
 
     model = Dataset
-    template_name = "site/dataset_list.html"
+    template_name = "coffer/dataset_list.html"
     paginate_by   = 25
     context_object_name = "dataset_list"
 
@@ -78,5 +78,5 @@ class DatasetListView(LoginRequiredMixin, ListView):
 
 class DatasetDetailView(LoginRequiredMixin, DetailView):
 
-    template_name = "site/dataset_detail.html"
+    template_name = "coffer/dataset_detail.html"
     model = Dataset
