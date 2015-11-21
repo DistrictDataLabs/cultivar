@@ -65,7 +65,7 @@ class DatasetUploadView(LoginRequiredMixin, FormView):
 
 class DatasetListView(LoginRequiredMixin, ListView):
 
-    model = Dataset
+    model         = Dataset
     template_name = "coffer/dataset_list.html"
     paginate_by   = 25
     context_object_name = "dataset_list"
@@ -75,6 +75,7 @@ class DatasetListView(LoginRequiredMixin, ListView):
         context['num_datasets']   = Dataset.objects.count()
         context['latest_dataset'] = Dataset.objects.latest().created
         return context
+
 
 class DatasetDetailView(LoginRequiredMixin, DetailView):
 
