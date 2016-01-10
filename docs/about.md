@@ -8,7 +8,7 @@ Data science consists of a conglomeration of methods from previously existing fi
 
 In order for data to be valuable, it needs to go through a refinement process. We call this process the data science pipeline, and Trinket aims to improve and streamline the most time consuming phases of the pipeline so that data scientists can be as productive as possible and more quickly build valuable solutions for their organizations.
 
-![Pipeline](../docs/images/pipeline.png)
+![Pipeline](../images/pipeline.png)
 
 Trinket is an integrated data management, exploration, and visualization solution aimed at enhancing the experimental workflow of the data scientist.
 
