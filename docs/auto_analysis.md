@@ -20,10 +20,23 @@ _Questions to answer:_
 
 - How do other libraries like `pandas` and `messytables` do this?    
 
-- What does column-major mean for Trinket?    
+- Do you have to go through the whole dataset to make a decision?    
+Yes and no - decide based on how big the dataset is. The below strategy builds a sample from 50 non-empty rows for each column, as well as the rows with the longest and shortest lengths. For larger datasets, maybe sample 10%. For extremely large datasets, 1% might be enough.
 
-- What types are we looking for? s
-string, datetime, float, integer, boolean
+- Can we use a sample approach to reading the data?   
+```python
+for each col in fileTypeObject:
+    find mx # row with the longest value
+    find mn # row with the shortest value
+    find nonNaN # first 50 non-empty rows using ndarray.nonzero()
+    sampleArray = nd.array(mn, mx, nonNaN)
+```
+- Is there a certain density of data required to make a decision?    
+This is a good question - some libraries build histograms for each column to examine densities.
+TODO: look into thresholds
+
+- What types are we looking for?
+__string__, __datetime__, __float__, __integer__, __boolean__
 
 Attempt parsing from broadest type to narrowest:
 
@@ -32,7 +45,7 @@ for val in colSample:
     if val.dtype.type is np.string_:
         colType = colType.astype('Sn') # where n is the max length value in col
     elif val.dtype.type is np.datetime64:
-        colType = colType.astype('datetime64')   
+        colType = colType.astype('datetime64') # this is new & experimental in NumPy 1.7.0   
     elif val.dtype.type is np.float_:
         colType = colType.astype('float64')      
     elif val.dtype.type is np.int_:
@@ -41,26 +54,17 @@ for val in colSample:
         colType = colType.astype('bool')   
     else:
         # do something else
-```
-- How lightweight/heavyweight must this be?    
-
-- Is there a certain density of data required to make a decision?    
-
-- Do you have to go through the whole dataset to make a decision?    
-Yes and no.
-
-- Can we use a sample approach to reading the data?   
-```python
-for each col in fileTypeObject:
-    max = row with the longest value
-    min = row with the shortest value
-    nonNaN = first 50 non-empty rows # ndarray.nonzero()
-    sampleArray = ndarray(min, max, nonNaN)
+        # what about unicode and complex types?
 ```
 
 - How do we detect if there is a header row or not?    
 
+- What does column-major mean for Trinket?    
+
 - Can we automatically detect delimiters and quote characters? (e.g. ; vs ,)
+
+- How lightweight/heavyweight must this be?   
+
 
 ## Sources
 
