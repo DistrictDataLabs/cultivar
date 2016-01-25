@@ -19,7 +19,7 @@ Auto-analysis works by assigning each column/feature a data type (`dtype` in the
 _Questions to answer:_
 
 - How do other libraries like `pandas` and `messytables` do this?    
-Pandas computes [histograms](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L250) looks for the [min](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L537) and [max](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L556) values of a column, samples [quantiles](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L410)
+Pandas computes [histograms](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L250) looks for the [min](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L537) and [max](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L556) values of a column, samples [quantiles](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L410), and counts [unique values](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L55).
 
 - Do you have to go through the whole dataset to make a decision?    
 Yes and no - decide based on how big the dataset is. The below strategy builds a sample from 50 non-empty rows for each column, as well as the rows with the longest and shortest lengths. For larger datasets, maybe sample 10%. For extremely large datasets, 1% might be enough.
