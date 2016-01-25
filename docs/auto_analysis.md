@@ -60,11 +60,13 @@ for val in colSample:
         # what about unicode and complex types?
 ```
 
-- How do we detect if there is a header row or not?    
-
 - What does column-major mean for Trinket?    
 
 - Can we automatically detect delimiters and quote characters? (e.g. ; vs ,)
+See `messytables` [method for delimiter detection](https://github.com/okfn/dataconverters/blob/master/dataconverters/commas.py).
+
+- How do we detect if there is a header row or not?    
+See `messytables` [method for header detection](https://github.com/okfn/messytables/blob/7e4f12abef257a4d70a8020e0d024df6fbb02976/messytables/headers.py).
 
 - How lightweight/heavyweight must this be?   
 
@@ -82,6 +84,8 @@ for val in colSample:
 [Pandas](http://pandas.pydata.org/)
 
 [MessyTables](https://messytables.readthedocs.org/en/latest/)
+
+[Dataproxy](https://github.com/okfn/dataproxy)
 
 [Algorithms for Type Guessing - Stackoverflow](http://stackoverflow.com/questions/6824862/data-type-recognition-guessing-of-csv-data-in-python)
 
