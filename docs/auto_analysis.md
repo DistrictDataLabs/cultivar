@@ -19,11 +19,14 @@ Auto-analysis works by assigning each column/feature a data type (`dtype` in the
 _Questions to answer:_
 
 - How do other libraries like `pandas` and `messytables` do this?    
+Pandas computes [histograms](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L250) looks for the [min](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L537) and [max](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L556) values of a column, samples [quantiles](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L410)
 
 - Do you have to go through the whole dataset to make a decision?    
 Yes and no - decide based on how big the dataset is. The below strategy builds a sample from 50 non-empty rows for each column, as well as the rows with the longest and shortest lengths. For larger datasets, maybe sample 10%. For extremely large datasets, 1% might be enough.
 
-- Can we use a sample approach to reading the data?   
+- Can we use a sampling approach to reading the data?
+Naive method (assumes straightforward densities):
+  
 ```python
 for each col in fileTypeObject:
     find mx # row with the longest value
@@ -32,7 +35,7 @@ for each col in fileTypeObject:
     sampleArray = nd.array(mn, mx, nonNaN)
 ```
 - Is there a certain density of data required to make a decision?    
-This is a good question - some libraries build histograms for each column to examine densities.
+This is a good question - some libraries build histograms for each column to examine densities. See the [`pandas` method for histograms](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L250).
 TODO: look into thresholds
 
 - What types are we looking for?
