@@ -27,7 +27,7 @@ string, datetime, float, integer, boolean
 
 Attempt parsing from broadest type to narrowest:
 
-```python```
+```python
 for val in colSample:
     if val.dtype.type is np.string_:
         colType = colType.astype('Sn') # where n is the max length value in col
@@ -50,7 +50,7 @@ for val in colSample:
 Yes and no.
 
 - Can we use a sample approach to reading the data?   
-```python```
+```python
 for each col in fileTypeObject:
     max = row with the longest value
     min = row with the shortest value
