@@ -19,13 +19,47 @@ Auto-analysis works by assigning each column/feature a data type (`dtype` in the
 _Questions to answer:_
 
 - How do other libraries like `pandas` and `messytables` do this?    
+
 - What does column-major mean for Trinket?    
-- What types are we looking for?    
+
+- What types are we looking for? s
+string, datetime, float, integer, boolean
+
+Attempt parsing from broadest type to narrowest:
+
+```python```
+for val in colSample:
+    if val.dtype.type is np.string_:
+        colType = colType.astype('Sn') # where n is the max length value in col
+    elif val.dtype.type is np.datetime64:
+        colType = colType.astype('datetime64')   
+    elif val.dtype.type is np.float_:
+        colType = colType.astype('float64')      
+    elif val.dtype.type is np.int_:
+        colType = colType.astype('int64')   
+    elif val.dtype.type is np.bool_:
+        colType = colType.astype('bool')   
+    else:
+        # do something else
+```
 - How lightweight/heavyweight must this be?    
+
 - Is there a certain density of data required to make a decision?    
+
 - Do you have to go through the whole dataset to make a decision?    
-- Can we use a sample approach to reading the data?    
+Yes and no.
+
+- Can we use a sample approach to reading the data?   
+```python```
+for each col in fileTypeObject:
+    max = row with the longest value
+    min = row with the shortest value
+    nonNaN = first 50 non-empty rows # ndarray.nonzero()
+    sampleArray = ndarray(min, max, nonNaN)
+```
+
 - How do we detect if there is a header row or not?    
+
 - Can we automatically detect delimiters and quote characters? (e.g. ; vs ,)
 
 ## Sources
