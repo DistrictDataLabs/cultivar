@@ -16,7 +16,7 @@ This enables Trinket to do type identification, e.g. to identify and differentia
 
 Auto-analysis works by assigning each column/feature a data type (`dtype` in the parlance of NumPy and Pandas), e.g. categorical, numeric, real, integer, etc. These types must be automatically inferred from the dataset.
 
-The auto-analysis method takes as input a file-like object and generic keyword arguments and returns as output a tuple/list whose length is the (maximum) number of columns in the dataset, and whose values contain the datatype of each column, ordered by column index. 
+The auto-analysis method takes as input a file-like object and generic keyword arguments and returns as output a tuple/list whose length is the (maximum) number of columns in the dataset, and whose values contain the datatype of each column, ordered by column index.
 
 
 _Questions to answer:_
@@ -68,7 +68,7 @@ for val in colSample:
 Use [`transpose`](http://docs.scipy.org/doc/numpy-1.10.1/reference/generated/numpy.ndarray.T.html) and/or [`reshape`](http://docs.scipy.org/doc/numpy-1.10.1/reference/generated/numpy.reshape.html) from `numpy`.
 
 - Can we automatically detect delimiters and quote characters? (e.g. ; vs ,)    
-See `messytables` [method for delimiter detection](https://github.com/okfn/dataconverters/blob/master/dataconverters/commas.py).
+See `messytables` [method for delimiter detection](https://github.com/okfn/messytables/blob/master/messytables/commas.py).
 
 - How do we detect if there is a header row or not?    
 See `messytables` [method for header detection](https://github.com/okfn/messytables/blob/7e4f12abef257a4d70a8020e0d024df6fbb02976/messytables/headers.py).
