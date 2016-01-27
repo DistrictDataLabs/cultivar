@@ -18,10 +18,10 @@ Views and interaction logic for the coffer app.
 ##########################################################################
 
 from django.db import IntegrityError
-from braces.views import LoginRequiredMixin
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
 from django.views.generic.detail import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from coffer.models import Dataset
 from coffer.forms import DatasetUploadForm
