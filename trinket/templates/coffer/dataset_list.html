@@ -1,0 +1,76 @@
+{% extends 'page.html' %}
+{% load humanize %}
+{% load gravatar %}
+
+{% block content %}
+
+  <!-- Primary container -->
+  <div class="container">
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="page-header">
+          <h1 class="pull-left">Recently Uploaded Datasets</h1>
+          <p class="text-muted pull-right" style="margin-top:42px;">
+            {{ num_datasets|intcomma }} datasets &middot; latest on {{ latest_dataset|date }}
+          </p>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-bordered table-striped table-hover">
+          <thead>
+            <th><i class="fa fa-quote-left"></i> Name</th>
+            <th><i class="fa fa-file"></i> Type</th>
+            <th><i class="fa fa-columns"></i> Dimensions</th>
+            <th><i class="fa fa-table"></i> Length</th>
+            <th><i class="fa fa-user"></i> User</th>
+            <th><i class="fa fa-calendar"></i> Uploaded</th>
+          </thead>
+          <tbody>
+          {% for dataset in dataset_list %}
+            <tr class="clickable-row" data-href="{{ dataset.get_absolute_url }}">
+              <td><strong>{{ dataset.title }}</strong></td>
+              <td>{{ dataset.datatype|upper }} data</td>
+              <td>{{ dataset.dimensions|intcomma }} columns</td>
+              <td>{{ dataset.length|intcomma }} rows</td>
+              <td>
+                <img src="{% gravatar_url dataset.uploader.email 16 %}" class="img-rounded" style="margin: -9px 4px -7px 0; padding: 0;" />
+                {{ dataset.uploader }}
+              </td>
+              <td>{{ dataset.created|date }}</td>
+            </tr>
+          {% empty %}
+            <tr class="warning">
+              <td colspan="6">No Recently Uploaded Datasets</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+
+        {% if is_paginated %}
+          {% include 'components/pagination.html' %}
+        {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div><!-- primary container ends -->
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+  <script type="text/javascript">
+    $(document).ready(function() {
+
+      $(".clickable-row").click(function(e) {
+        window.document.location = $(this).data("href");
+      });
+
+    });
+  </script>
+{% endblock %}

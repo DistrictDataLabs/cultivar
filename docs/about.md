@@ -1,20 +1,8 @@
-# Trinket
-**Multidimensional data explorer and visualization tool.**
+# About Trinket     
 
-[![Build Status][travis_img]][travis_href]
-[![Coverage Status][coveralls_img]][coverals_href]
-[![Documentation Status][rtfd_img]][rtfd_href]
-[![Stories in Ready][waffle_img]][waffle_href]
+Trinket is a dataset management, analysis and visualization tool that is being built as part of the DDL Multidimensional Visualization Research Lab. See: [Parallel Coordinates](http://homes.cs.washington.edu/~jheer//files/zoo/ex/stats/parallel.html) for more on the types of visualizations we're experimenting with.
 
-[![Colorful Wall](docs/images/wall.jpg)][wall.jpg]
-
-## About
-
-This is a dataset management and visualization tool that is being built as part of the DDL Multidimensional Visualization Research Lab. See: [Parallel Coordinates](http://homes.cs.washington.edu/~jheer//files/zoo/ex/stats/parallel.html) for more on the types of visualizations we're experimenting with.
-
-For more information, please enjoy the documentation found at [trinket.readthedocs.org](http://trinket.readthedocs.org/).
-
-### Contributing
+## Contributing
 
 Trinket is open source, but because this is an District Data Labs project, we would appreciate it if you would let us know how you intend to use the software (other than simply copying and pasting code so that you can use it in your own projects). If you would like to contribute (especially if you are a student or research labs member at District Data Labs), you can do so in the following ways:
 
@@ -41,13 +29,18 @@ If you are a member of the District Data Labs Faculty group, you have direct acc
 
 4. Repeat. Releases will be routinely pushed into master via release branches, then deployed to the server.
 
-### Throughput
+## Contributors
 
-[![Throughput Graph](https://graphs.waffle.io/DistrictDataLabs/trinket/throughput.svg)](https://waffle.io/DistrictDataLabs/trinket/metrics)
+Thank you for all your help contributing to make Trinket a great project!
 
-### Attribution
+### Maintainers
 
-The image used in this README, ["window#1"][wall.jpg] by [Namelas Frade](https://www.flickr.com/photos/zingh/) is licensed under [CC BY-NC-ND 2.0](https://creativecommons.org/licenses/by-nc-nd/2.0/)
+- Benjamin Bengfort: [@bbengfort](https://github.com/bbengfort/)
+- Rebecca Bilbro: [@rebeccabilbro](https://github.com/rebeccabilbro)
+
+### Contributors
+
+- Tony Ojeda: [@ojedatony1616](https://github.com/ojedatony1616)
 
 ## Changelog
 
@@ -61,7 +54,7 @@ The versioning uses a three part version system, "a.b.c" - "a" represents a majo
 * **deployment**: Wednesday, January 27, 2016
 * **commit**: (see tag)
 
-This minor update gave a bit more functionality to the MVP prototype, even though the version was intended to have a much more impactful feature set. However after some study, the workflow is changing, and so this development branch is being pruned and deployed in preparation for the next batch. The major achievement of this version is the documentation that discusses our approach, as well as the dataset search and listing page that is now available.
+This minor update gave a bit more functionality to the MVP prototype, even though the version was intended to have a much more impactful feature set. However after some study, the workflow is changing, and so this development branch is being pruned and deployed in preparation for the next batch. The major achievement of this version is the documentation that discusses our approach, as well as the dataset search and listing page that is now available. 
 
 ### Version 0.1
 
@@ -70,14 +63,3 @@ This minor update gave a bit more functionality to the MVP prototype, even thoug
 * **commit**: [c863e42](https://github.com/DistrictDataLabs/trinket/commit/c863e421292be4eaeab36a9233f6ed7e0068679b)
 
 MVP prototype type of a dataset uploader and management application. This application framework will become the basis for the research project in the DDL Multidimensional Visualization Research Labs. For now users can upload datasets, and manage their description, as well as preview the first 20 rows.
-
-<!-- References -->
-[travis_img]: https://travis-ci.org/DistrictDataLabs/trinket.svg?branch=master
-[travis_href]: https://travis-ci.org/DistrictDataLabs/trinket
-[coveralls_img]: https://coveralls.io/repos/DistrictDataLabs/trinket/badge.svg?branch=master&service=github
-[coverals_href]: https://coveralls.io/github/DistrictDataLabs/trinket?branch=master
-[waffle_img]: https://badge.waffle.io/DistrictDataLabs/trinket.png?label=ready&title=Ready
-[waffle_href]: https://waffle.io/DistrictDataLabs/trinket
-[rtfd_img]: https://readthedocs.org/projects/trinket/badge/?version=latest
-[rtfd_href]: http://trinket.readthedocs.org/en/latest/?badge=latest
-[wall.jpg]: https://flic.kr/p/75C2ac

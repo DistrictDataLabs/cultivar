@@ -47,3 +47,7 @@ td.details-key {
 div.header-buttons {
     padding-top: 30px;
 }
+
+.clickable-row {
+    cursor: pointer;
+}

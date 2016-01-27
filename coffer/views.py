@@ -19,6 +19,7 @@ Views and interaction logic for the coffer app.
 
 from django.db import IntegrityError
 from braces.views import LoginRequiredMixin
+from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
 from django.views.generic.detail import DetailView
 
@@ -62,7 +63,21 @@ class DatasetUploadView(LoginRequiredMixin, FormView):
         return context
 
 
+class DatasetListView(LoginRequiredMixin, ListView):
+
+    model         = Dataset
+    template_name = "coffer/dataset_list.html"
+    paginate_by   = 25
+    context_object_name = "dataset_list"
+
+    def get_context_data(self, **kwargs):
+        context = super(DatasetListView, self).get_context_data(**kwargs)
+        context['num_datasets']   = Dataset.objects.count()
+        context['latest_dataset'] = Dataset.objects.latest().created
+        return context
+
+
 class DatasetDetailView(LoginRequiredMixin, DetailView):
 
-    template_name = "site/dataset.html"
+    template_name = "coffer/dataset_detail.html"
     model = Dataset

@@ -48,7 +48,8 @@ urlpatterns = [
     url(r'^terms/$', TemplateView.as_view(template_name='site/legal/terms.html'), name='terms'),
     url(r'^privacy/$', TemplateView.as_view(template_name='site/legal/privacy.html'), name='privacy'),
     url(r'^upload/$', DatasetUploadView.as_view(), name='upload'),
-    url(r'^dataset/(?P<pk>\d+)/$', DatasetDetailView.as_view(), name='dataset-detail'),
+    url(r'^datasets/$', DatasetListView.as_view(), name='listing'),
+    url(r'^datasets/(?P<pk>\d+)/$', DatasetDetailView.as_view(), name='dataset-detail'),
 
     # Authentication URLs
     url('', include('social.apps.django_app.urls', namespace='social')),

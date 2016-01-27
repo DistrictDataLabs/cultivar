@@ -1,1 +1,14 @@
-site_name: My Docs
+site_name: Trinket Documentation
+repo_name: GitHub
+repo_url: https://github.com/DistrictDataLabs/trinket
+site_description: Multidimensional data explorer and visualization tool.
+site_author: District Data Labs
+copyright: Copyright &copy; 2015-2016 District Data Labs, All Rights Reserved
+theme: readthedocs
+
+pages:
+- 'Introduction': 'index.md'
+- 'About': 'about.md'
+- 'Visual Analysis': 'visual_analysis.md'
+- 'Automated Analysis': 'auto_analysis.md'
+- 'Version Control': 'version_control.md'

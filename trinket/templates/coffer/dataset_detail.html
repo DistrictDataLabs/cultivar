@@ -1,0 +1,110 @@
+{% extends 'page.html' %}
+{% load humanize %}
+
+{% block content %}
+
+  <div class="container">
+    <!-- Primary content area -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="page-header">
+          <h1 class="pull-left">
+            {% if object.title %}
+              {{ object.title }}
+            {% else %}
+              {{ object.filename }}
+            {% endif %}
+          </h1>
+          <div class="pull-right header-buttons">
+            <a href="{% url 'admin:coffer_dataset_change' dataset.id %}" class="btn btn-default" />
+              <i class="fa fa-edit"></i> Edit
+            </a>
+            <a href="{{ dataset.dataset.url }}" class="btn btn-info" />
+              <i class="fa fa-download"></i> Download
+            </a>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title">Dataset Details</h3>
+          </div>
+          <table class="table table-striped table-hover">
+            <tbody>
+              <tr>
+                <td class="details-key">Dimensions</td>
+                <td class="details-value">{{ object.dimensions|intcomma }} Column{{ object.dimensions|pluralize }}</td>
+              </tr>
+              <tr>
+                <td class="details-key">Length</td>
+                <td class="details-value">{{ object.length|intcomma }} Row{{ object.length|pluralize }}</td>
+              </tr>
+              <tr>
+                <td class="details-key">File Size</td>
+                <td class="details-value">{{ object.filesize|filesizeformat }}</td>
+              </tr>
+              <tr>
+                <td class="details-key">Uploaded By</td>
+                <td class="details-value">{{ dataset.uploader }}</td>
+              </tr>
+              <tr>
+                <td class="details-key">Uploaded On</td>
+                <td class="details-value">{{ dataset.created|date }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Dataset Description</h3>
+          </div>
+          <div class="panel-body">
+            {% if object.description.rendered %}
+              {{ object.description.rendered|safe }}
+            {% else %}
+              <p>No description provided</p>
+            {% endif %}
+          </div>
+          <div class="panel-footer">
+            <small>License: To be determined</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Dataset Preview <small><code>head -n 20 dataset</code></small></h2>
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+            {% for header in object.headers %}
+            <th>{{header }}</th>
+            {% endfor %}
+          </thead>
+          <tbody>
+            {% for row in object.preview %}
+            <tr>
+              {% for item in row %}
+              <td>{{ item }}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- container ends -->
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+{% endblock %}
