@@ -32,8 +32,9 @@ for each col in fileTypeObject:
     find mx # row with the longest value
     find mn # row with the shortest value
     find nonNaN # first 50 non-empty rows using ndarray.nonzero()
-    sampleArray = nd.array(mn, mx, nonNaN)
-```
+    sampleArray = nd.array(mn, mx, nonNaN)    
+```    
+    
 - Is there a certain density of data required to make a decision?    
 This is a good question - some libraries build histograms for each column to examine densities. See the [`pandas` method for histograms](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L250).
 TODO: look into thresholds
@@ -61,6 +62,7 @@ for val in colSample:
 ```
 
 - What does column-major mean for Trinket?    
+Use [`transpose`](http://docs.scipy.org/doc/numpy-1.10.1/reference/generated/numpy.ndarray.T.html) and/or [`reshape`](http://docs.scipy.org/doc/numpy-1.10.1/reference/generated/numpy.reshape.html) from `numpy`.
 
 - Can we automatically detect delimiters and quote characters? (e.g. ; vs ,)
 See `messytables` [method for delimiter detection](https://github.com/okfn/dataconverters/blob/master/dataconverters/commas.py).
