@@ -44,6 +44,7 @@ TODO: look into thresholds
 
 - What types are we looking for?
 __string__, __datetime__, __float__, __integer__, __boolean__
+See also [`messytables` types](https://github.com/okfn/messytables/blob/master/messytables/types.py).
 
 Attempt parsing from broadest type to narrowest:
 
