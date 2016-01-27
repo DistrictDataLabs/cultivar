@@ -10,9 +10,9 @@ Trinket's visual analysis tools are designed to enable the user to interact with
 
 Scatter matrices, parallel coordinates, and radviz are three promising visual approaches to separability analysis on high-dimensional data.
 
-![Scatter matrix](../images/scatter_matrix.png)
-![Parallel coordinates](../images/parallel_coords.png)
-![Radviz](../images/radviz.png)
+![Scatter matrix](../docs/images/scatter_matrix.png)
+![Parallel coordinates](../docs/images/parallel_coords.png)
+![Radviz](../docs/images/radviz.png)
 
 The underlying architecture of the visualization tools is an implementation of hierarchical (agglomerative) clustering and brushing as described in Elmqvist and Fekete (2010) and Fua, Ward and Rundensteiner (1999) using `scikit-learn`. This clustering approach results in distance metrics necessary to do instance identification, and provides “cuts” that can be viewed at multiple different levels using brushing. Trinket also provides a two-dimensional rank-by-feature framework as described by Seo and Schneiderman (2004, 2005, 2006), including color-coded scatterplot matrices to identify linear, quadratic, Pearson, and Spearman relationships between pairs of variables, and tools to facilitate separability analysis, such as radial visualization, dendrograms, and parallel coordinates as described in Wegman (1990), Fua, Ward, and Rundensteiner (1999), and Inselberg (2004).
 
