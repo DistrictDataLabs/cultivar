@@ -1,5 +1,3 @@
-# DDL Trinket Documentation
-
 ## What is Trinket?
 
 Trinket is a dataset management, analysis and visualization tool that is being built as part of the DDL Multidimensional Visualization Research Lab. See: [Parallel Coordinates](http://homes.cs.washington.edu/~jheer//files/zoo/ex/stats/parallel.html) for more on the types of visualizations we're experimenting with.
@@ -30,19 +28,3 @@ If you are a member of the District Data Labs Faculty group, you have direct acc
         ~$ git push origin develop
 
 4. Repeat. Releases will be routinely pushed into master via release branches, then deployed to the server.
-
-### Documentation
-
-For full documentation visit [mkdocs.org](http://mkdocs.org).
-
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs help` - Print this help message.
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.

@@ -1,6 +1,7 @@
 {% load gravatar %}
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
+
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -13,8 +14,23 @@
         <i class="fa fa-bar-chart"></i> DDL Trinket
       </a>
     </div>
-    <div class="collapse navbar-collapse navbar-right">
-      <ul class="nav navbar-nav">
+
+    <div class="collapse navbar-collapse" id="navbar-tabs">
+
+      <!-- Navbar tabs left -->
+      <ul class="nav navbar-nav navbar-left">
+        {% if user.is_authenticated %}
+        <li>
+          <a href="{% url "upload" %}">Upload</a>
+        </li>
+        <li>
+          <a href="{% url "listing" %}">Datasets</a>
+        </li>
+        {% endif %}
+      </ul><!-- end navbar left -->
+
+      <!-- Navbar dropdown right -->
+      <ul class="nav navbar-nav navbar-right">
         {% if user.is_authenticated %}
         <li class="dropdown">
 
@@ -54,7 +70,7 @@
         </li>
         {% endif %}
 
-      </ul>
+      </ul><!-- end navbar right -->
     </div><!--/.nav-collapse -->
   </div><!-- /.container-fluid -->
 </nav>

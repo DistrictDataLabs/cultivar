@@ -3,9 +3,10 @@
 
 [![Build Status][travis_img]][travis_href]
 [![Coverage Status][coveralls_img]][coverals_href]
+[![Documentation Status][rtfd_img]][rtfd_href]
 [![Stories in Ready][waffle_img]][waffle_href]
 
-[![Colorful Wall](docs/img/wall.jpg)][wall.jpg]
+[![Colorful Wall](docs/images/wall.jpg)][wall.jpg]
 
 ## About
 
@@ -49,4 +50,6 @@ The image used in this README, ["window#1"][wall.jpg] by [Namelas Frade](https:/
 [coverals_href]: https://coveralls.io/github/DistrictDataLabs/trinket?branch=master
 [waffle_img]: https://badge.waffle.io/DistrictDataLabs/trinket.png?label=ready&title=Ready
 [waffle_href]: https://waffle.io/DistrictDataLabs/trinket
+[rtfd_img]: https://readthedocs.org/projects/trinket/badge/?version=latest
+[rtfd_href]: http://trinket.readthedocs.org/en/latest/?badge=latest
 [wall.jpg]: https://flic.kr/p/75C2ac

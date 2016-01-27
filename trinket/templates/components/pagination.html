@@ -1,0 +1,19 @@
+<nav>
+  <ul class="pagination">
+    <li {% if not page_obj.has_previous %}class="disabled"{% endif %}>
+      <a href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+
+    {% for idx in paginator.page_range %}
+        <li {% if page_obj.number == idx %} class="active" {% endif %}><a href="?page={{idx}}">{{idx}}</a></li>
+    {% endfor %}
+
+    <li {% if not page_obj.has_next %}class="disabled"{% endif %}>
+      <a href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
