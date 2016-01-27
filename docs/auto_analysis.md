@@ -75,7 +75,7 @@ See `messytables` [method for delimiter detection](https://github.com/okfn/messy
 See `messytables` [method for header detection](https://github.com/okfn/messytables/blob/7e4f12abef257a4d70a8020e0d024df6fbb02976/messytables/headers.py).
 
 - How lightweight/heavyweight must this be?   
-
+Look into making more lightweight using regular expressions & hard-coded rules (see [Brill tagging](https://en.wikipedia.org/wiki/Brill_tagger)).
 
 ## Sources
 
