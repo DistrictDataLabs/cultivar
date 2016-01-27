@@ -16,10 +16,13 @@ This enables Trinket to do type identification, e.g. to identify and differentia
 
 Auto-analysis works by assigning each column/feature a data type (`dtype` in the parlance of NumPy and Pandas), e.g. categorical, numeric, real, integer, etc. These types must be automatically inferred from the dataset.
 
+The auto-analysis method takes as input a file-like object and generic keyword arguments and returns as output a tuple/list whose length is the (maximum) number of columns in the dataset, and whose values contain the datatype of each column, ordered by column index. 
+
+
 _Questions to answer:_
 
 - How do other libraries like `pandas` and `messytables` do this?    
-Pandas computes [histograms](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L250) looks for the [min](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L537) and [max](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L556) values of a column, samples [quantiles](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L410), and counts [unique values](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L55).
+Pandas computes [histograms](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L250), looks for the [min](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L537) and [max](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L556) values of a column, samples [quantiles](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L410), and counts [unique values](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L55).
 
 - Do you have to go through the whole dataset to make a decision?    
 Yes and no - decide based on how big the dataset is. The below strategy builds a sample from 50 non-empty rows for each column, as well as the rows with the longest and shortest lengths. For larger datasets, maybe sample 10%. For extremely large datasets, 1% might be enough.
@@ -34,7 +37,7 @@ for each col in fileTypeObject:
     find nonNaN # first 50 non-empty rows using ndarray.nonzero()
     sampleArray = nd.array(mn, mx, nonNaN)    
 ```    
-    
+
 - Is there a certain density of data required to make a decision?    
 This is a good question - some libraries build histograms for each column to examine densities. See the [`pandas` method for histograms](https://github.com/pydata/pandas/blob/master/pandas/core/algorithms.py#L250).
 TODO: look into thresholds
@@ -64,7 +67,7 @@ for val in colSample:
 - What does column-major mean for Trinket?    
 Use [`transpose`](http://docs.scipy.org/doc/numpy-1.10.1/reference/generated/numpy.ndarray.T.html) and/or [`reshape`](http://docs.scipy.org/doc/numpy-1.10.1/reference/generated/numpy.reshape.html) from `numpy`.
 
-- Can we automatically detect delimiters and quote characters? (e.g. ; vs ,)
+- Can we automatically detect delimiters and quote characters? (e.g. ; vs ,)    
 See `messytables` [method for delimiter detection](https://github.com/okfn/dataconverters/blob/master/dataconverters/commas.py).
 
 - How do we detect if there is a header row or not?    
