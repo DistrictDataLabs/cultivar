@@ -1,0 +1,73 @@
+<!-- User Profile Edit Form Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editFormTitle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="editFormTitle">Edit Profile</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" id="editProfileForm">
+          <div class="form-group">
+            <label for="first_name">Name</label>
+            <div class="row">
+              <div class="col-sm-6">
+                <input type="text" class="form-control" value="{{ user.first_name }}" placeholder="First Name" id="first_name" name="first_name" required>
+              </div>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" value="{{ user.last_name }}" placeholder="Last Name" id="last_name" name="last_name" required>
+              </div>
+            </div>
+            <span class="help-block"></span>
+          </div>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" value="{{ user.username }}" placeholder="Username" id="username" name="username" required>
+            <span class="help-block"></span>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" value="{{ user.email }}" placeholder="Email" id="email" name="email" required>
+            <span class="help-block"></span>
+          </div>
+          <div class="form-group">
+            <label for="organization">Organization</label>
+            <input type="text" class="form-control" value="{% if user.profile.organization %}{{ user.profile.organization }}{% endif %}" placeholder="Organization" id="organization" name="organization">
+            <span class="help-block"></span>
+          </div>
+          <div class="form-group">
+            <label for="organization">Location</label>
+            <input type="text" class="form-control" value="{% if user.profile.location %}{{ user.profile.location }}{% endif %}" placeholder="Location" id="location" name="location">
+            <span class="help-block"></span>
+          </div>
+          <div class="form-group">
+            <label for="organization">Twitter</label>
+            <div class="input-group">
+              <span class="input-group-addon" id="twitter-addon1">@</span>
+              <input type="text" class="form-control" value="{% if user.profile.twitter %}{{ user.profile.twitter }}{% endif %}" placeholder="Handle" id="twitter" name="twitter">
+            </div>
+            <span class="help-block"></span>
+          </div>
+          <div class="form-group">
+            <label for="organization">linkedin</label>
+            <div class="input-group">
+              <span class="input-group-addon" id="linked-addon1"><i class="fa fa-linkedin"></i></span>
+              <input type="text" class="form-control" value="{% if user.profile.linkedin %}{{ user.profile.linkedin }}{% endif %}" placeholder="Profile URL" id="linkedin" name="linkedin">
+            </div>
+            <span class="help-block"></span>
+          </div>
+          <div class="form-group">
+            <label for="biography">Short Biography</label>
+            <textarea rows="3", class="form-control" id="biography" name="biography">{% if user.profile.biography %}{{ user.profile.biography.raw }}{% endif %}</textarea>
+            <span class="help-block">Edit in Markdown</span>
+          </div>
+          {% csrf_token %}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" form="editProfileForm">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

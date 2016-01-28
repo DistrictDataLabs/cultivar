@@ -1,0 +1,70 @@
+{# Just a generic listing page for when we need to list members. #}
+{# Use for "followers" pages, search results, etc. #}
+{% extends 'page.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <div class="row">
+
+      <!-- Page Title Area -->
+      <div class="col-xs-12">
+        <div class="page-header">
+          <h2>{{ list_title|default:"DDL Members" }}</h2>
+        </div>
+      </div>
+
+      <!-- Breadcrumbs navigation area -->
+      <div class="col-sm-12">
+        <ol class="breadcrumb">
+          <li><a href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a></li>
+          <li class="active"><i class="fa fa-users"></i> Members</li>
+        </ol>
+      </div>
+
+      <!-- Member list area -->
+      <div class="col-sm-12">
+
+        {% for member in member_list %}
+        <div class="col-md-6">
+          <div class="media" style="margin-bottom: 8px;">
+            <div class="media-left">
+              <a href="{{ member.profile.get_absolute_url }}">
+                <img class="media-object" src="{{ member.profile.gravatar_badge }}">
+              </a>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">
+                <a href="{{ member.profile.get_absolute_url }}">
+                  {{ member.profile.full_name }}
+                </a>
+              </h4>
+              <ul class="list-inline list-unstyled">
+                {% if member.profile.location %}
+                <li>
+                  <i class="fa fa-map-marker"></i> {{ member.profile.location }}
+                </li>
+                {% else %}
+                <li>
+                  <i class="fa fa-clock-o"></i> Joined on {{ member.date_joined|date }}
+                </li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-danger">No members found.</p>
+        {% endfor %}
+
+        {% if is_paginated %}
+          {% include 'components/pagination.html' %}
+        {% endif %}
+      </div>
+
+    </div><!-- row ends -->
+
+  </div><!-- container ends -->
+
+{% endblock %}

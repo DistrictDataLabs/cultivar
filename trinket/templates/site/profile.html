@@ -1,0 +1,279 @@
+{% extends 'page.html' %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <link type="text/css" rel="stylesheet"  href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+
+  <div class="container">
+    <!-- Main Row in Container -->
+    <div class="row">
+
+      <!-- Image/Profile sidebar on left -->
+      <div id="profile-sidebar" class="col-sm-3">
+
+        <!-- Profile title box with picture -->
+        <div class="gravatar">
+          <img class="img-responsive img-rounded" src="{{ user.profile.gravatar }}"
+             alt="Gravatar" title="{{ user.full_name }}" />
+            <div class="mask">
+              <a href="http://en.gravatar.com/emails/" rel="nofollow" title="Change Gravatar">Edit on Gravatar</a>
+            </div>
+        </div>
+
+        <h2 id="profileFullName">{{ user.profile.full_name }}</h2>
+        <h3 class="text-muted" id="profileUsername">{{ user.username }}</h3>
+
+        <!-- Heads up profile info -->
+        <hr class="profile-sep" />
+        <ul class="list-unstyled">
+          <li id="userLocation" class="editable-item">
+            <i class="fa fa-map-marker"></i>
+            <span id="profileLocation">{{ user.profile.location }}</span>
+          </li>
+          <li id="userOrganization">
+            <i class="fa fa-building"></i>
+            <span id="profileOrganization">{{ user.profile.organization }}</span>
+          </li>
+          <li id="userEmail">
+              <i class="fa fa-envelope"></i>
+              <span id="profileEmail">{{ user.email }}</span>
+          </li>
+          <li id="userTwitter">
+              <i class="fa fa-twitter"></i>
+              {% if user.profile.twitter %}
+              <a id="profileTwitterA" href="https://twitter.com/{{ user.profile.twitter }}/" target="_blank">
+                <span id="profileTwitter">@{{ user.profile.twitter }}</span>
+              </a>
+              {% else %}
+              <span id="profileTwitter">Not Added</span>
+              {% endif %}
+          </li>
+          <li id="userLinkedIn">
+              <i class="fa fa-linkedin"></i>
+              {% if user.profile.linkedin %}
+              <a id="profileLinkedInA" href="{{ user.profile.linkedin }}/" target="_blank">
+                <span id="profileLinkedIn">{{ user.last_name }} Profile</span>
+              </a>
+              {% else %}
+              <span id="profileLinkedIn">Not Added</span>
+              {% endif %}
+          </li>
+          <li id="userJoined">
+              <i class="fa fa-clock-o"></i>
+              Joined on {{ user.date_joined|date }}
+          </li>
+        </ul>
+
+        <!-- Profile statistics -->
+        <hr class="profile-sep" />
+        <ul class="number-stats list-unstyled list-inline">
+          <li>
+            <a href="#">
+              <span class="statistic">0</span>
+              <span class="statlabel">tbd</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="statistic">0</span>
+              <span class="statlabel">tbd</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="statistic">0</span>
+              <span class="statlabel">tbd</span>
+            </a>
+          </li>
+        </ul>
+
+      </div><!-- image/profile sidebar ends -->
+
+      <!-- Main Profile Area -->
+      <div id="profile-content" class="col-sm-9">
+
+        <!-- Profile Tab Navigation -->
+        <div>
+
+          <!-- edit profile button -->
+          <button id="btnEditProfile" class="btn btn-default btn-sm pull-right"
+              data-toggle="modal" data-target="#editProfileModal">
+            <i class="fa fa-pencil"></i> Edit Profile
+          </button>
+
+          <!-- change password button -->
+          <button id="btnSetPassword" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#setPasswordModal" style="margin-right:6px">
+            <i class="fa fa-lock"></i> Password
+          </button>
+
+          <ul class="nav nav-tabs">
+            <li class="active">
+              <a href="#details" data-toggle="tab">
+                <i class="fa fa-flask"></i> Details
+              </a>
+            </li>
+            <li>
+              <a href="#activity" data-toggle="tab">
+                <i class="fa fa-rss"></i> Activity
+              </a>
+            </li>
+          </ul>
+
+          <div class="clearfix"></div>
+        </div>
+        <!-- end profile tabs -->
+
+        <div class="tab-content">
+
+          <div id="details" class="tab-pane active">
+
+            <!-- Biography if it exists -->
+            <div class="well">
+              {% if user.profile.biography.raw %}
+              {{ user.profile.biography }}
+              {% else %}
+              <p>No biography added quite yet.</p>
+              {% endif %}
+            </div>
+
+
+          </div>
+
+          <div id="activity" class="tab-pane">
+            <div class="well">
+              <!-- Activity Log -->
+              <ul class="list-unstyled activity-stream">
+                <li>No activities recorded yet</li>
+              </ul><!-- end activity log -->
+            </div>
+          </div><!-- activity panel ends -->
+        </div><!-- tab-content ends -->
+
+      </div><!-- main profile area ends -->
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block modals %}
+  {{ block.super }}
+  {% include 'components/modals/edit-profile-modal.html' %}
+  {% include 'components/modals/set-password-modal.html' %}
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+
+  <script type="text/javascript">
+    (function($) {
+        $(document).ready(function() {
+
+            // Configure the profile application
+            var csrfToken   = $('input[name="csrfmiddlewaretoken"]').val();
+            $.ajaxSetup({headers: {"X-CSRFToken": csrfToken}});
+            console.log("Profile application ready");
+
+            var passwordForm = $("#setPasswordForm");
+            var userDetail   = "{{ user.profile.get_api_detail_url }}";
+            var profileForm  = $("#editProfileForm");
+
+            // When setPasswordModal is closed - reset the setPasswordForm
+            $('#setPasswordModal').on('hidden.bs.modal', function (e) {
+              passwordForm.removeClass('has-error');
+              $('#passwordHelp').text("");
+              $('#setPasswordForm')[0].reset();
+            });
+
+            // Handle setPasswordForm submission
+            passwordForm.submit(function(e) {
+              e.preventDefault();
+              // Get form data
+              var data = {
+                'password': $('#txtPassword').val(),
+                'repeated': $('#txtRepeated').val()
+              }
+              // Validate the data
+              if (data.password != data.repeated) {
+                passwordForm.addClass('has-error');
+                $('#passwordHelp').text("passwords do not match!");
+                return
+              } else if (data.password.length < 6) {
+                passwordForm.addClass('has-error');
+                $('#passwordHelp').text("password must be at least 6 characters");
+                return
+              }
+              // POST the change password data
+              var passwordEndpoint = userDetail + "set_password/";
+              $.post(passwordEndpoint, data, function(result) {
+                $("#setPasswordModal").modal('hide');
+              });
+              return false;
+            });
+
+            // Handle the profile submission
+            profileForm.submit(function(e) {
+                e.preventDefault();
+                // Get the form data
+                var data = utils.formData(profileForm);
+
+                data.profile = {
+                    "biography": data.biography,
+                    "organization": data.organization,
+                    "location": data.location,
+                    "twitter": data.twitter,
+                    "linkedin": data.linkedin
+                };
+
+                delete data.biography;
+                delete data.organization;
+                delete data.location;
+                delete data.twitter;
+                delete data.linkedin;
+
+                $.ajax({
+                    "url": userDetail,
+                    "method": "PUT",
+                    "data": JSON.stringify(data),
+                    "contentType": "application/json"
+                }).done(function(data) {
+                    // Update DOM with data requested
+                    $("#profileFullName").text(data.first_name + " " + data.last_name);
+                    $("#profileUsername").text(data.username);
+                    $("#profileEmail").text(data.email);
+                    $("#profileOrganization").text(data.profile.organization);
+                    $("#profileLocation").text(data.profile.location);
+                    $("#profileTwitter").text("@" + data.profile.twitter);
+                    $("#profileTwitterA").attr("href", "https://twitter.com/" + data.profile.twitter + "/");
+                    $("#profileLinkedIn").text(data.last_name + " Profile");
+                    $("#profileLinkedInA").attr("href", data.profile.linkedin);
+                    $("#editProfileModal").modal("hide");
+                }).fail(function(xhr) {
+                    data = xhr.responseJSON;
+                    // Set the error
+                    $.each(data, function(key, val) {
+                        var field = $("#"+key);
+                        field.parent().addClass("has-error");
+                        field.parent().find('.help-block').text(val);
+                    });
+                });
+                return false;
+            });
+
+            // Reset form on close
+            $("#editProfileModal").on("hide.bs.modal", function(e) {
+                resetEditProfileModal();
+            });
+
+            // Helper function to reset edit profile modal
+            function resetEditProfileModal() {
+                profileForm.find('.form-group').removeClass("has-error");
+                profileForm.find('.help-block').text("");
+            }
+        });
+    })(jQuery);
+  </script>
+{% endblock %}

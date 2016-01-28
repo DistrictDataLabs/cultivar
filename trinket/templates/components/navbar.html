@@ -47,6 +47,11 @@
                 </a>
               </li>
               <li>
+                <a href="{% url 'member-list' %}">
+                  <i class="fa fa-users"></i> Members
+                </a>
+              </li>
+              <li>
                 <a href="{% url 'api:api-root' %}">
                   <i class="fa fa-cogs"></i> API Docs
                 </a>
@@ -54,6 +59,11 @@
               <li class="sep"></li>
               {% endif %}
               <li class="dropdown-header">User Settings</li>
+              <li>
+                <a href="{% url 'profile' %}">
+                  <i class="fa fa-user"></i> View Profile
+                </a>
+              </li>
               <li>
                 <a href="{% url 'logout' %}">
                   <i class="fa fa-sign-out"></i>  Log out

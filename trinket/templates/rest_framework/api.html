@@ -36,25 +36,35 @@
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
     {% if user.is_staff %}
-      <li class="dropdown-header">Administration</li>
-      <li>
-        <a href="{% url 'admin:index' %}">
-          <i class="fa fa-cog"></i> Management
-        </a>
-      </li>
-      <li>
-        <a href="{% url 'api:api-root' %}">
-          <i class="fa fa-cogs"></i> API Docs
-        </a>
-      </li>
-      <li class="sep"></li>
-      {% endif %}
-      <li class="dropdown-header">User Settings</li>
-      <li>
-        <a href="{% url 'logout' %}">
-          <i class="fa fa-sign-out"></i>  Log out
-        </a>
-      </li>
+    <li class="dropdown-header">Administration</li>
+    <li>
+      <a href="{% url 'admin:index' %}">
+        <i class="fa fa-cog"></i> Management
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'member-list' %}">
+        <i class="fa fa-users"></i> Members
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'api:api-root' %}">
+        <i class="fa fa-cogs"></i> API Docs
+      </a>
+    </li>
+    <li class="sep"></li>
+    {% endif %}
+    <li class="dropdown-header">User Settings</li>
+    <li>
+      <a href="{% url 'profile' %}">
+        <i class="fa fa-user"></i> View Profile
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'logout' %}">
+        <i class="fa fa-sign-out"></i>  Log out
+      </a>
+    </li>
   </ul>
 </li>
 {% else %}
