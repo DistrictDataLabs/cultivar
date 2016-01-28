@@ -1,3 +1,5 @@
+{# Just a generic listing page for when we need to list members. #}
+{# Use for "followers" pages, search results, etc. #}
 {% extends 'page.html' %}
 
 {% block content %}
@@ -9,7 +11,7 @@
       <!-- Page Title Area -->
       <div class="col-xs-12">
         <div class="page-header">
-          <h2>DDL Membership <small>{{ member_count }} members updated on {{ member_latest|date }}</small></h2>
+          <h2>{{ list_title|default:"DDL Members" }}</h2>
         </div>
       </div>
 
@@ -20,18 +22,6 @@
           <li class="active"><i class="fa fa-users"></i> Members</li>
         </ol>
       </div>
-
-      <!--
-      <div class="col-sm-12">
-        <div class="btn-group btn-group-justified" role="group" aria-label="filter by roles">
-          {% for role in roles %}
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-sm btn-default">{{ role }}</button>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-      -->
 
       <!-- Member list area -->
       <div class="col-sm-12">
@@ -50,18 +40,22 @@
                   {{ member.profile.full_name }}
                 </a>
               </h4>
-              <ul class="list-inline list-unstiled">
-                {% for role in member.profile.roles.all %}
-                <li>{{ role }}</li>
-                {% empty %}
-                <li class="text-danger">No roles assigned</li>
-                {% endfor %}
+              <ul class="list-inline list-unstyled">
+                {% if member.profile.location %}
+                <li>
+                  <i class="fa fa-map-marker"></i> {{ member.profile.location }}
+                </li>
+                {% else %}
+                <li>
+                  <i class="fa fa-clock-o"></i> Joined on {{ member.date_joined|date }}
+                </li>
+                {% endif %}
               </ul>
             </div>
           </div>
         </div>
         {% empty %}
-        <p class="text-danger">No members added quite yet</p>
+        <p class="text-danger">No members found.</p>
         {% endfor %}
 
         {% if is_paginated %}
