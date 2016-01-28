@@ -1,0 +1,336 @@
+{% extends 'page.html' %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <link type="text/css" rel="stylesheet"  href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+
+  <div class="container">
+    <!-- Main Row in Container -->
+    <div class="row">
+
+      <!-- Image/Profile sidebar on left -->
+      <div id="profile-sidebar" class="col-sm-3">
+
+        <!-- Profile title box with picture -->
+        <div class="gravatar">
+          <img class="img-responsive img-rounded" src="{{ member.profile.gravatar }}"
+             alt="Gravatar" title="{{ member.full_name }}" />
+            <div class="mask">
+              <a href="http://en.gravatar.com/emails/" rel="nofollow" title="Change Gravatar">Edit on Gravatar</a>
+            </div>
+        </div>
+
+        <h2 id="profileFullName">{{ member.profile.full_name }}</h2>
+        <h3 class="text-muted" id="profileUsername">{{ member.username }}</h3>
+
+        <!-- Heads up profile info -->
+        <hr class="profile-sep" />
+        <ul class="list-unstyled">
+          <li id="userLocation" class="editable-item">
+            <i class="fa fa-map-marker"></i>
+            <span id="profileLocation">{{ member.profile.location }}</span>
+          </li>
+          <li id="userOrganization">
+            <i class="fa fa-building"></i>
+            <span id="profileOrganization">{{ member.profile.organization }}</span>
+          </li>
+          <li id="userEmail">
+              <i class="fa fa-envelope"></i>
+              <span id="profileEmail">{{ member.email }}</span>
+          </li>
+          <li id="userTwitter">
+              <i class="fa fa-twitter"></i>
+              {% if member.profile.twitter %}
+              <a id="profileTwitterA" href="https://twitter.com/{{ member.profile.twitter }}/" target="_blank">
+                <span id="profileTwitter">@{{ member.profile.twitter }}</span>
+              </a>
+              {% else %}
+              <span id="profileTwitter">Not Added</span>
+              {% endif %}
+          </li>
+          <li id="userLinkedIn">
+              <i class="fa fa-linkedin"></i>
+              {% if member.profile.linkedin %}
+              <a id="profileLinkedInA" href="{{ member.profile.linkedin }}/" target="_blank">
+                <span id="profileLinkedIn">{{ member.last_name }} Profile</span>
+              </a>
+              {% else %}
+              <span id="profileLinkedIn">Not Added</span>
+              {% endif %}
+          </li>
+          <li id="userJoined">
+              <i class="fa fa-clock-o"></i>
+              Joined on {{ member.date_joined|date }}
+          </li>
+        </ul>
+
+        <!-- Profile statistics -->
+        <hr class="profile-sep" />
+        <ul class="number-stats list-unstyled list-inline">
+          <li>
+            <a href="#">
+              <span class="statistic">{{ member.profile.roles.count }}</span>
+              <span class="statlabel">roles</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="statistic">{{ member.taught_courses.count|add:member.enrolled_courses.count }}</span>
+              <span class="statlabel">courses</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="statistic">{{ member.publications.count }}</span>
+              <span class="statlabel">publications</span>
+            </a>
+          </li>
+        </ul>
+
+      </div><!-- image/profile sidebar ends -->
+
+      <!-- Main Profile Area -->
+      <div id="profile-content" class="col-sm-9">
+
+        <!-- Profile Tab Navigation -->
+        <div>
+
+          <!-- edit profile button -->
+          <button id="btnEditProfile" class="btn btn-default btn-sm pull-right"
+              data-toggle="modal" data-target="#editProfileModal">
+            <i class="fa fa-pencil"></i> Edit Details
+          </button>
+
+          <ul class="nav nav-tabs">
+            <li class="active">
+              <a href="#details" data-toggle="tab">
+                <i class="fa fa-flask"></i> Details
+              </a>
+            </li>
+            <li>
+              <a href="#activity" data-toggle="tab">
+                <i class="fa fa-rss"></i> Activity
+              </a>
+            </li>
+          </ul>
+
+          <div class="clearfix"></div>
+        </div>
+        <!-- end profile tabs -->
+
+        <div class="tab-content">
+
+          <div id="details" class="tab-pane active">
+
+            <!-- Biography if it exists -->
+            {% if member.profile.biography.raw %}
+            <div class="well">
+              {{ member.profile.biography }}
+            </div>
+            {% endif %}
+
+            <!-- Courses Taken table -->
+            {% if member.enrolled_courses.count > 0 %}
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">Courses Taken</h4>
+              </div>
+              <table class="table table-striped table-hover">
+                <thead>
+                  <th>Name</th>
+                  <th>Date</th>
+                </thead>
+                <tbody>
+                  {% for course in member.enrolled_courses.all %}
+                  <tr>
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.begins }}</td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="4">No courses taken</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% endif %}
+
+            <!-- Courses Taught table -->
+            {% if member.taught_courses.count > 0 %}
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">Courses Taught</h4>
+              </div>
+              <table class="table table-striped table-hover">
+                <thead>
+                  <th>Name</th>
+                  <th>Date</th>
+                  <th class="text-center">Instructors</th>
+                  <th class="text-center">Students</th>
+                </thead>
+                <tbody>
+                  {% for course in member.taught_courses.all %}
+                  <tr>
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.begins }}</td>
+                    <td class="text-center">{{ course.instructors.count }}</td>
+                    <td class="text-center">{{ course.students.count }}</td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="4">No courses taught</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% endif %}
+
+            <!-- Two column rows and publications -->
+            <div class="row">
+
+              <div class="col-sm-6">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">Roles</h4>
+                  </div>
+                  <ul class="list-group">
+                    {% for role in member.profile.roles.all %}
+                    <li class="list-group-item">{{ role }}</li>
+                    {% empty %}
+                    <li class="list-group-item">No associated roles</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">Publications</h4>
+                  </div>
+                  <ul class="list-group">
+                    {% for pub in member.publications.all %}
+                    {% if pub.link %}
+                    <a class="list-group-item" href="{{ pub.link }}" title="{{ pub.title }}" target="_blank">{{ pub.title }}</a>
+                    {% else %}
+                    <li class="list-group-item">{{ pub.title }}</li>
+                    {% endif %}
+                    {% empty %}
+                    <li class="list-group-item">No publications</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div id="activity" class="tab-pane">
+            <div class="well">
+              <!-- Activity Log -->
+              <ul class="list-unstyled activity-stream">
+                <li>No activities recorded yet</li>
+              </ul><!-- end activity log -->
+            </div>
+          </div><!-- activity panel ends -->
+        </div><!-- tab-content ends -->
+
+      </div><!-- main profile area ends -->
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block modals %}
+  {{ block.super }}
+
+  {% with user=member %}
+  {% include 'components/modals/edit-profile-modal.html' %}
+  {% endwith %}
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+
+  <script type="text/javascript">
+    (function($) {
+        $(document).ready(function() {
+
+            // Configure the profile application
+            var csrfToken   = $('input[name="csrfmiddlewaretoken"]').val();
+            $.ajaxSetup({headers: {"X-CSRFToken": csrfToken}});
+            console.log("Member detail application ready");
+
+            var userDetail   = "{{ member.profile.get_api_detail_url }}";
+            var profileForm  = $("#editProfileForm");
+
+            // Handle the profile submission
+            profileForm.submit(function(e) {
+                e.preventDefault();
+                // Get the form data
+                var data = utils.formData(profileForm);
+
+                data.profile = {
+                    "biography": data.biography,
+                    "organization": data.organization,
+                    "location": data.location,
+                    "twitter": data.twitter,
+                    "linkedin": data.linkedin
+                };
+
+                delete data.biography;
+                delete data.organization;
+                delete data.location;
+                delete data.twitter;
+                delete data.linkedin;
+
+                $.ajax({
+                    "url": userDetail,
+                    "method": "PUT",
+                    "data": JSON.stringify(data),
+                    "contentType": "application/json"
+                }).done(function(data) {
+                    // Update DOM with data requested
+                    $("#profileFullName").text(data.first_name + " " + data.last_name);
+                    $("#profileUsername").text(data.username);
+                    $("#profileEmail").text(data.email);
+                    $("#profileOrganization").text(data.profile.organization);
+                    $("#profileLocation").text(data.profile.location);
+                    $("#profileTwitter").text("@" + data.profile.twitter);
+                    $("#profileTwitterA").attr("href", "https://twitter.com/" + data.profile.twitter + "/");
+                    $("#profileLinkedIn").text(data.last_name + " Profile");
+                    $("#profileLinkedInA").attr("href", data.profile.linkedin);
+                    $("#editProfileModal").modal("hide");
+                }).fail(function(xhr) {
+                    data = xhr.responseJSON;
+                    // Set the error
+                    $.each(data, function(key, val) {
+                        var field = $("#"+key);
+                        field.parent().addClass("has-error");
+                        field.parent().find('.help-block').text(val);
+                    });
+                });
+                return false;
+            });
+
+            // Reset form on close
+            $("#editProfileModal").on("hide.bs.modal", function(e) {
+                resetEditProfileModal();
+            });
+
+            // Helper function to reset edit profile modal
+            function resetEditProfileModal() {
+                profileForm.find('.form-group').removeClass("has-error");
+                profileForm.find('.help-block').text("");
+            }
+        });
+    })(jQuery);
+  </script>
+{% endblock %}

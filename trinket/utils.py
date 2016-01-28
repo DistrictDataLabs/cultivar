@@ -19,7 +19,11 @@ Project level  utilities and helpers
 
 import re
 import base64
+import bleach
 import hashlib
+
+from functools import wraps
+from markdown import markdown
 
 ##########################################################################
 ## Utilities
@@ -53,3 +57,38 @@ def signature(text):
     similarities between questions.
     """
     return base64.b64encode(hashlib.sha256e(normalize(text)).digest())
+
+
+def htmlize(text):
+    """
+    This helper method renders Markdown then uses Bleach to sanitize it as
+    well as convert all links to actual links.
+    """
+    text = bleach.clean(text, strip=True)    # Clean the text by stripping bad HTML tags
+    text = markdown(text)                    # Convert the markdown to HTML
+    text = bleach.linkify(text)              # Add links from the text and add nofollow to existing links
+
+    return text
+
+
+##########################################################################
+## Memoization
+##########################################################################
+
+
+def memoized(fget):
+    """
+    Return a property attribute for new-style classes that only calls its
+    getter on the first access. The result is stored and on subsequent
+    accesses is returned, preventing the need to call the getter any more.
+    https://github.com/estebistec/python-memoized-property
+    """
+    attr_name = '_{0}'.format(fget.__name__)
+
+    @wraps(fget)
+    def fget_memoized(self):
+        if not hasattr(self, attr_name):
+            setattr(self, attr_name, fget(self))
+        return getattr(self, attr_name)
+
+    return property(fget_memoized)

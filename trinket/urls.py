@@ -42,6 +42,7 @@ from django.views.generic import TemplateView
 
 from trinket.views import *
 from coffer.views import *
+from members.views import *
 
 ##########################################################################
 ## Endpoint Discovery
@@ -50,6 +51,7 @@ from coffer.views import *
 ## API
 router = routers.DefaultRouter()
 router.register(r'status', HeartbeatViewSet, "status")
+router.register(r'users', UserViewSet)
 
 ##########################################################################
 ## URL Patterns
@@ -67,6 +69,11 @@ urlpatterns = [
     url(r'^upload/$', DatasetUploadView.as_view(), name='upload'),
     url(r'^datasets/$', DatasetListView.as_view(), name='listing'),
     url(r'^datasets/(?P<pk>\d+)/$', DatasetDetailView.as_view(), name='dataset-detail'),
+
+    # Members URLs
+    url(r'^profile/$', ProfileView.as_view(), name='profile'),
+    url(r'^members/$', MemberListView.as_view(), name='member-list'),
+    url(r'^members/(?P<slug>[\w-]+)/$', MemberView.as_view(), name='member-detail'),
 
     # Authentication URLs
     url('', include('social.apps.django_app.urls', namespace='social')),

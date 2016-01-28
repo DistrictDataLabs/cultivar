@@ -1,0 +1,76 @@
+{% extends 'page.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <div class="row">
+
+      <!-- Page Title Area -->
+      <div class="col-xs-12">
+        <div class="page-header">
+          <h2>DDL Membership <small>{{ member_count }} members updated on {{ member_latest|date }}</small></h2>
+        </div>
+      </div>
+
+      <!-- Breadcrumbs navigation area -->
+      <div class="col-sm-12">
+        <ol class="breadcrumb">
+          <li><a href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a></li>
+          <li class="active"><i class="fa fa-users"></i> Members</li>
+        </ol>
+      </div>
+
+      <!--
+      <div class="col-sm-12">
+        <div class="btn-group btn-group-justified" role="group" aria-label="filter by roles">
+          {% for role in roles %}
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-sm btn-default">{{ role }}</button>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      -->
+
+      <!-- Member list area -->
+      <div class="col-sm-12">
+
+        {% for member in member_list %}
+        <div class="col-md-6">
+          <div class="media" style="margin-bottom: 8px;">
+            <div class="media-left">
+              <a href="{{ member.profile.get_absolute_url }}">
+                <img class="media-object" src="{{ member.profile.gravatar_badge }}">
+              </a>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">
+                <a href="{{ member.profile.get_absolute_url }}">
+                  {{ member.profile.full_name }}
+                </a>
+              </h4>
+              <ul class="list-inline list-unstiled">
+                {% for role in member.profile.roles.all %}
+                <li>{{ role }}</li>
+                {% empty %}
+                <li class="text-danger">No roles assigned</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-danger">No members added quite yet</p>
+        {% endfor %}
+
+        {% if is_paginated %}
+          {% include 'components/pagination.html' %}
+        {% endif %}
+      </div>
+
+    </div><!-- row ends -->
+
+  </div><!-- container ends -->
+
+{% endblock %}

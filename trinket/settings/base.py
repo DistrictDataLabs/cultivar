@@ -26,6 +26,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import dj_database_url
 
+from trinket.utils import htmlize
 from django.conf import global_settings
 
 ##########################################################################
@@ -111,6 +112,7 @@ INSTALLED_APPS = (
 
     # Trinket apps
     'coffer',
+    'members',
 )
 
 ## Request Handling
@@ -208,6 +210,23 @@ EMAIL_SUBJECT_PREFIX = '[TRINKET] '
 GRAPPELLI_ADMIN_TITLE = "DDL Trinket CMS"
 
 ##########################################################################
+## Gravatar Configuration
+##########################################################################
+
+GRAVATAR_DEFAULT_SIZE   = 512
+GRAVATAR_DEFAULT_IMAGE  = 'mm'
+GRAVATAR_DEFAULT_RATING = 'r'
+GRAVATAR_ICON_SIZE      = 30
+
+##########################################################################
+## MarkupField Configuration
+##########################################################################
+
+MARKUP_FIELD_TYPES = (
+    ('markdown', htmlize),
+)
+
+##########################################################################
 ## Social Authentication
 ##########################################################################
 
@@ -247,7 +266,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = [
     'districtdatalabs.com',
 ]
 
-LOGIN_REDIRECT_URL = "admin:index"
+LOGIN_REDIRECT_URL = "home"
 
 ## Error handling
 SOCIAL_AUTH_LOGIN_ERROR_URL = "login"

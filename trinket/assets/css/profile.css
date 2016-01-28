@@ -1,0 +1,118 @@
+/* Profile specific styles */
+
+#profile-sidebar h2 {
+    font-size: 1.4em;
+    margin-bottom: 2px;
+}
+
+#profile-sidebar h3 {
+    margin-top: 0;
+    font-weight: normal;
+    font-size: 1.3em;
+}
+
+#profile-sidebar img {
+    width: 100%;
+}
+
+#profile-sidebar ul {
+    font-size: 1.15em;
+}
+
+#profile-sidebar ul li {
+    margin-bottom: 3px;
+    overflow-x: scroll;
+    font-size: 14px;
+}
+
+#profile-sidebar ul i, span.fa {
+    margin-right: 8px;
+    width: 18px;
+    text-align: center;
+}
+
+#profile-sidebar ul i {
+    font-size: .94em;
+    /*color: #999;*/
+}
+
+.gravatar {
+    position: relative;
+}
+
+.gravatar .mask {
+    text-align: center;
+    opacity: 0;
+    position: absolute;
+    bottom: 0; left: 0;
+    background-color: rgba(0,0,0,0.75);
+    width: 100%;
+    padding: 10px 0;
+
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -moz-border-bottom-left-radius: 6px;
+    -moz-border-bottom-right-radius: 6px;
+}
+
+.gravatar .mask a {
+    color: white;
+    width: 100%;
+    height: 100%;
+}
+
+.gravatar:hover .mask {
+    opacity: 1;
+
+    -webkit-transition: opacity 0.3s ease-in-out;
+    -moz-transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
+}
+
+ul.activity-stream li {
+    margin: 10px 0;
+    color: #333;
+}
+
+/* Number stats inline */
+
+.number-stats li {
+    width: 31%;
+}
+
+.number-stats a {
+    display: block;
+    color: #333;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+}
+
+.number-stats a:hover {
+    color: #428bca;
+    text-decoration: none;
+}
+
+.number-stats a span {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.statistic {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.statlabel {
+    font-size: 0.7em;
+    color: #999;
+    margin: 0;
+}
+
+.tab-pane {
+    margin-top: 10px;
+}
