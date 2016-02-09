@@ -11,4 +11,6 @@ pages:
 - 'Visual Analysis': 'visual_analysis.md'
 - 'Automated Analysis': 'auto_analysis.md'
 - 'Version Control': 'version_control.md'
+- 'Related Work': 'related_work.md'
 - 'About': 'about.md'
+- 'Development': 'development.md'
