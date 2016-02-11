@@ -113,6 +113,7 @@ INSTALLED_APPS = (
     # Trinket apps
     'coffer',
     'members',
+    'organization',
 )
 
 ## Request Handling
