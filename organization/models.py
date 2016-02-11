@@ -19,11 +19,14 @@ Models for the organization app; some crossover with the members app.
 
 from __future__ import unicode_literals
 
+import urllib
+
 from django.db import models
 from trinket.utils import nullable
 from markupfield.fields import MarkupField
 from model_utils.models import TimeStampedModel
 from model_utils import Choices
+from django.conf import settings
 
 ##########################################################################
 ## Models
@@ -39,10 +42,34 @@ class Organization(TimeStampedModel):
     location      = models.CharField(max_length=255, **nullable)
     email         = models.EmailField(help_text='Contact Email (public)', **nullable)
     gravatar_email = models.EmailField(help_text='Gravatar Email (private)', **nullable)
+    email_hash    = models.CharField(max_length=32, editable=False, **nullable)
     billing_email = models.EmailField(null=False, help_text='Billing Email (private)')
     description   = models.CharField(max_length=255, **nullable)
     url           = models.URLField(**nullable)
     team          = models.ManyToManyField('auth.User', through='organization.Role', related_name='organizations')
+
+    @property
+    def gravatar(self):
+        return self.get_gravatar_url()
+
+    @property
+    def gravatar_icon(self):
+        return self.get_gravatar_url(size=settings.GRAVATAR_ICON_SIZE)
+
+    def get_gravatar_url(self, size=None, default=None):
+        """
+        Comptues the gravatar url from an email address
+        """
+        if not self.email_hash:
+            return None
+
+        size    = size or settings.GRAVATAR_DEFAULT_SIZE
+        default = default or settings.GRAVATAR_DEFAULT_IMAGE
+        params  = urllib.urlencode({'d': default, 's': str(size)})
+
+        return "http://www.gravatar.com/avatar/{}?{}".format(
+            self.email_hash, params
+        )
 
     def __unicode__(self):
         return self.name or self.orgname

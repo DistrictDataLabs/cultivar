@@ -93,3 +93,8 @@ class Profile(TimeStampedModel):
 
     def __unicode__(self):
         return self.full_email
+
+
+##########################################################################
+## Account Information (either Member or Organization)
+##########################################################################
