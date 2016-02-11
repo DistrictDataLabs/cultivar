@@ -113,6 +113,7 @@ INSTALLED_APPS = (
     # Trinket apps
     'coffer',
     'members',
+    'organization',
 )
 
 ## Request Handling
@@ -214,7 +215,7 @@ GRAPPELLI_ADMIN_TITLE = "DDL Trinket CMS"
 ##########################################################################
 
 GRAVATAR_DEFAULT_SIZE   = 512
-GRAVATAR_DEFAULT_IMAGE  = 'mm'
+GRAVATAR_DEFAULT_IMAGE  = 'identicon'
 GRAVATAR_DEFAULT_RATING = 'r'
 GRAVATAR_ICON_SIZE      = 30
 
