@@ -34,10 +34,7 @@ def update_organization_gravatar(sender, instance, **kwargs):
     """
     Upates the organization's email hash from the gravatar email field.
     """
-    if instance.gravatar_email.strip():
-        ## Compute the email hash
-        digest = hashlib.md5(instance.gravatar_email.lower()).hexdigest()
-        instance.email_hash = digest
-    else:
-        instance.gravatar_email = None
-        instance.email_hash = None
+    ## Compute the email hash
+    instance.gravatar_email = instance.gravatar_email.strip().lower()
+    digest = hashlib.md5(instance.gravatar_email).hexdigest()
+    instance.email_hash = digest

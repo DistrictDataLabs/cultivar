@@ -60,9 +60,6 @@ class Organization(TimeStampedModel):
         """
         Comptues the gravatar url from an email address
         """
-        if not self.email_hash:
-            return None
-
         size    = size or settings.GRAVATAR_DEFAULT_SIZE
         default = default or settings.GRAVATAR_DEFAULT_IMAGE
         params  = urllib.urlencode({'d': default, 's': str(size)})
