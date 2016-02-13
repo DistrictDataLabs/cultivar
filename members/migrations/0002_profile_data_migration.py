@@ -54,5 +54,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(update_users_profile),
+        migrations.RunPython(update_users_profile, reverse_code=migrations.RunPython.noop,),
     ]

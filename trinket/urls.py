@@ -66,16 +66,15 @@ urlpatterns = [
     url(r'^terms/$', TemplateView.as_view(template_name='site/legal/terms.html'), name='terms'),
     url(r'^privacy/$', TemplateView.as_view(template_name='site/legal/privacy.html'), name='privacy'),
 
-    # Dataset URLs
-    url('', include('dataset.urls', namespace='dataset')),
-
-    # Members URLs
-    url('', include('members.urls', namespace='member')),
-
     # Authentication URLs
     url('', include('social.apps.django_app.urls', namespace='social')),
     url('^accounts/', include('django.contrib.auth.urls')),
 
     ## REST API Urls
     url(r'^api/', include(router.urls, namespace="api")),
+
+    # Dataset, Member, and Organization URLs
+    # !important: must be last and ordered specifically
+    url('', include('dataset.urls', namespace='dataset')),
+    url('', include('members.urls', namespace='member')),
 ]

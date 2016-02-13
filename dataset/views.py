@@ -17,6 +17,7 @@ Views for the dataset application.
 ## Imports
 ##########################################################################
 
+from django.db import IntegrityError
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
@@ -43,6 +44,14 @@ class DatasetCreateView(LoginRequiredMixin, CreateView):
         kwargs['request'] = self.request
         return kwargs
 
+    def form_valid(self, form):
+        try:
+            form.save()
+            return super(DatasetCreateView, self).form_valid(form)
+        except IntegrityError:
+            form.add_error(None, "A dataset with this name already exists, please choose another.")
+            return super(DatasetCreateView, self).form_invalid(form)
+
     def get_success_url(self):
         """
         Navigate to the newly created object
@@ -59,7 +68,8 @@ class DatasetListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(DatasetListView, self).get_context_data(**kwargs)
         context['num_datasets']   = Dataset.objects.count()
-        context['latest_dataset'] = Dataset.objects.latest().created
+        if context['num_datasets'] > 0:
+            context['latest_dataset'] = Dataset.objects.latest().created
         return context
 
 
@@ -68,3 +78,12 @@ class DatasetDetailView(LoginRequiredMixin, DetailView):
     template_name = "dataset/detail.html"
     context_object_name = "dataset"
     model = Dataset
+    slug_field  = "name"
+
+    def get_queryset(self):
+        """
+        Returns a dataset based on username/dataset_name arguments.
+        """
+        return self.model.objects.filter(
+            owner__name = self.kwargs.get('account', None),
+        )

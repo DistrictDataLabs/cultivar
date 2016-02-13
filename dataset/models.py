@@ -73,7 +73,7 @@ class Dataset(TimeStampedModel):
         get_latest_by = 'created'
 
     def get_absolute_url(self):
-        return reverse('dataset:detail', args=(str(self.id),))
+        return reverse('dataset:detail', args=(self.owner.name, self.name))
 
     def __unicode__(self):
         return self.name
