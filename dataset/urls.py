@@ -19,14 +19,14 @@ Routing for the dataset app
 
 from django.conf.urls import url
 
-from coffer.views import *
+from dataset.views import *
 
 ##########################################################################
 ## URL Patterns
 ##########################################################################
 
 urlpatterns = (
-    url(r'^upload/$', DatasetUploadView.as_view(), name='upload'),
+    url(r'^create/$', DatasetCreateView.as_view(), name='create'),
     url(r'^datasets/$', DatasetListView.as_view(), name='listing'),
     url(r'^datasets/(?P<pk>\d+)/$', DatasetDetailView.as_view(), name='detail'),
 )

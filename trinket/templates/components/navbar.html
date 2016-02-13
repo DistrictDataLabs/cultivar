@@ -21,7 +21,7 @@
       <ul class="nav navbar-nav navbar-left">
         {% if user.is_authenticated %}
         <li>
-          <a href="{% url "dataset:upload" %}">Upload</a>
+          <a href="{% url "dataset:create" %}">Create</a>
         </li>
         <li>
           <a href="{% url "dataset:listing" %}">Datasets</a>

@@ -18,10 +18,12 @@ Administrative utilities for Dataset models.
 ##########################################################################
 
 from django.contrib import admin
-# from dataset.models import Dataset
+from dataset.models import Dataset
+from dataset.models import License
 
 ##########################################################################
 ## Register Admin
 ##########################################################################
 
-# admin.site.register(Dataset)
+admin.site.register(Dataset)
+admin.site.register(License)

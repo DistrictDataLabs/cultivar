@@ -26,6 +26,7 @@ from model_utils import Choices
 from trinket.utils import nullable
 from markupfield.fields import MarkupField
 from model_utils.models import TimeStampedModel
+from django.core.urlresolvers import reverse
 
 ##########################################################################
 ## Helper Models
@@ -59,7 +60,7 @@ class Dataset(TimeStampedModel):
     description = models.CharField(max_length=255, **nullable)
     url     = models.URLField(**nullable)
     privacy = models.CharField(max_length=10, choices=PRIVACY, default=PRIVACY.public)
-    license = models.ForeignKey('dataset.License', related_name="+")
+    license = models.ForeignKey('dataset.License', related_name="+", **nullable)
     readme  = MarkupField(markup_type='markdown', help_text='Edit in Markdown', **nullable)
 
     class Meta:
@@ -67,6 +68,12 @@ class Dataset(TimeStampedModel):
         unique_together = ('name', 'owner')
         ordering = ('-created',)
         get_latest_by = 'created'
+
+    def get_absolute_url(self):
+        return reverse('dataset:detail', args=(str(self.id),))
+
+    def __unicode__(self):
+        return self.name
 
 ##########################################################################
 ## Data Files
