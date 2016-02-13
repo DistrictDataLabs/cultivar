@@ -22,11 +22,12 @@ import hashlib
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
+from account.models import Account
 from members.models import Profile
 from django.contrib.auth.models import User
 
 ##########################################################################
-## User Signals
+## User Post-Save Signals
 ##########################################################################
 
 @receiver(post_save, sender=User)
@@ -43,3 +44,12 @@ def update_user_profile(sender, instance, created, **kwargs):
     else:
         instance.profile.email_hash = digest
         instance.profile.save()
+
+
+@receiver(post_save, sender=User)
+def create_user_account(sender, instance, created, **kwargs):
+    """
+    Creates and associates an Account with an User on create.
+    """
+    if created:
+        Account.objects.create(owner=instance)

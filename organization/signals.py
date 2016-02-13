@@ -20,13 +20,15 @@ Signals management for the Organization app.
 import hashlib
 
 from django.dispatch import receiver
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 
+from account.models import Account
 from organization.models import Organization
 from django.contrib.auth.models import User
 
+
 ##########################################################################
-## User Signals
+## Organization Pre-Save Signals
 ##########################################################################
 
 @receiver(pre_save, sender=Organization)
@@ -38,3 +40,16 @@ def update_organization_gravatar(sender, instance, **kwargs):
     instance.gravatar_email = instance.gravatar_email.strip().lower()
     digest = hashlib.md5(instance.gravatar_email).hexdigest()
     instance.email_hash = digest
+
+
+##########################################################################
+## Organization Post-Save  Signals
+##########################################################################
+
+@receiver(post_save, sender=Organization)
+def create_organization_account(sender, instance, created, **kwargs):
+    """
+    Creates and associates an Account with an Organization on create.
+    """
+    if created:
+        Account.objects.create(owner=instance)

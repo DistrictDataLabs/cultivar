@@ -27,18 +27,19 @@ from markupfield.fields import MarkupField
 from model_utils.models import TimeStampedModel
 from model_utils import Choices
 from django.conf import settings
+from account.mixins import AccountMixin
 
 ##########################################################################
 ## Models
 ##########################################################################
 
-class Organization(TimeStampedModel):
+class Organization(AccountMixin, TimeStampedModel):
     """
     Describes a team or an organization of members.
     """
 
     name          = models.CharField(max_length=255, **nullable)
-    orgname       = models.CharField(max_length=255, unique=True, null=False)
+    orgname       = models.SlugField(max_length=60, unique=True, null=False, allow_unicode=True)
     location      = models.CharField(max_length=255, **nullable)
     email         = models.EmailField(help_text='Contact Email (public)', **nullable)
     gravatar_email = models.EmailField(help_text='Gravatar Email (private)', **nullable)
@@ -47,6 +48,10 @@ class Organization(TimeStampedModel):
     description   = models.CharField(max_length=255, **nullable)
     url           = models.URLField(**nullable)
     team          = models.ManyToManyField('auth.User', through='organization.Role', related_name='organizations')
+
+    class Meta:
+        get_latest_by = 'created'
+        db_table  = 'organization'
 
     @property
     def gravatar(self):
@@ -84,6 +89,10 @@ class Role(TimeStampedModel):
     organization  = models.ForeignKey('organization.Organization', related_name='roles')
     role          = models.CharField(max_length=10, choices=ROLES, default=ROLES.reader)
     visibility    = models.CharField(max_length=10, choices=VISIBILITY, default=VISIBILITY.protected)
+
+    class Meta:
+        unique_together = ('organization', 'user')
+        db_table  = 'organization_user_role'
 
     def __unicode__(self):
         return "{} is {} of {} ({})".format(
