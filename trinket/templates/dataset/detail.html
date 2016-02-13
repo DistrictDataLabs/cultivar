@@ -1,0 +1,31 @@
+{% extends 'page.html' %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/dataset.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+      <!-- Primary content area -->
+      <div class="row">
+
+        <div class="col-xs-12">
+          <h1>{{ dataset }}</h1>
+        </div>
+
+      </div><!-- primary content area ends -->
+    </div><!-- container ends -->
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+  <script type="text/javascript">
+    $(document).ready(function() {
+      console.log("Ready to manage a dataset!");
+    });
+  </script>
+{% endblock %}

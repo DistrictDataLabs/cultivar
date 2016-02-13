@@ -1,0 +1,136 @@
+{% extends 'page.html' %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/create.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+      <!-- Primary content area -->
+      <div class="row">
+
+        <div class="col-sm-8 col-sm-offset-2">
+
+          {% block create-dataset-panel %}
+          <div class="panel panel-default">
+
+            <div class="panel-heading">
+              {% block create-dataset-heading %}
+              <h2 class="panel-title">{% block create-dataset-title %}Create a new dataset{% endblock %}</h2>
+              {% endblock %}
+            </div><!-- panel heading ends -->
+
+            <div class="panel-body">
+              {% block create-dataset-body %}
+
+              {% block create-dataset-alert %}
+              {% if form.errors %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <strong>Whoops!</strong> Unable to create the dataset. Please try again.
+                </div>
+              {% endif %}
+              {% endblock %}
+
+              {% block create-dataset-form %}
+              <form role="form" method="post" id="createDatasetForm">
+                <fieldset>
+
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" placeholder="Name" id="id_organization" name="name">
+                    <span class="help-block">Dataset names should be short and URL safe (no spaces)</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="description">Description <span class="text-muted">(optional)</span></label>
+                    <input type="text" class="form-control" placeholder="Description" id="id_description" name="description">
+                    <span class="help-block"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="url">URL <span class="text-muted">(optional)</span></label>
+                    <input type="text" class="form-control" placeholder="URL" id="id_url" name="url">
+                    <span class="help-block"></span>
+                  </div>
+                </fieldset>
+                <hr />
+                <fieldset>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="radio" name="privacy" id="id_privacy_public" value="public" checked/>
+                      </span>
+                      <p class="form-control">
+                        <strong><i class="fa fa-book text-success"></i> Public:</strong>
+                        data is available to all for download and search.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="radio" name="privacy" id="id_privacy_protected" value="protected" />
+                      </span>
+                      <p class="form-control">
+                        <strong><i class="fa fa-unlock"></i> Protected:</strong>
+                        data is not made searchable, requires link to view.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="radio" name="privacy" id="id_privacy_private" value="private" />
+                      </span>
+                      <p class="form-control">
+                        <strong><i class="fa fa-lock text-danger"></i> Private:</strong>
+                        data is not visible to anyone but those on the team.
+                      </p>
+                    </div>
+                    <span class="help-block"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="license">Select License <span class="text-muted">(optional)</span></label>
+                    <select class="form-control" name="license" id="id_license">
+                      {% for value, label in form.fields.license.choices %}
+                      <option value="{{ value }}">{{ label }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </fieldset>
+                {% csrf_token %}
+              </form>
+              {% endblock %}
+
+              {% endblock %}
+            </div><!-- panel body ends -->
+
+            <div class="panel-footer">
+              {% block create-dataset-footer %}
+                <button type="submit" class="btn btn-primary" form="createDatasetForm">Create dataset</button>
+              {% endblock %}
+            </div><!-- panel footer ends -->
+
+          </div><!-- create dataset panel ends -->
+          {% endblock %}
+
+        </div><!-- centering offset column ends -->
+
+      </div><!-- primary content area ends -->
+    </div><!-- container ends -->
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+  <script type="text/javascript">
+    $(document).ready(function() {
+      console.log("Ready to create a dataset!");
+    });
+  </script>
+{% endblock %}

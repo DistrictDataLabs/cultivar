@@ -18,12 +18,37 @@ CMS (Admin) stuff for organizations in Trinket.
 ##########################################################################
 
 from django.contrib import admin
-from organization.models import Organization, Role
+from django.contrib.contenttypes.admin import GenericStackedInline
 
+from organization.models import Organization, Role
+from account.models import Account
+
+##########################################################################
+## Inline Adminstration
+##########################################################################
+
+class AccountInline(GenericStackedInline):
+    """
+    Inline administration descriptor for account object
+    """
+
+    model = Account
+    max_num = 1
+    can_delete = False
+    ct_fk_field = 'owner_id'
+    verbose_name_plural = 'account'
+
+
+class OrganizationAdmin(admin.ModelAdmin):
+    """
+    Define new Organization admin
+    """
+
+    inlines = (AccountInline,)
 
 ##########################################################################
 ## Register Admin
 ##########################################################################
 
-admin.site.register(Organization)
+admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(Role)

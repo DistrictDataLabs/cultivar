@@ -25,7 +25,7 @@ from trinket.utils import nullable
 from model_utils.models import TimeStampedModel
 from markupfield.fields import MarkupField
 from django.core.urlresolvers import reverse
-from django.contrib.contenttypes.fields import GenericForeignKey
+from account.models import Account
 from django.contrib.contenttypes.models import ContentType
 
 ##########################################################################
@@ -56,6 +56,19 @@ class Profile(TimeStampedModel):
     def full_email(self):
         email = u"{} <{}>".format(self.full_name, self.user.email)
         return email.strip()
+
+    @property
+    def account(self):
+        """
+        Returns the account for the user, or none if it doesn't exist.
+        """
+        ctype = ContentType.objects.get_for_model(self.user.__class__)
+        try:
+            return Account.objects.get(
+                content_type = ctype, owner_id = self.user.id
+            )
+        except self.DoesNotExist:
+            return None
 
     @property
     def gravatar(self):
@@ -91,33 +104,7 @@ class Profile(TimeStampedModel):
         """
         Returns the detail view url for the object
         """
-        return reverse('member-detail', args=(self.user.username,))
+        return reverse('member:detail', args=(self.user.username,))
 
     def __unicode__(self):
         return self.full_email
-
-
-##########################################################################
-## Account Information (either Member or Organization)
-##########################################################################
-
-class Account(TimeStampedModel):
-    """
-    An account can be either an organization or a member, and is used to link
-    datasets, billing information, etc. Uses Content Types to perform the
-    multiple model relationship.
-    """
-
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE,  limit_choices_to = {"model__in": ("organization", "user")}, )
-    owner_id     = models.PositiveIntegerField()
-    owner        = GenericForeignKey('content_type', 'owner_id')
-
-    def __unicode__(self):
-        if self.content_type.model == 'organization':
-            return self.owner.orgname
-        elif self.content_type.model == 'user':
-            return self.owner.username
-        else:
-            raise TypeError(
-                'Unknown model for an account: {!r}'.format(self.content_type.model)
-            )

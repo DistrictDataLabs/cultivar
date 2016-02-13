@@ -111,7 +111,8 @@ INSTALLED_APPS = (
     'storages',
 
     # Trinket apps
-    'coffer',
+    'account',
+    'dataset',
     'members',
     'organization',
 )
