@@ -41,9 +41,10 @@ class Account(TimeStampedModel):
     an organization, and should be created when the organization is created.
     """
 
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE,  limit_choices_to = {"model__in": ("organization", "user")}, )
-    owner_id     = models.PositiveIntegerField()
-    owner        = GenericForeignKey('content_type', 'owner_id')
+    content_type  = models.ForeignKey(ContentType, on_delete=models.CASCADE,  limit_choices_to = {"model__in": ("organization", "user")}, )
+    owner_id      = models.PositiveIntegerField()
+    owner         = GenericForeignKey('content_type', 'owner_id')
+    billing_email = models.EmailField(null=True, help_text='Billing Email (private)')
 
     class Meta:
         unique_together = ('content_type', 'owner_id')

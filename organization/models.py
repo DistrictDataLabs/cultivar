@@ -44,7 +44,6 @@ class Organization(AccountMixin, TimeStampedModel):
     email         = models.EmailField(help_text='Contact Email (public)', **nullable)
     gravatar_email = models.EmailField(help_text='Gravatar Email (private)', **nullable)
     email_hash    = models.CharField(max_length=32, editable=False, **nullable)
-    billing_email = models.EmailField(null=False, help_text='Billing Email (private)')
     description   = models.CharField(max_length=255, **nullable)
     url           = models.URLField(**nullable)
     team          = models.ManyToManyField('auth.User', through='organization.Role', related_name='organizations')

@@ -25,6 +25,8 @@ from trinket.utils import nullable
 from model_utils.models import TimeStampedModel
 from markupfield.fields import MarkupField
 from django.core.urlresolvers import reverse
+from account.models import Account
+from django.contrib.contenttypes.models import ContentType
 
 ##########################################################################
 ## User Profile Model for DDL Members
@@ -54,6 +56,19 @@ class Profile(TimeStampedModel):
     def full_email(self):
         email = u"{} <{}>".format(self.full_name, self.user.email)
         return email.strip()
+
+    @property
+    def account(self):
+        """
+        Returns the account for the user, or none if it doesn't exist.
+        """
+        ctype = ContentType.objects.get_for_model(self.user.__class__)
+        try:
+            return Account.objects.get(
+                content_type = ctype, owner_id = self.user.id
+            )
+        except self.DoesNotExist:
+            return None
 
     @property
     def gravatar(self):

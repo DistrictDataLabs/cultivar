@@ -20,8 +20,10 @@ Administrative interface for members in Trinket.
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.admin import GenericStackedInline
 
 from members.models import Profile
+from account.models import Account
 
 ##########################################################################
 ## Inline Adminstration
@@ -37,12 +39,24 @@ class ProfileInline(admin.StackedInline):
     verbose_name_plural = 'profile'
 
 
+class AccountInline(GenericStackedInline):
+    """
+    Inline administration descriptor for account object
+    """
+
+    model = Account
+    max_num = 1
+    can_delete = False
+    ct_fk_field = 'owner_id'
+    verbose_name_plural = 'account'
+
+
 class UserAdmin(UserAdmin):
     """
     Define new User admin
     """
 
-    inlines = (ProfileInline, )
+    inlines = (ProfileInline, AccountInline)
 
 
 class ProfileAdmin(admin.ModelAdmin):
