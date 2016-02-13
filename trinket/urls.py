@@ -65,11 +65,12 @@ urlpatterns = [
     url(r'^$', HomePageView.as_view(), name='home'),
     url(r'^terms/$', TemplateView.as_view(template_name='site/legal/terms.html'), name='terms'),
     url(r'^privacy/$', TemplateView.as_view(template_name='site/legal/privacy.html'), name='privacy'),
+
+    # Dataset URLs
     url('', include('dataset.urls', namespace='dataset')),
 
     # Members URLs
-    url(r'^profile/$', ProfileView.as_view(), name='profile'),
-    url(r'^members/', include('members.urls', namespace='member')),
+    url('', include('members.urls', namespace='member')),
 
     # Authentication URLs
     url('', include('social.apps.django_app.urls', namespace='social')),
