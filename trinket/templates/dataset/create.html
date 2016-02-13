@@ -93,6 +93,15 @@
                     </div>
                     <span class="help-block"></span>
                   </div>
+
+                  <div class="form-group">
+                    <label for="license">Select License <span class="text-muted">(optional)</span></label>
+                    <select class="form-control" name="license" id="id_license">
+                      {% for value, label in form.fields.license.choices %}
+                      <option value="{{ value }}">{{ label }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
                 </fieldset>
                 {% csrf_token %}
               </form>
@@ -111,7 +120,6 @@
           {% endblock %}
 
         </div><!-- centering offset column ends -->
-
 
       </div><!-- primary content area ends -->
     </div><!-- container ends -->

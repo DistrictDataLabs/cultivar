@@ -68,6 +68,17 @@ class Account(TimeStampedModel):
             'Unknown model for an account: {!r}'.format(self.content_type.model)
         )
 
+    @property
+    def email(self):
+        """
+        Attempts to find an appropriate email associated with the account.
+        """
+        for attr in ('email', 'gravatar_email'):
+            if hasattr(self.owner, attr):
+                return getattr(self.owner, attr)
+
+        return self.billing_email
+
     def __unicode__(self):
         """
         Must return slug name for the account (e.g. username or orgname).

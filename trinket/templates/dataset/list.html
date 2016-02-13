@@ -23,23 +23,19 @@
       <div class="col-md-12">
         <table class="table table-bordered table-striped table-hover">
           <thead>
-            <th><i class="fa fa-quote-left"></i> Name</th>
-            <th><i class="fa fa-file"></i> Type</th>
-            <th><i class="fa fa-columns"></i> Dimensions</th>
-            <th><i class="fa fa-table"></i> Length</th>
+            <th><i class="fa fa-file"></i> Name</th>
+            <th><i class="fa fa-comment"></i> Description</th>
             <th><i class="fa fa-user"></i> User</th>
             <th><i class="fa fa-calendar"></i> Uploaded</th>
           </thead>
           <tbody>
-          {% for dataset in dataset_list %}
+          {% for dataset in datasets %}
             <tr class="clickable-row" data-href="{{ dataset.get_absolute_url }}">
-              <td><strong>{{ dataset.title }}</strong></td>
-              <td>{{ dataset.datatype|upper }} data</td>
-              <td>{{ dataset.dimensions|intcomma }} columns</td>
-              <td>{{ dataset.length|intcomma }} rows</td>
+              <td><strong>{{ dataset.name }}</strong></td>
+              <td>{{ dataset.description }}</td>
               <td>
-                <img src="{% gravatar_url dataset.uploader.email 16 %}" class="img-rounded" style="margin: -9px 4px -7px 0; padding: 0;" />
-                {{ dataset.uploader }}
+                <img src="{% gravatar_url dataset.owner.email 16 %}" class="img-rounded" style="margin: -9px 4px -7px 0; padding: 0;" />
+                {{ dataset.owner.name }}
               </td>
               <td>{{ dataset.created|date }}</td>
             </tr>

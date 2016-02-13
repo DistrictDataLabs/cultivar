@@ -43,6 +43,9 @@ class License(TimeStampedModel):
     class Meta:
         db_table = 'license'
 
+    def __unicode__(self):
+        return self.title
+
 ##########################################################################
 ## Dataset Collection
 ##########################################################################

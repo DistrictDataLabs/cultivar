@@ -31,7 +31,7 @@ class CreateDatasetForm(forms.ModelForm):
 
     class Meta:
         model = Dataset
-        fields = ['name', 'description', 'url', 'privacy']
+        fields = ['name', 'description', 'url', 'privacy', 'license',]
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
