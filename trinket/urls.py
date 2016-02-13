@@ -41,7 +41,6 @@ from django.conf.urls import include, url
 from django.views.generic import TemplateView
 
 from trinket.views import *
-from coffer.views import *
 from members.views import *
 
 ##########################################################################
@@ -66,14 +65,11 @@ urlpatterns = [
     url(r'^$', HomePageView.as_view(), name='home'),
     url(r'^terms/$', TemplateView.as_view(template_name='site/legal/terms.html'), name='terms'),
     url(r'^privacy/$', TemplateView.as_view(template_name='site/legal/privacy.html'), name='privacy'),
-    url(r'^upload/$', DatasetUploadView.as_view(), name='upload'),
-    url(r'^datasets/$', DatasetListView.as_view(), name='listing'),
-    url(r'^datasets/(?P<pk>\d+)/$', DatasetDetailView.as_view(), name='dataset-detail'),
+    url('', include('dataset.urls', namespace='dataset')),
 
     # Members URLs
     url(r'^profile/$', ProfileView.as_view(), name='profile'),
-    url(r'^members/$', MemberListView.as_view(), name='member-list'),
-    url(r'^members/(?P<slug>[\w-]+)/$', MemberView.as_view(), name='member-detail'),
+    url(r'^members/', include('members.urls', namespace='member')),
 
     # Authentication URLs
     url('', include('social.apps.django_app.urls', namespace='social')),

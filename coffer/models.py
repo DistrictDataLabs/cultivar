@@ -88,7 +88,7 @@ class Dataset(TimeStampedModel):
         """
         Return the absolute URL of the model
         """
-        return reverse('dataset-detail', args=(str(self.id),))
+        return reverse('dataset:detail', args=(str(self.id),))
 
     def __unicode__(self):
         return "{} - {} dataset with {} rows and {} dimensions, uploaded by {}".format(

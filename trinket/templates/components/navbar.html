@@ -21,10 +21,10 @@
       <ul class="nav navbar-nav navbar-left">
         {% if user.is_authenticated %}
         <li>
-          <a href="{% url "upload" %}">Upload</a>
+          <a href="{% url "dataset:upload" %}">Upload</a>
         </li>
         <li>
-          <a href="{% url "listing" %}">Datasets</a>
+          <a href="{% url "dataset:listing" %}">Datasets</a>
         </li>
         {% endif %}
       </ul><!-- end navbar left -->
@@ -47,7 +47,7 @@
                 </a>
               </li>
               <li>
-                <a href="{% url 'member-list' %}">
+                <a href="{% url 'member:list' %}">
                   <i class="fa fa-users"></i> Members
                 </a>
               </li>

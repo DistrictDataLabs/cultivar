@@ -32,7 +32,7 @@
             <h3 class="panel-title">Upload Datasets</h3>
           </div>
 				  <div class="panel-body">
-            <form class="dataset-upload-form" action="{% url 'upload' %}" method="POST" enctype="multipart/form-data">
+            <form class="dataset-upload-form" action="{% url 'dataset:upload' %}" method="POST" enctype="multipart/form-data">
 
               <div class="input-group image-preview">
 						    <input placeholder="" type="text" class="form-control image-preview-filename" disabled="disabled">
@@ -58,7 +58,7 @@
             </form>
 
   					<!-- Drop Zone -->
-            <form id="dropForm" class="dataset-upload-form" action="{% url 'upload' %}" method="POST" enctype="multipart/form-data">
+            <form id="dropForm" class="dataset-upload-form" action="{% url 'dataset:upload' %}" method="POST" enctype="multipart/form-data">
   					<div class="upload-drop-zone" id="drop-zone">
               Or drag and drop dataset here
               <input type="file" name="dataset" />
