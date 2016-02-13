@@ -50,12 +50,26 @@ class Account(TimeStampedModel):
         unique_together = ('content_type', 'owner_id')
         db_table = 'trinket_account'
 
+    @property
+    def name(self):
+        """
+        Returns the slug name for the account (e.g. username or orgname).
+        """
+        model_name_map = {
+            'organization': 'orgname',
+            'user': 'username',
+        }
+
+        if self.content_type.model in model_name_map:
+            attr = model_name_map[self.content_type.model]
+            return getattr(self.owner, attr)
+
+        raise TypeError(
+            'Unknown model for an account: {!r}'.format(self.content_type.model)
+        )
+
     def __unicode__(self):
-        if self.content_type.model == 'organization':
-            return self.owner.orgname
-        elif self.content_type.model == 'user':
-            return self.owner.username
-        else:
-            raise TypeError(
-                'Unknown model for an account: {!r}'.format(self.content_type.model)
-            )
+        """
+        Must return slug name for the account (e.g. username or orgname).
+        """
+        return self.name
