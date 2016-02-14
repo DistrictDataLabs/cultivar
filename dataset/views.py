@@ -47,7 +47,6 @@ class DatasetCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         try:
-            form.save()
             return super(DatasetCreateView, self).form_valid(form)
         except IntegrityError:
             form.add_error(None, "A dataset with this name already exists, please choose another.")
