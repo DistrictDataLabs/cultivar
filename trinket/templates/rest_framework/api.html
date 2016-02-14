@@ -56,7 +56,7 @@
     {% endif %}
     <li class="dropdown-header">User Settings</li>
     <li>
-      <a href="{% url 'profile' %}">
+      <a href="{{ user.profile.get_absolute_url }}">
         <i class="fa fa-user"></i> View Profile
       </a>
     </li>

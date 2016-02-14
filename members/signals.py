@@ -53,3 +53,5 @@ def create_user_account(sender, instance, created, **kwargs):
     """
     if created:
         Account.objects.create(owner=instance)
+    else:
+        instance.profile.account.save()

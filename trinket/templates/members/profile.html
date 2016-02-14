@@ -30,18 +30,18 @@
         <!-- Heads up profile info -->
         <hr class="profile-sep" />
         <ul class="list-unstyled">
+          {% if member.profile.location %}
           <li id="userLocation" class="editable-item">
             <i class="fa fa-map-marker"></i>
             <span id="profileLocation">{{ member.profile.location }}</span>
           </li>
+          {% endif %}
+          {% if member.profile.organization %}
           <li id="userOrganization">
             <i class="fa fa-building"></i>
             <span id="profileOrganization">{{ member.profile.organization }}</span>
           </li>
-          <li id="userEmail">
-              <i class="fa fa-envelope"></i>
-              <span id="profileEmail">{{ member.email }}</span>
-          </li>
+          {% endif %}
           <li id="userTwitter">
               <i class="fa fa-twitter"></i>
               {% if member.profile.twitter %}
@@ -74,19 +74,19 @@
           <li>
             <a href="#">
               <span class="statistic">0</span>
-              <span class="statlabel">TBD</span>
+              <span class="statlabel">tbd</span>
             </a>
           </li>
           <li>
             <a href="#">
               <span class="statistic">0</span>
-              <span class="statlabel">TBD</span>
+              <span class="statlabel">tbd</span>
             </a>
           </li>
           <li>
             <a href="#">
               <span class="statistic">0</span>
-              <span class="statlabel">TBD</span>
+              <span class="statlabel">tbd</span>
             </a>
           </li>
         </ul>
@@ -99,12 +99,19 @@
         <!-- Profile Tab Navigation -->
         <div>
 
-          <!-- edit profile button -->
-          {% if perms.member.change_profile %}
-          <button id="btnEditProfile" class="btn btn-default btn-sm pull-right"
-              data-toggle="modal" data-target="#editProfileModal">
-            <i class="fa fa-pencil"></i> Edit Details
-          </button>
+          {% if user == member %}
+          <div id="user-edit-controls">
+            <!-- edit profile button -->
+            <button id="btnEditProfile" class="btn btn-default btn-sm pull-right"
+                data-toggle="modal" data-target="#editProfileModal">
+              <i class="fa fa-pencil"></i> Edit Profile
+            </button>
+
+            <!-- change password button -->
+            <button id="btnSetPassword" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#setPasswordModal" style="margin-right:6px">
+              <i class="fa fa-lock"></i> Password
+            </button>
+          </div>
           {% endif %}
 
           <ul class="nav nav-tabs">
@@ -133,7 +140,7 @@
               {% if member.profile.biography.raw %}
               {{ member.profile.biography }}
               {% else %}
-              <p>No biography added yet.</p>
+              <p>No biography added quite yet.</p>
               {% endif %}
             </div>
 
@@ -158,87 +165,16 @@
 
 {% block modals %}
   {{ block.super }}
-
-  {% with user=member %}
-  {% include 'components/modals/edit-profile-modal.html' %}
-  {% endwith %}
+  {% if user == member %}
+    {% include 'components/modals/edit-profile-modal.html' %}
+    {% include 'components/modals/set-password-modal.html' %}
+  {% endif %}
 {% endblock %}
 
 {% block javascripts %}
   {{ block.super }}
 
-  <script type="text/javascript">
-    (function($) {
-        $(document).ready(function() {
-
-            // Configure the profile application
-            var csrfToken   = $('input[name="csrfmiddlewaretoken"]').val();
-            $.ajaxSetup({headers: {"X-CSRFToken": csrfToken}});
-            console.log("Member detail application ready");
-
-            var userDetail   = "{{ member.profile.get_api_detail_url }}";
-            var profileForm  = $("#editProfileForm");
-
-            // Handle the profile submission
-            profileForm.submit(function(e) {
-                e.preventDefault();
-                // Get the form data
-                var data = utils.formData(profileForm);
-
-                data.profile = {
-                    "biography": data.biography,
-                    "organization": data.organization,
-                    "location": data.location,
-                    "twitter": data.twitter,
-                    "linkedin": data.linkedin
-                };
-
-                delete data.biography;
-                delete data.organization;
-                delete data.location;
-                delete data.twitter;
-                delete data.linkedin;
-
-                $.ajax({
-                    "url": userDetail,
-                    "method": "PUT",
-                    "data": JSON.stringify(data),
-                    "contentType": "application/json"
-                }).done(function(data) {
-                    // Update DOM with data requested
-                    $("#profileFullName").text(data.first_name + " " + data.last_name);
-                    $("#profileUsername").text(data.username);
-                    $("#profileEmail").text(data.email);
-                    $("#profileOrganization").text(data.profile.organization);
-                    $("#profileLocation").text(data.profile.location);
-                    $("#profileTwitter").text("@" + data.profile.twitter);
-                    $("#profileTwitterA").attr("href", "https://twitter.com/" + data.profile.twitter + "/");
-                    $("#profileLinkedIn").text(data.last_name + " Profile");
-                    $("#profileLinkedInA").attr("href", data.profile.linkedin);
-                    $("#editProfileModal").modal("hide");
-                }).fail(function(xhr) {
-                    data = xhr.responseJSON;
-                    // Set the error
-                    $.each(data, function(key, val) {
-                        var field = $("#"+key);
-                        field.parent().addClass("has-error");
-                        field.parent().find('.help-block').text(val);
-                    });
-                });
-                return false;
-            });
-
-            // Reset form on close
-            $("#editProfileModal").on("hide.bs.modal", function(e) {
-                resetEditProfileModal();
-            });
-
-            // Helper function to reset edit profile modal
-            function resetEditProfileModal() {
-                profileForm.find('.form-group').removeClass("has-error");
-                profileForm.find('.help-block').text("");
-            }
-        });
-    })(jQuery);
-  </script>
+  {% if user == member %}
+  <script src="{% static 'js/profile.js' %}" type="text/javascript"></script>
+  {% endif %}
 {% endblock %}

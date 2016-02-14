@@ -30,7 +30,6 @@ from django.contrib.contenttypes.models import ContentType
 ## Account Information (either Member or Organization)
 ##########################################################################
 
-
 class Account(TimeStampedModel):
     """
     An account can be either an organization or a member, and is used to link
@@ -41,6 +40,7 @@ class Account(TimeStampedModel):
     an organization, and should be created when the organization is created.
     """
 
+    name          = models.SlugField(max_length=60, null=False, unique=True, allow_unicode=True, editable=False)
     content_type  = models.ForeignKey(ContentType, on_delete=models.CASCADE,  limit_choices_to = {"model__in": ("organization", "user")}, )
     owner_id      = models.PositiveIntegerField()
     owner         = GenericForeignKey('content_type', 'owner_id')
@@ -49,24 +49,6 @@ class Account(TimeStampedModel):
     class Meta:
         unique_together = ('content_type', 'owner_id')
         db_table = 'trinket_account'
-
-    @property
-    def name(self):
-        """
-        Returns the slug name for the account (e.g. username or orgname).
-        """
-        model_name_map = {
-            'organization': 'orgname',
-            'user': 'username',
-        }
-
-        if self.content_type.model in model_name_map:
-            attr = model_name_map[self.content_type.model]
-            return getattr(self.owner, attr)
-
-        raise TypeError(
-            'Unknown model for an account: {!r}'.format(self.content_type.model)
-        )
 
     @property
     def email(self):
@@ -78,6 +60,14 @@ class Account(TimeStampedModel):
                 return getattr(self.owner, attr)
 
         return self.billing_email
+
+    def get_absolute_url(self):
+        """
+        Shortcut for the owner's absolute url function.
+        """
+        if self.content_type.model == 'user':
+            return self.owner.profile.get_absolute_url()
+        return self.owner.get_absolute_url()
 
     def __unicode__(self):
         """

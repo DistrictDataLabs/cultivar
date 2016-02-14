@@ -73,6 +73,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(update_users_account),
-        migrations.RunPython(update_organizations_account),
+        migrations.RunPython(update_users_account, reverse_code=migrations.RunPython.noop,),
+        migrations.RunPython(update_organizations_account, reverse_code=migrations.RunPython.noop,),
     ]

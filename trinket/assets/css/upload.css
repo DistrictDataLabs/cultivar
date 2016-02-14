@@ -1,0 +1,65 @@
+/* Stylesheet for the upload form */
+
+/*table layout - last column*/
+table tr td:last-child {
+    white-space: nowrap;
+    width: 1px;
+    text-align:right;
+}
+
+/* layout.css Style */
+.upload-drop-zone {
+    height: 200px;
+    border-width: 2px;
+    margin-bottom: 20px;
+}
+
+/* skin.css Style*/
+.upload-drop-zone {
+    color: #ccc;
+    border-style: dashed;
+    border-color: #ccc;
+    line-height: 200px;
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.upload-drop-zone.drop {
+    color: #333;
+    border-color: #333;
+}
+
+.upload-drop-zone input {
+    opacity: 0;
+    position: absolute;
+    top:0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.image-preview-input {
+    position: relative;
+    overflow: hidden;
+    margin: 0px;
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.image-preview-input input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.image-preview-input-title {
+    margin-left:2px;
+}

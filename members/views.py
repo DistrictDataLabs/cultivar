@@ -36,31 +36,13 @@ from members.serializers import UserSerializer, PasswordSerializer
 ## Views
 ##########################################################################
 
-
-class ProfileView(LoginRequiredMixin, TemplateView):
-    """
-    A simple template view to display a member's profile.
-    """
-
-    template_name = "site/profile.html"
-
-    def get_context_data(self, **kwargs):
-        """
-        Adds contextual information to the profile view.
-        """
-        context = super(ProfileView, self).get_context_data(**kwargs)
-        context['user'] = self.request.user
-
-        return context
-
-
 class MemberListView(LoginRequiredMixin, ListView):
     """
     Listing and ordering of DDL members.
     """
 
     model = User
-    template_name = "members/member_list.html"
+    template_name = "members/list.html"
     context_object_name = "member_list"
     paginate_by = 50
 
@@ -82,10 +64,13 @@ class MemberView(LoginRequiredMixin, DetailView):
     A detail view of a user and their DDL participation. This view is very
     similar to a profile view except that it does not include the admin or
     personal aspects of the profile.
+
+    This view also serves as the member profile view for editing their own
+    user profile, data and information.
     """
 
     model = User
-    template_name = "members/member_detail.html"
+    template_name = "members/profile.html"
     context_object_name = 'member'
     slug_field  = "username"
 

@@ -28,5 +28,6 @@ from dataset.views import *
 urlpatterns = (
     url(r'^create/$', DatasetCreateView.as_view(), name='create'),
     url(r'^datasets/$', DatasetListView.as_view(), name='listing'),
-    url(r'^datasets/(?P<pk>\d+)/$', DatasetDetailView.as_view(), name='detail'),
+    url(r'^(?P<account>[\w-]+)/(?P<slug>[\w-]+)/$', DatasetDetailView.as_view(), name='detail'),
+    url(r'^(?P<account>[\w-]+)/(?P<slug>[\w-]+)/upload/$', DataFileUploadView.as_view(), name='upload'),
 )

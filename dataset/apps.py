@@ -26,4 +26,9 @@ from django.apps import AppConfig
 ##########################################################################
 
 class DatasetConfig(AppConfig):
+
     name = 'dataset'
+    verbose_name = 'dataset storage'
+
+    def ready(self):
+        import dataset.signals

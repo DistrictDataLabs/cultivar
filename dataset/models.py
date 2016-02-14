@@ -72,8 +72,11 @@ class Dataset(TimeStampedModel):
         ordering = ('-created',)
         get_latest_by = 'created'
 
+    def latest_file(self):
+        return self.files.latest()
+
     def get_absolute_url(self):
-        return reverse('dataset:detail', args=(str(self.id),))
+        return reverse('dataset:detail', args=(self.owner.name, self.name))
 
     def __unicode__(self):
         return self.name
@@ -116,15 +119,17 @@ class DataFile(TimeStampedModel):
 
     class Meta:
         db_table = "dataset_files"
-        ordering = ('-created',)
-        get_latest_by = 'created'
+        ordering = ('data',)
+        get_latest_by = 'modified'
 
     @property
     def name(self):
         """
         Returns the basename of the dataset
         """
-        return os.path.basename(self.data.name)
+        if self.data:
+            return os.path.basename(self.data.name)
+        return ""
 
     def read_csv_headers(self):
         """

@@ -9,14 +9,76 @@
 {% block content %}
 
     <div class="container">
-      <!-- Primary content area -->
-      <div class="row">
 
-        <div class="col-xs-12">
-          <h1>{{ dataset }}</h1>
+      <!-- Header and controls area -->
+      <div class="row dataset-heading">
+        <div class="col-md-12">
+          {% block dataset-heading %}
+          <h2 class="dataset-title pull-left">
+            {% block dataset-title %}
+            <i class="fa fa-cubes text-muted"></i>
+            <a href="{{ dataset.owner.get_absolute_url }}">{{ dataset.owner.name }}</a>
+            /
+            <a href="{{ dataset.get_absolute_url }}"><strong>{{ dataset.name }}</strong></a>
+            {% endblock %}
+          </h2>
+
+          <div class="pull-right">
+          {% block dataset-controls %}
+            <button class="btn btn-xs btn-default"><i class="fa fa-star"></i> Star</button>
+
+            <!-- TODO: only show if the user has permissions to edit this! -->
+            <button class="btn btn-xs btn-default"><i class="fa fa-edit"></i> Edit Info</button>
+          {% endblock %}
+          </div>
+
+          <div class="clearfix"></div>
+
+          {% endblock %}
         </div>
+      </div><!-- header and tabs -->
 
-      </div><!-- primary content area ends -->
+      {% block panes %}
+      <!-- Tab navigation and panes -->
+      <div class="row">
+        <div class="col-md-12">
+
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+              <a href="#files" aria-controls="files" role="tab" data-toggle="tab">
+                <i class="fa fa-folder-open"></i> Data
+              </a>
+            </li>
+            <li role="presentation">
+              <a href="#schema" aria-controls="schema" role="tab" data-toggle="tab">
+                <i class="fa fa-table"></i> Schema
+              </a>
+            </li>
+            <li role="presentation">
+              <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">
+                <i class="fa fa-cog"></i> Settings
+              </a>
+            </li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="files">
+              {% include 'dataset/detail_panes/files.html' %}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="schema">
+              {% include 'dataset/detail_panes/schema.html' %}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="settings">
+              {% include 'dataset/detail_panes/settings.html' %}
+            </div>
+          </div>
+
+        </div>
+      </div><!-- tab navigation and panes ends -->
+      {% endblock %}
+
     </div><!-- container ends -->
 
 {% endblock %}
@@ -25,7 +87,26 @@
   {{ block.super }}
   <script type="text/javascript">
     $(document).ready(function() {
+
+      /*
+       * Trigger for when a file is changed in the upload button
+       * http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
+       */
+      $(document).on('change', '.btn-file :file', function() {
+          var input = $(this),
+              numFiles = input.get(0).files ? input.get(0).files.length : 1,
+              label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+          input.trigger('fileselect', [numFiles, label]);
+      });
+
+      // Handle the fileselect event
+      $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+          $("#uploadIcon").removeClass("fa-upload").addClass("fa-spinner").addClass("fa-spin");
+          $("#uploadForm").submit();
+      });
+
       console.log("Ready to manage a dataset!");
+
     });
   </script>
 {% endblock %}
