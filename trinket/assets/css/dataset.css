@@ -1,0 +1,45 @@
+/* Stylesheet for dataset detail view */
+
+.dataset-heading {
+    margin-bottom: 18px;
+}
+
+h2.dataset-title {
+    font-size: 1.25em;
+    margin: 4px 0px;
+}
+
+p.dataset-description {
+    margin: 15px 0;
+    font-size: 1.1em;
+    color: #666;
+}
+
+.controls {
+    margin-bottom: 6px;
+}
+
+/*
+ * Bootstrap button for file input
+ * http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
+ */
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}

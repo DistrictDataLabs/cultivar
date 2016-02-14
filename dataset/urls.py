@@ -29,4 +29,5 @@ urlpatterns = (
     url(r'^create/$', DatasetCreateView.as_view(), name='create'),
     url(r'^datasets/$', DatasetListView.as_view(), name='listing'),
     url(r'^(?P<account>[\w-]+)/(?P<slug>[\w-]+)/$', DatasetDetailView.as_view(), name='detail'),
+    url(r'^(?P<account>[\w-]+)/(?P<slug>[\w-]+)/upload/$', DataFileUploadView.as_view(), name='upload'),
 )

@@ -19,11 +19,34 @@ Administrative utilities for Dataset models.
 
 from django.contrib import admin
 from dataset.models import Dataset
+from dataset.models import DataFile
 from dataset.models import License
+
+
+##########################################################################
+## Inline Adminstration
+##########################################################################
+
+class DataFilesInline(admin.StackedInline):
+    """
+    Inline administration descriptor for account object
+    """
+
+    model = DataFile
+    extra = 1
+    verbose_name_plural = 'files'
+
+
+class DatasetAdmin(admin.ModelAdmin):
+    """
+    Defines the administration for a dataset in the CMS.
+    """
+
+    inlines = (DataFilesInline,)
 
 ##########################################################################
 ## Register Admin
 ##########################################################################
 
-admin.site.register(Dataset)
+admin.site.register(Dataset, DatasetAdmin)
 admin.site.register(License)

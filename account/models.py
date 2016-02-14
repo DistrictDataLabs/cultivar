@@ -61,6 +61,14 @@ class Account(TimeStampedModel):
 
         return self.billing_email
 
+    def get_absolute_url(self):
+        """
+        Shortcut for the owner's absolute url function.
+        """
+        if self.content_type.model == 'user':
+            return self.owner.profile.get_absolute_url()
+        return self.owner.get_absolute_url()
+
     def __unicode__(self):
         """
         Must return slug name for the account (e.g. username or orgname).
