@@ -42,45 +42,42 @@
         </div>
       </div><!-- header and tabs -->
 
-      {% block panes %}
+      {% block tabs %}
       <!-- Tab navigation and panes -->
       <div class="row">
         <div class="col-md-12">
 
           <!-- Nav tabs -->
           <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active">
-              <a href="#files" aria-controls="files" role="tab" data-toggle="tab">
-                <i class="fa fa-folder-open"></i> Data
+            <li role="presentation" {% if panel_name == "files" %}class="active"{% endif %}>
+              <a href="{% url 'dataset:detail' dataset.owner.name dataset.name %}">
+                <i class="fa fa-folder-open"></i> Files
               </a>
             </li>
-            <li role="presentation">
-              <a href="#schema" aria-controls="schema" role="tab" data-toggle="tab">
+            <li role="presentation" {% if panel_name == "schema" %}class="active"{% endif %}>
+              <a href="{% url 'dataset:schema' dataset.owner.name dataset.name %}">
                 <i class="fa fa-table"></i> Schema
               </a>
             </li>
-            <li role="presentation">
-              <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">
+            <li role="presentation" {% if panel_name == "explore" %}class="active"{% endif %}>
+              <a href="{% url 'dataset:explore' dataset.owner.name dataset.name %}">
+                <i class="fa fa-area-chart"></i> Explore
+              </a>
+            </li>
+            <li role="presentation" {% if panel_name == "settings" %}class="active"{% endif %}>
+              <a href="{% url 'dataset:settings' dataset.owner.name dataset.name %}">
                 <i class="fa fa-cog"></i> Settings
               </a>
             </li>
           </ul>
 
-          <!-- Tab panes -->
-          <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="files">
-              {% include 'dataset/detail_panes/files.html' %}
-            </div>
-            <div role="tabpanel" class="tab-pane" id="schema">
-              {% include 'dataset/detail_panes/schema.html' %}
-            </div>
-            <div role="tabpanel" class="tab-pane" id="settings">
-              {% include 'dataset/detail_panes/settings.html' %}
-            </div>
-          </div>
-
         </div>
-      </div><!-- tab navigation and panes ends -->
+      </div>
+      {% endblock %}
+
+      <!-- Tab Panel -->
+      {% block panel %}
+
       {% endblock %}
 
     </div><!-- container ends -->

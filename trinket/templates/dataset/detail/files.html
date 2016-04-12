@@ -1,0 +1,102 @@
+{% extends 'dataset/detail/base.html' %}
+{% load gravatar %}
+{% load humanize %}
+
+{% block panel %}
+<div class="row">
+  <div class="col-md-12">
+
+    {% block dataset-description %}
+    <p class="dataset-description">
+      {{ dataset.description }}&nbsp;&nbsp;
+      <a href="{{ dataset.url }}" target="_blank" rel="nofollow">
+        {{ dataset.url }}
+      </a>
+    </p>
+    {% endblock %}
+
+    {% block file-controls %}
+    <div class="controls">
+      <div class="pull-left">
+        <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#editDatasetReadmeModal">
+          <i class="fa fa-book"></i> Edit README.md
+        </button>
+      </div>
+      <div class="pull-right">
+        <form class="pull-left" style="margin-right: 9px;"
+              action="{% url 'dataset:upload' account=dataset.owner.name slug=dataset.name %}"
+              method="post" id="uploadForm" enctype="multipart/form-data">
+          <div class="form-group">
+            <span class="btn btn-xs btn-default btn-file">
+              <i id="uploadIcon" class="fa fa-upload"></i> Upload <input type="file" id="id_datafile" name="datafile" />
+            </span>
+          </div>
+          {% csrf_token %}
+          <input type="hidden" value="{{ dataset.id }}" name="dataset" />
+        </form>
+        <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#notImplementedYetModal">
+          <i class="fa fa-download"></i> Download
+        </button>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    {% endblock %}
+
+    {% block filelist %}
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        {% with latest=dataset.latest_file %}
+        <h3 class="pull-left panel-title">
+          <img src="{% gravatar_url latest.uploader.email 18 %}" />
+          <a href="{{ latest.uploader.get_absolute_url }}">{{ latest.uploader.username }}</a>
+          <span class="text-muted">{{ latest.name }}</span>
+        </h3>
+        {% endwith %}
+        <h3 class="pull-right panel-title">Version {{ dataset.version }} on {{ dataset.modified|date }}</h3>
+        <div class="clearfix"></div>
+      </div>
+      <table class="table">
+        {% for file in dataset.files.all %}
+        <tr>
+          <td><i class="fa fa-file-text-o"></i> {{ file.name }}</td>
+          <td class="text-center">{{ file.datatype|upper }} data</td>
+          <td class="text-center">{{ file.dimensions|intcomma }} dimension{{ file.dimensions|pluralize }}</td>
+          <td class="text-center">{{ file.length|intcomma }} rows</td>
+          <td class="text-center">{{ file.filesize|filesizeformat }}</td>
+          <td class="text-right"><span class="text-muted">{{ file.modified|timesince }} ago</span></td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td>No files added to dataset quite yet!</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    {% endblock %}
+
+    {% block readme %}
+    <!-- README.md Pane -->
+    {% if dataset.readme.raw %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-book"></i> README.md</h3>
+      </div>
+      <div class="panel-body">
+        <div class="readme markdown">
+
+          {{ dataset.readme }}
+
+        </div>
+      </div>
+    </div><!-- readme ends -->
+    {% else %}
+    <div class="alert alert-info" role="alert">
+      <p><i class="fa fa-warning"></i> Help people understand better what this dataset is about by editing the README.</p>
+    </div>
+    {% endif %}
+    {% endblock %}
+
+  </div><!-- column ends -->
+</div><!-- row ends -->
+
+{% endblock %}

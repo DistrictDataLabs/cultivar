@@ -30,4 +30,7 @@ urlpatterns = (
     url(r'^datasets/$', DatasetListView.as_view(), name='listing'),
     url(r'^(?P<account>[\w-]+)/(?P<slug>[\w-]+)/$', DatasetDetailView.as_view(), name='detail'),
     url(r'^(?P<account>[\w-]+)/(?P<slug>[\w-]+)/upload/$', DataFileUploadView.as_view(), name='upload'),
+    url(r'^(?P<account>[\w-]+)/(?P<slug>[\w-]+)/schema/$', DatasetSchemaView.as_view(), name='schema'),
+    url(r'^(?P<account>[\w-]+)/(?P<slug>[\w-]+)/explore/$', DatasetExploreView.as_view(), name='explore'),
+    url(r'^(?P<account>[\w-]+)/(?P<slug>[\w-]+)/settings/$', DatasetSettingsView.as_view(), name='settings'),
 )

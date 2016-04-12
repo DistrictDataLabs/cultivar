@@ -1,4 +1,7 @@
-{% block dataset-schema %}
+{% extends 'dataset/detail/base.html' %}
+
+{% block panel %}
+{% block dataset-settings %}
   <div class="row">
     <div class="col-xs-12">
       <div class="alert alert-warning dataset-warning" role="alert">
@@ -6,4 +9,5 @@
       </div>
     </div>
   </div>
+{% endblock %}
 {% endblock %}

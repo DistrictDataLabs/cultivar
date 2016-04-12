@@ -123,10 +123,11 @@ class DatasetListView(LoginRequiredMixin, ListView):
 
 class DatasetDetailView(LoginRequiredMixin, DetailView):
 
-    template_name = "dataset/detail.html"
+    template_name = "dataset/detail/files.html"
     context_object_name = "dataset"
     model = Dataset
-    slug_field  = "name"
+    slug_field = "name"
+    panel_name = "files"
 
     def get_queryset(self):
         """
@@ -135,6 +136,29 @@ class DatasetDetailView(LoginRequiredMixin, DetailView):
         return self.model.objects.filter(
             owner__name = self.kwargs.get('account', None),
         )
+
+    def get_context_data(self, **kwargs):
+        context = super(DatasetDetailView, self).get_context_data(**kwargs)
+        context['panel_name'] = self.panel_name
+        return context
+
+
+class DatasetSchemaView(DatasetDetailView):
+
+    template_name = "dataset/detail/schema.html"
+    panel_name = "schema"
+
+
+class DatasetExploreView(DatasetDetailView):
+
+    template_name = "dataset/detail/explore.html"
+    panel_name = "explore"
+
+
+class DatasetSettingsView(DatasetDetailView):
+
+    template_name = "dataset/detail/settings.html"
+    panel_name = "settings"
 
 
 ##########################################################################
