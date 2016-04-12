@@ -75,6 +75,12 @@ class Dataset(TimeStampedModel):
     def latest_file(self):
         return self.files.latest()
 
+    def get_api_detail_url(self):
+        """
+        Returns the API detail endpoint for the object
+        """
+        return reverse('api:dataset-detail', args=(self.pk,))
+
     def get_absolute_url(self):
         return reverse('dataset:detail', args=(self.owner.name, self.name))
 

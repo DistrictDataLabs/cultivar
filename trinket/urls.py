@@ -42,6 +42,7 @@ from django.views.generic import TemplateView
 
 from trinket.views import *
 from members.views import *
+from dataset.views import *
 
 ##########################################################################
 ## Endpoint Discovery
@@ -51,6 +52,7 @@ from members.views import *
 router = routers.DefaultRouter()
 router.register(r'status', HeartbeatViewSet, "status")
 router.register(r'users', UserViewSet)
+router.register(r'datasets', DatasetViewSet)
 
 ##########################################################################
 ## URL Patterns
