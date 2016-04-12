@@ -19,4 +19,9 @@
   {% block footer %}
   {% include 'components/footer.html' %}
   {% endblock %}
+
+  {% block modals %}
+    {{ block.super }}
+    {% include 'components/modals/not-implemented-yet.html' %}
+  {% endblock %}
 {% endblock %}

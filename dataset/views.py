@@ -27,6 +27,10 @@ from dataset.models import Dataset
 from dataset.forms import CreateDatasetForm
 from dataset.forms import DataFileUploadForm
 
+from rest_framework import viewsets
+from dataset.serializers import DatasetSerializer
+
+
 ##########################################################################
 ## HTML/Web Views
 ##########################################################################
@@ -131,3 +135,13 @@ class DatasetDetailView(LoginRequiredMixin, DetailView):
         return self.model.objects.filter(
             owner__name = self.kwargs.get('account', None),
         )
+
+
+##########################################################################
+## JSON/API Views
+##########################################################################
+
+class DatasetViewSet(viewsets.ModelViewSet):
+
+    queryset = Dataset.objects.all()
+    serializer_class = DatasetSerializer

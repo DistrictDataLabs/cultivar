@@ -25,10 +25,14 @@
 
           <div class="pull-right">
           {% block dataset-controls %}
-            <button class="btn btn-xs btn-default"><i class="fa fa-star"></i> Star</button>
+            <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#notImplementedYetModal">
+              <i class="fa fa-star"></i> Star
+            </button>
 
             <!-- TODO: only show if the user has permissions to edit this! -->
-            <button class="btn btn-xs btn-default"><i class="fa fa-edit"></i> Edit Info</button>
+            <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#editDatasetInfoModal">
+              <i class="fa fa-edit"></i> Edit Info
+            </button>
           {% endblock %}
           </div>
 
@@ -83,10 +87,20 @@
 
 {% endblock %}
 
+{% block modals %}
+  {{ block.super }}
+  {% include 'components/modals/edit-dataset-info.html' %}
+  {% include 'components/modals/edit-dataset-readme.html' %}
+{% endblock %}
+
 {% block javascripts %}
   {{ block.super }}
   <script type="text/javascript">
     $(document).ready(function() {
+
+      // Configure the dataset application
+      var csrfToken   = $('input[name="csrfmiddlewaretoken"]').val();
+      $.ajaxSetup({headers: {"X-CSRFToken": csrfToken}});
 
       /*
        * Trigger for when a file is changed in the upload button
@@ -105,6 +119,48 @@
           $("#uploadForm").submit();
       });
 
+      /*
+       * Handle the dataset info editing forms
+       */
+      function handleDatasetInfo(event) {
+        event.preventDefault();
+
+        var form   = $(event.target);
+        var url    = form.attr('action');
+        var method = form.attr('method');
+        var data   = utils.formData(form);
+
+        console.log(url,method, data);
+
+        // Clean the data from the form
+        delete data.csrfmiddlewaretoken
+
+        $.ajax({
+            "url": url,
+            "method": method,
+            "data": JSON.stringify(data),
+            "contentType": "application/json"
+        }).done(function(data) {
+            // Reload the page with the new information.
+            location.reload(true);
+        }).fail(function(xhr) {
+            data = xhr.responseJSON;
+            // Set the error
+            $.each(data, function(key, val) {
+                var field = $("#"+key);
+                field.parent().addClass("has-error");
+                field.parent().find('.help-block').text(val);
+            });
+        });
+        return false;
+      }
+
+      // Register handlers
+      $("#editDatasetInfoModal").submit(handleDatasetInfo);
+      $("#editDatasetReadmeModal").submit(handleDatasetInfo);
+
+
+      // Ready to handle datasets!
       console.log("Ready to manage a dataset!");
 
     });

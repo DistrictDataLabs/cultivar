@@ -12,7 +12,9 @@
 {% block file-controls %}
 <div class="controls">
   <div class="pull-left">
-
+    <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#editDatasetReadmeModal">
+      <i class="fa fa-book"></i> Edit README.md
+    </button>
   </div>
   <div class="pull-right">
     <form class="pull-left" style="margin-right: 9px;"
@@ -26,7 +28,9 @@
       {% csrf_token %}
       <input type="hidden" value="{{ dataset.id }}" name="dataset" />
     </form>
-    <button class="btn btn-xs btn-default"><i class="fa fa-download"></i> Download</button>
+    <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#notImplementedYetModal">
+      <i class="fa fa-download"></i> Download
+    </button>
   </div>
   <div class="clearfix"></div>
 </div>
