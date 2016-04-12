@@ -26,7 +26,9 @@
       {% csrf_token %}
       <input type="hidden" value="{{ dataset.id }}" name="dataset" />
     </form>
-    <button class="btn btn-xs btn-default"><i class="fa fa-download"></i> Download</button>
+    <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#notImplementedYetModal">
+      <i class="fa fa-download"></i> Download
+    </button>
   </div>
   <div class="clearfix"></div>
 </div>

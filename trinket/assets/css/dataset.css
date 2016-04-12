@@ -15,6 +15,11 @@ p.dataset-description {
     color: #666;
 }
 
+.dataset-warning {
+    margin: 15px 0;
+    font-size: 1.05em;
+}
+
 .controls {
     margin-bottom: 6px;
 }
