@@ -76,11 +76,13 @@ Note name of db, as well as username and password of db user you created.
 
 7. Update the contents of the `.env` file:
 
+    ```
     DJANGO_SETTINGS_MODULE=trinket.settings.development
     SECRET_KEY=[INSERT A VALUE HERE]
     EMAIL_HOST_USER=[INSERT A VALUE HERE]
     EMAIL_HOST_PASSWORD=[INSERT A VALUE HERE]
     DATABASE_URL=postgresql://[username]:[password]@[ip:port]/[dbname]
+    ```
 
 8. Run `python manage.py runserver` and go to http://localhost:8000.  Optionally, you can use the Makefile by executing `make runserver` from the command line.
 
@@ -99,7 +101,10 @@ Note the ARN of user you created (Select the user, and the Summary tab provides 
 - Grant permissions to user you just created to perform actions on bucket.
 Go to Amazon S3 console (Services -> S3), select bucket you just created, click on Properties btn in the top right corner.
 Expand Permissions section. Click on Add bucket policy btn. You'll see a pop-up window, where you can specify policy for bucket in json format.
-Example policy json (granting all permissions for bucket to user):
+In case you need other set of permissions, you can use [policy generator](http://awspolicygen.s3.amazonaws.com/policygen.html).
+Also check out [policies examples](http://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html).
+
+- Example policy json (granting all permissions for bucket to user):
     ```
     {
         "Version": "[version]",
@@ -126,9 +131,6 @@ Example policy json (granting all permissions for bucket to user):
         ]
     }
     ```
-In case you need other set of permissions, you can use [policy generator](http://awspolicygen.s3.amazonaws.com/policygen.html).
-Also check out [policies examples](http://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html).
-
 
 ### Throughput
 
