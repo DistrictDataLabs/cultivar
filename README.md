@@ -41,6 +41,46 @@ If you are a member of the District Data Labs Faculty group, you have direct acc
 
 4. Repeat. Releases will be routinely pushed into master via release branches, then deployed to the server.
 
+### Initial Setup (Mac OS X)
+
+1. Fork the git repo: https://github.com/DistrictDataLabs/trinket
+
+2. Clone your fork to your local workspace directory
+
+```
+cd ~/workspace
+git clone git@github.com:username/trinket.git
+cd trinket
+```
+
+3. Install the Postgres App: http://postgresapp.com/
+
+4. Create and install your python virtual environment
+
+```
+git checkout develop
+virtualenv env
+source env/bin/activate
+pip install -r requirements.txt
+```
+
+5. Create the needed environment variables in the `.env` file
+
+```
+vim .env
+```
+
+The contents of the `.env` should be:
+
+```
+export DJANGO_SETTINGS_MODULE=trinket.settings.development
+export SECRET_KEY=<Get this from the project leads>
+export EMAIL_HOST_USER=
+export EMAIL_HOST_PASSWORD=
+```
+
+6. Run `python manage.py runserver` and go to http://localhost:8000
+
 ### Throughput
 
 [![Throughput Graph](https://graphs.waffle.io/DistrictDataLabs/trinket/throughput.svg)](https://waffle.io/DistrictDataLabs/trinket/metrics)
