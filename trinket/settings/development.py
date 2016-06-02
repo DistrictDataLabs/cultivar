@@ -36,16 +36,3 @@ SECRET_KEY       = 'ddl+zirks79p$y4&06v1n8au&svwv1v($*&ep%cnu=pwz+p%2qm@xrsb'
 ## Content
 MEDIA_ROOT       = os.path.join(PROJECT, 'media')
 STATIC_ROOT      = 'staticfiles'
-
-
-## DBs
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': environ_setting('DB_NAME', 'trinket'),
-        'USER': environ_setting('DB_USER', 'postgres'),
-        'PASSWORD': environ_setting('DB_PASS', ''),
-        'HOST': environ_setting('DB_HOST', 'localhost'),
-        'PORT': environ_setting('DB_PORT', '5432'),
-    },
-}

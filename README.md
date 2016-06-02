@@ -51,14 +51,10 @@ git clone git@github.com:DistrictDataLabs/trinket.git
 
 2. Install required services.  Trinket relies on PostgreSQL for the database layer and so please ensure that a recent version is installed and running.  If using a Mac, we recommend the excellent [PostgresApp](http://postgresapp.com/)
 
-<<<<<<< HEAD
-3. (Optional) Create and install your python virtual environment.  The bash commands below are provided as an example.
-=======
-Create Postres database for local development, see [instructions](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04#create-a-database-and-database-user).
+3. Create Postres database for local development, see [instructions](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04#create-a-database-and-database-user).
 Note name of db, as well as username and password of db user you created.
 
-4. Create and install your python virtual environment
->>>>>>> feature-update-readme
+4. (Optional) Create and install your python virtual environment.  The bash commands below are provided as an example.
 
 ```
 git checkout develop
@@ -85,9 +81,7 @@ DJANGO_SETTINGS_MODULE=trinket.settings.development
 SECRET_KEY=[INSERT A VALUE HERE]
 EMAIL_HOST_USER=[INSERT A VALUE HERE]
 EMAIL_HOST_PASSWORD=[INSERT A VALUE HERE]
-DB_NAME=[name_of_postgres_db]
-DB_USER=[username_of_postgres_db_user]
-DB_PASS=[password_of_postgres_db_user]
+DATABASE_URL=postgresql://[username]:[password]@[ip:port]/[dbname]
 ```
 
 6. Run `python manage.py runserver` and go to http://localhost:8000.  Optionally, you can use the Makefile by executing `make runserver` from the command line.
