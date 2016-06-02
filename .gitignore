@@ -49,6 +49,7 @@ coverage.xml
 
 # Django stuff:
 *.log
+dataset/migrations/*
 
 # Sphinx documentation
 docs/_build/
@@ -59,3 +60,6 @@ target/
 .DS_Store
 venv
 .env
+
+# pycharm
+.idea/
