@@ -38,7 +38,7 @@ def update_organization_gravatar(sender, instance, **kwargs):
     """
     ## Compute the email hash
     instance.gravatar_email = instance.gravatar_email.strip().lower()
-    digest = hashlib.md5(instance.gravatar_email).hexdigest()
+    digest = hashlib.md5(instance.gravatar_email.encode(encoding='utf-8')).hexdigest()
     instance.email_hash = digest
 
 
