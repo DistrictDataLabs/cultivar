@@ -43,28 +43,29 @@ If you are a member of the District Data Labs Faculty group, you have direct acc
 
 ### Initial Setup (Mac OS X)
 
-1. Fork the git repo: https://github.com/DistrictDataLabs/trinket
-
-2. Clone your fork to your local workspace directory
+1. Clone the repository to your local computer.  To clone from the command line (instead of a windowed application) use the following bash command.  If you are cloning a forked copy then you will need to update the repository address.
 
 ```
-cd ~/workspace
-git clone git@github.com:username/trinket.git
-cd trinket
+git clone git@github.com:DistrictDataLabs/trinket.git
 ```
 
-3. Install the Postgres App: http://postgresapp.com/
+2. Install required services.  Trinket relies on PostgreSQL for the database layer and so please ensure that a recent version is installed and running.  If using a Mac, we recommend the excellent [PostgresApp](http://postgresapp.com/)
 
-4. Create and install your python virtual environment
+3. (Optional) Create and install your python virtual environment.  The bash commands below are provided as an example.
 
 ```
 git checkout develop
 virtualenv env
 source env/bin/activate
+```
+
+4. Install the dependency libraries using the provided `requirements.txt` file.  The bash command is provided below:
+
+```
 pip install -r requirements.txt
 ```
 
-5. Create the needed environment variables in the `.env` file
+5. Create the needed environment variables in the `.env` file.  `.env` files allow you to easily specify the environmental variables which Trinket requires for execution.
 
 ```
 vim .env
@@ -73,13 +74,13 @@ vim .env
 The contents of the `.env` should be:
 
 ```
-export DJANGO_SETTINGS_MODULE=trinket.settings.development
-export SECRET_KEY=<Get this from the project leads>
-export EMAIL_HOST_USER=
-export EMAIL_HOST_PASSWORD=
+DJANGO_SETTINGS_MODULE=trinket.settings.development
+SECRET_KEY=[INSERT A VALUE HERE]
+EMAIL_HOST_USER=[INSERT A VALUE HERE]
+EMAIL_HOST_PASSWORD=[INSERT A VALUE HERE]
 ```
 
-6. Run `python manage.py runserver` and go to http://localhost:8000
+6. Run `python manage.py runserver` and go to http://localhost:8000.  Optionally, you can use the Makefile by executing `make runserver` from the command line.
 
 ### Throughput
 
