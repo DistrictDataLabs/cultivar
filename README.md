@@ -76,13 +76,11 @@ Note name of db, as well as username and password of db user you created.
 
 The contents of the `.env` should be:
 
-    ```
     DJANGO_SETTINGS_MODULE=trinket.settings.development
     SECRET_KEY=[INSERT A VALUE HERE]
     EMAIL_HOST_USER=[INSERT A VALUE HERE]
     EMAIL_HOST_PASSWORD=[INSERT A VALUE HERE]
     DATABASE_URL=postgresql://[username]:[password]@[ip:port]/[dbname]
-    ```
 
 7. Run `python manage.py runserver` and go to http://localhost:8000.  Optionally, you can use the Makefile by executing `make runserver` from the command line.
 
