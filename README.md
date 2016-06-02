@@ -45,9 +45,9 @@ If you are a member of the District Data Labs Faculty group, you have direct acc
 
 1. Clone the repository to your local computer.  To clone from the command line (instead of a windowed application) use the following bash command.  If you are cloning a forked copy then you will need to update the repository address.
 
-```
-git clone git@github.com:DistrictDataLabs/trinket.git
-```
+    ```
+    git clone git@github.com:DistrictDataLabs/trinket.git
+    ```
 
 2. Install required services.  Trinket relies on PostgreSQL for the database layer and so please ensure that a recent version is installed and running.  If using a Mac, we recommend the excellent [PostgresApp](http://postgresapp.com/)
 
@@ -56,33 +56,33 @@ Note name of db, as well as username and password of db user you created.
 
 4. (Optional) Create and install your python virtual environment.  The bash commands below are provided as an example.
 
-```
-git checkout develop
-virtualenv env
-source env/bin/activate
-```
+    ```
+    git checkout develop
+    virtualenv env
+    source env/bin/activate
+    ```
 
 5. Install the dependency libraries using the provided `requirements.txt` file.  The bash command is provided below:
 
-```
-pip install -r requirements.txt
-```
+    ```
+    pip install -r requirements.txt
+    ```
 
 6. Create the needed environment variables in the `.env` file.  `.env` files allow you to easily specify the environmental variables which Trinket requires for execution.
 
-```
-vim .env
-```
+    ```
+    vim .env
+    ```
 
 The contents of the `.env` should be:
 
-```
-DJANGO_SETTINGS_MODULE=trinket.settings.development
-SECRET_KEY=[INSERT A VALUE HERE]
-EMAIL_HOST_USER=[INSERT A VALUE HERE]
-EMAIL_HOST_PASSWORD=[INSERT A VALUE HERE]
-DATABASE_URL=postgresql://[username]:[password]@[ip:port]/[dbname]
-```
+    ```
+    DJANGO_SETTINGS_MODULE=trinket.settings.development
+    SECRET_KEY=[INSERT A VALUE HERE]
+    EMAIL_HOST_USER=[INSERT A VALUE HERE]
+    EMAIL_HOST_PASSWORD=[INSERT A VALUE HERE]
+    DATABASE_URL=postgresql://[username]:[password]@[ip:port]/[dbname]
+    ```
 
 7. Run `python manage.py runserver` and go to http://localhost:8000.  Optionally, you can use the Makefile by executing `make runserver` from the command line.
 
@@ -91,6 +91,7 @@ In case you want to have file uploads working locally, you need to create a buck
 and user with permissions to access that bucket.
 As another option, you can use local file storage for DEFAULT_FILE_STORAGE settings variable.
 
+To setup Amazon S3 bucket:
 - Setup AWS account if you have none at [amazon homepage](http://aws.amazon.com/).
 - Create bucket - [instructions](http://docs.aws.amazon.com/AmazonS3/latest/UG/CreatingaBucket.html).
 Setup Logging step is optional. Note the name of bucket you created.
@@ -101,32 +102,32 @@ Note the ARN of user you created (Select the user, and the Summary tab provides 
 Go to Amazon S3 console (Services -> S3), select bucket you just created, click on Properties btn in the top right corner.
 Expand Permissions section. Click on Add bucket policy btn. You'll see a pop-up window, where you can specify policy for bucket in json format.
 Example policy json (granting all permissions for bucket to user):
-```
-{
-	"Version": "[version]",
-	"Id": "[some-unique-id]",
-	"Statement": [
-		{
-			"Sid": "[sid]",
-			"Effect": "Allow",
-			"Principal": {
-				"AWS": "[arn_of_user_you_created]"
-			},
-			"Action": "s3:*",
-			"Resource": "arn:aws:s3:::[bucket-name]"
-		},
-		{
-			"Sid": "Stmt1464896157467",
-			"Effect": "Allow",
-			"Principal": {
-				"AWS": "[arn_of_user_you_created]"
-			},
-			"Action": "s3:*",
-			"Resource": "arn:aws:s3:::[bucket-name]/*"
-		}
-	]
-}
-```
+    ```
+    {
+        "Version": "[version]",
+        "Id": "[some-unique-id]",
+        "Statement": [
+            {
+                "Sid": "[sid]",
+                "Effect": "Allow",
+                "Principal": {
+                    "AWS": "[arn_of_user_you_created]"
+                },
+                "Action": "s3:*",
+                "Resource": "arn:aws:s3:::[bucket-name]"
+            },
+            {
+                "Sid": "Stmt1464896157467",
+                "Effect": "Allow",
+                "Principal": {
+                    "AWS": "[arn_of_user_you_created]"
+                },
+                "Action": "s3:*",
+                "Resource": "arn:aws:s3:::[bucket-name]/*"
+            }
+        ]
+    }
+    ```
 In case you need other set of permissions, you can use [policy generator](http://awspolicygen.s3.amazonaws.com/policygen.html).
 Also check out [policies examples](http://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html).
 
