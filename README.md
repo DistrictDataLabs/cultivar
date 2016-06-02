@@ -132,6 +132,43 @@ Also check out [policies examples](http://docs.aws.amazon.com/AmazonS3/latest/de
     }
     ```
 
+### Develop with Vagrant to develop against postgres
+
+Rename sample.env to .env
+
+Add in any environment settings that you wish
+
+Install Vagrant (here)[https://www.vagrantup.com/]
+
+Set up vagrant and install system
+
+`vagrant up`
+
+Log into vagrant and finalize set up. Caution it might take ten minutes to set up.
+
+`vagrant ssh`
+
+`cd project`
+
+Activate your virtualenv
+
+`source venv/bin/activate`
+
+Sync the database
+
+`python manage.py migrate`
+
+Create a super user to log in with
+
+`python manage.py createsuperuser`
+
+Run local development server
+
+`python manage.py runserver 0.0.0.0:8000 `
+
+Open your local browser to: http://localhost:8000/
+
+
 ### Throughput
 
 [![Throughput Graph](https://graphs.waffle.io/DistrictDataLabs/trinket/throughput.svg)](https://waffle.io/DistrictDataLabs/trinket/metrics)
