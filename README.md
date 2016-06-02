@@ -55,6 +55,9 @@ cd trinket
 
 3. Install the Postgres App: http://postgresapp.com/
 
+Create Postres database for local development, see [instructions](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04#create-a-database-and-database-user).
+Note name of db, as well as username and password of db user you created.
+
 4. Create and install your python virtual environment
 
 ```
@@ -77,9 +80,54 @@ export DJANGO_SETTINGS_MODULE=trinket.settings.development
 export SECRET_KEY=<Get this from the project leads>
 export EMAIL_HOST_USER=
 export EMAIL_HOST_PASSWORD=
+DB_NAME=[name_of_postgres_db]
+DB_USER=[username_of_postgres_db_user]
+DB_PASS=[password_of_postgres_db_user]
 ```
 
 6. Run `python manage.py runserver` and go to http://localhost:8000
+
+7. Trinket uses Amazon S3 as file storage.
+In case you want to have file uploads working locally, you need to create a bucket (file storage directory at AWS)
+and user with permissions to access that bucket.
+
+0. Setup AWS account if you have none at [amazon homepage](http://aws.amazon.com/).
+1. Create bucket - [instructions](http://docs.aws.amazon.com/AmazonS3/latest/UG/CreatingaBucket.html).
+Setup Logging step is optional. Note the name of bucket you created.
+2. Create user - [instructions, steps 1-5](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html#id_users_create_console).
+Note user key id and secret key, [instructions](http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html).
+Note the ARN of user you created (Select the user, and the Summary tab provides the user ARN.).
+3. Grant permissions to user you just created to perform actions on bucket.
+Go to Amazon S3 console (Services -> S3), select bucket you just created, click on Properties btn in the top right corner.
+Expand Permissions section. Click on Add bucket policy btn. You'll see a pop-up window, where you can specify policy for bucket in json format.
+Example policy json (granting all permissions for bucket to user):
+{
+	"Version": "[version]",
+	"Id": "[some-unique-id]",
+	"Statement": [
+		{
+			"Sid": "[sid]",
+			"Effect": "Allow",
+			"Principal": {
+				"AWS": "[arn_of_user_you_created]"
+			},
+			"Action": "s3:*",
+			"Resource": "arn:aws:s3:::[bucket-name]"
+		},
+		{
+			"Sid": "Stmt1464896157467",
+			"Effect": "Allow",
+			"Principal": {
+				"AWS": "[arn_of_user_you_created]"
+			},
+			"Action": "s3:*",
+			"Resource": "arn:aws:s3:::[bucket-name]/*"
+		}
+	]
+}
+In case you need other set of permissions, you can use [policy generator](http://awspolicygen.s3.amazonaws.com/policygen.html).
+Also check out [policies examples](http://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html).
+
 
 ### Throughput
 
