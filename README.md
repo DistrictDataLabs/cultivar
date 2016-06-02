@@ -74,7 +74,7 @@ Note name of db, as well as username and password of db user you created.
     vim .env
     ```
 
-    The contents of the `.env` should be:
+7. Update the contents of the `.env` file:
 
     DJANGO_SETTINGS_MODULE=trinket.settings.development
     SECRET_KEY=[INSERT A VALUE HERE]
@@ -82,9 +82,9 @@ Note name of db, as well as username and password of db user you created.
     EMAIL_HOST_PASSWORD=[INSERT A VALUE HERE]
     DATABASE_URL=postgresql://[username]:[password]@[ip:port]/[dbname]
 
-7. Run `python manage.py runserver` and go to http://localhost:8000.  Optionally, you can use the Makefile by executing `make runserver` from the command line.
+8. Run `python manage.py runserver` and go to http://localhost:8000.  Optionally, you can use the Makefile by executing `make runserver` from the command line.
 
-8. Trinket uses Amazon S3 as file storage.
+9. Trinket uses Amazon S3 as file storage.
 In case you want to have file uploads working locally, you need to create a bucket (file storage directory at AWS)
 and user with permissions to access that bucket.
 As another option, you can use local file storage for DEFAULT_FILE_STORAGE settings variable.
