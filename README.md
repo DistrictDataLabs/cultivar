@@ -74,7 +74,7 @@ Note name of db, as well as username and password of db user you created.
     vim .env
     ```
 
-The contents of the `.env` should be:
+    The contents of the `.env` should be:
 
     DJANGO_SETTINGS_MODULE=trinket.settings.development
     SECRET_KEY=[INSERT A VALUE HERE]
