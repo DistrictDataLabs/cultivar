@@ -88,7 +88,6 @@ EMAIL_HOST_PASSWORD=[INSERT A VALUE HERE]
 DB_NAME=[name_of_postgres_db]
 DB_USER=[username_of_postgres_db_user]
 DB_PASS=[password_of_postgres_db_user]
->>>>>>> feature-update-readme
 ```
 
 6. Run `python manage.py runserver` and go to http://localhost:8000.  Optionally, you can use the Makefile by executing `make runserver` from the command line.
