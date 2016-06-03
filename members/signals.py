@@ -37,7 +37,7 @@ def update_user_profile(sender, instance, created, **kwargs):
     it with new information from the User (e.g. the gravatar).
     """
     ## Compute the email hash
-    digest = hashlib.md5(instance.email.lower()).hexdigest()
+    digest = hashlib.md5(instance.email.lower().encode('utf-8')).hexdigest()
 
     if created:
         Profile.objects.create(user=instance, email_hash=digest)

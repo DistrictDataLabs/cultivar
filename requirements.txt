@@ -19,7 +19,7 @@ python-social-auth==0.2.14
 requests==2.9.1
 requests-oauthlib==0.6.1
 oauthlib==1.0.3
-python-openid==2.2.5
+python3-openid==3.0.10
 PyJWT==1.4.0
 
 # Utilities
@@ -41,7 +41,7 @@ html5lib==0.9999999
 
 ## Pip Stuff
 #pip==8.1.1
-#Python==2.7.10
+#Python==3.5.1
 #setuptools==18.2
 #wheel==0.24.0
 #wsgiref==0.1.2

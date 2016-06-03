@@ -42,7 +42,7 @@ def update_users_profile(apps, schema_editor):
 
     # Loop through all existing users and assign their profile
     for user in User.objects.all():
-        digest = hashlib.md5(user.email.lower()).hexdigest()
+        digest = hashlib.md5(user.email.lower().encode('utf-8')).hexdigest()
         Profile.objects.create(user=user, email_hash=digest)
 
 
