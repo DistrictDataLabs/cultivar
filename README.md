@@ -132,7 +132,15 @@ Also check out [policies examples](http://docs.aws.amazon.com/AmazonS3/latest/de
     }
     ```
 
-### Develop with Vagrant to develop against postgres
+### Vagrant Configuration
+
+These instructions only apply if you are already a vagrant user, or
+would like to use vagrant as an alternative to other installation
+options. 
+
+Other options include installing the required dependencies locally, such as PostgreSQL.
+
+#### Setting Up Vagrant
 
 Rename sample.env to .env
 
