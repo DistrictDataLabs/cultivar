@@ -1,0 +1,38 @@
+# Web Application
+Django==1.9.5
+djangorestframework==3.3.3
+django-model-utils==2.4
+django-grappelli==2.8.1
+django-dotenv==1.4.1
+django-gravatar2==1.4.0
+django-storages==1.4.1
+django-markupfield==1.4.0
+whitenoise==3.0
+
+# Database Requirements
+psycopg2==2.6.1
+dj-database-url==0.4.1
+
+## Social Authentication Dependencies
+python-social-auth==0.2.14
+requests==2.9.1
+requests-oauthlib==0.6.1
+oauthlib==1.0.3
+python3-openid==3.0.10
+PyJWT==1.4.0
+
+# Utilities
+six==1.10.0
+boto==2.39.0
+unicodecsv==0.14.1
+Markdown==2.6.6
+bleach==1.4.2
+python-dateutil==2.5.2
+html5lib==0.9999999
+
+## Pip Stuff
+#pip==8.1.1
+#Python==3.5.1
+#setuptools==18.2
+#wheel==0.24.0
+#wsgiref==0.1.2
