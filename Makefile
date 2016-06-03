@@ -48,6 +48,10 @@ djangohelp:
 runserver:
 	$(LOCALPATH)/manage.py runserver $(DJANGO_LOCAL_POSTFIX)
 
+# Run non daemon celery worker (typically for local development)
+celery-worker:
+	celery worker -A trinket
+
 # Clean build files
 clean:
 	find . -name "*.pyc" -print0 | xargs -0 rm -rf
