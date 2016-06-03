@@ -35,3 +35,12 @@ html5lib==0.9999999
 #setuptools==18.2
 #wheel==0.24.0
 #wsgiref==0.1.2
+
+## Celery Stuff
+amqp==1.4.9
+anyjson==0.3.3
+billiard==3.3.0.23
+celery==3.1.23
+defusedxml==0.4.1
+kombu==3.0.35
+pytz==2016.4
