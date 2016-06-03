@@ -67,9 +67,9 @@ Note name of db, as well as username and password of db user you created.
     ```
     pip install -r requirements.txt
     ```
-    
+
 	There are additional requirements files in the requirements directory. the local.txt file includes debugging modules, while test.txt includes
-test modules. 
+test modules.
 
 	You can install these with
 
@@ -80,10 +80,10 @@ test modules.
 	or
 
 		pip install -r requirements/production.txt
-	
 
 
-6. Create the needed environment variables in the `.env` file.  `.env` files allow you to easily specify the environmental variables which Trinket requires for execution.
+
+6. Create the needed environment variables in the `.env` file.  `.env` files allow you to easily specify the environmental variables which Trinket requires for execution.  Note that a sample/template has been provided with `sample.env`.
 
     ```
     vim .env
@@ -93,10 +93,15 @@ test modules.
 
     ```
     DJANGO_SETTINGS_MODULE=trinket.settings.development
-    SECRET_KEY=[INSERT A VALUE HERE]
-    EMAIL_HOST_USER=[INSERT A VALUE HERE]
-    EMAIL_HOST_PASSWORD=[INSERT A VALUE HERE]
-    DATABASE_URL=postgresql://[username]:[password]@[ip:port]/[dbname]
+    EMAIL_HOST_USER=None
+    EMAIL_HOST_PASSWORD=None
+    AWS_ACCESS_KEY_ID=<insert>
+    AWS_SECRET_ACCESS_KEY=<insert>
+    SECRET_KEY=BLAH
+    DATABASE_URL=postgres://<insertDBUSERNAME>:<insertDBUSERPASSWORD>@127.0.0.1:5432/<insertDBNAME>
+    AMQP_HOST=<insert>
+    AMQP_USER=<insert>
+    AMQP_PASSWORD=<insert>
     ```
 
 8. Run `python manage.py runserver` and go to http://localhost:8000.  Optionally, you can use the Makefile by executing `make runserver` from the command line.
@@ -151,7 +156,7 @@ Also check out [policies examples](http://docs.aws.amazon.com/AmazonS3/latest/de
 
 These instructions only apply if you are already a vagrant user, or
 would like to use vagrant as an alternative to other installation
-options. 
+options.
 
 Other options include installing the required dependencies locally, such as PostgreSQL.
 
