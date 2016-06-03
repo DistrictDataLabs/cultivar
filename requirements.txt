@@ -25,7 +25,6 @@ PyJWT==1.4.0
 # Utilities
 six==1.10.0
 boto==2.39.0
-unicodecsv==0.14.1
 Markdown==2.6.6
 bleach==1.4.2
 python-dateutil==2.5.2

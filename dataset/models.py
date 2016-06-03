@@ -27,6 +27,8 @@ from trinket.utils import nullable
 from markupfield.fields import MarkupField
 from model_utils.models import TimeStampedModel
 from django.core.urlresolvers import reverse
+import csv
+import codecs
 
 ##########################################################################
 ## Helper Models
@@ -139,13 +141,23 @@ class DataFile(TimeStampedModel):
 
     def read_csv_headers(self):
         """
-        Returns the headers of the file
+        Method that reads first line of datafile to retrieve array of column names (header)
+        Also counts amount of lines in csv file
+        Returns tuple (header, amount_of_lines) for csv file
+        Returns None for non-csv file (TODO)
+        NOTE: Why can't we close this file without errors?
         """
-        self.dataset.open('r')
-        reader = csv.reader(self.dataset, delimiter=self.delimiter.encode('utf-8'))
-        header = reader.next()
-        self.dataset.close()
-        return header
+        self.data.open('rb')
+        if self.datatype == self.DATATYPE.csv:
+            # FieldFile produces stream of bytes, csv expects stream of string
+            # decode first line into string (replacing non-utf-8 chars with escaped values)
+            first_line_decoded = codecs.iterdecode(self.data, encoding='utf-8', errors='replace')
+            reader = csv.reader(first_line_decoded, delimiter=self.delimiter)
+            header = next(reader)
+            length = sum(1 for row in reader)  # might be a bit slow
+            # No close method allowed?
+            return header, length
+        return None  # ?? what to return for not a csv
 
     def __unicode__(self):
         return self.name
