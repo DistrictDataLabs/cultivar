@@ -67,6 +67,21 @@ Note name of db, as well as username and password of db user you created.
     ```
     pip install -r requirements.txt
     ```
+    
+	There are additional requirements files in the requirements directory. the local.txt file includes debugging modules, while test.txt includes
+test modules. 
+
+	You can install these with
+
+
+		pip install -r requirements/local.txt
+
+
+	or
+
+		pip install -r requirements/production.txt
+	
+
 
 6. Create the needed environment variables in the `.env` file.  `.env` files allow you to easily specify the environmental variables which Trinket requires for execution.
 

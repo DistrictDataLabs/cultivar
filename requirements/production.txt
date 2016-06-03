@@ -1,0 +1,4 @@
+-r base.txt
+
+# Needed only during production
+gunicorn==19.4.5
