@@ -45,42 +45,137 @@ If you are a member of the District Data Labs Faculty group, you have direct acc
 
 1. Clone the repository to your local computer.  To clone from the command line (instead of a windowed application) use the following bash command.  If you are cloning a forked copy then you will need to update the repository address.
 
-```
-git clone git@github.com:DistrictDataLabs/trinket.git
-```
+    ```
+    git clone git@github.com:DistrictDataLabs/trinket.git
+    ```
 
 2. Install required services.  Trinket relies on PostgreSQL for the database layer and so please ensure that a recent version is installed and running.  If using a Mac, we recommend the excellent [PostgresApp](http://postgresapp.com/)
 
-3. (Optional) Create and install your python virtual environment.  The bash commands below are provided as an example.
+3. Create Postres database for local development, see [instructions](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04#create-a-database-and-database-user).
+Note name of db, as well as username and password of db user you created.
 
-```
-git checkout develop
-virtualenv env
-source env/bin/activate
-```
+4. (Optional) Create and install your python virtual environment.  The bash commands below are provided as an example.
 
-4. Install the dependency libraries using the provided `requirements.txt` file.  The bash command is provided below:
+    ```
+    git checkout develop
+    virtualenv env
+    source env/bin/activate
+    ```
 
-```
-pip install -r requirements.txt
-```
+5. Install the dependency libraries using the provided `requirements.txt` file.  The bash command is provided below:
 
-5. Create the needed environment variables in the `.env` file.  `.env` files allow you to easily specify the environmental variables which Trinket requires for execution.
+    ```
+    pip install -r requirements.txt
+    ```
 
-```
-vim .env
-```
+6. Create the needed environment variables in the `.env` file.  `.env` files allow you to easily specify the environmental variables which Trinket requires for execution.
 
-The contents of the `.env` should be:
+    ```
+    vim .env
+    ```
 
-```
-DJANGO_SETTINGS_MODULE=trinket.settings.development
-SECRET_KEY=[INSERT A VALUE HERE]
-EMAIL_HOST_USER=[INSERT A VALUE HERE]
-EMAIL_HOST_PASSWORD=[INSERT A VALUE HERE]
-```
+7. Update the contents of the `.env` file:
 
-6. Run `python manage.py runserver` and go to http://localhost:8000.  Optionally, you can use the Makefile by executing `make runserver` from the command line.
+    ```
+    DJANGO_SETTINGS_MODULE=trinket.settings.development
+    SECRET_KEY=[INSERT A VALUE HERE]
+    EMAIL_HOST_USER=[INSERT A VALUE HERE]
+    EMAIL_HOST_PASSWORD=[INSERT A VALUE HERE]
+    DATABASE_URL=postgresql://[username]:[password]@[ip:port]/[dbname]
+    ```
+
+8. Run `python manage.py runserver` and go to http://localhost:8000.  Optionally, you can use the Makefile by executing `make runserver` from the command line.
+
+9. Trinket uses Amazon S3 as file storage.
+In case you want to have file uploads working locally, you need to create a bucket (file storage directory at AWS)
+and user with permissions to access that bucket.
+As another option, you can use local file storage for DEFAULT_FILE_STORAGE settings variable.
+
+To setup Amazon S3 bucket:
+- Setup AWS account if you have none at [amazon homepage](http://aws.amazon.com/).
+- Create bucket - [instructions](http://docs.aws.amazon.com/AmazonS3/latest/UG/CreatingaBucket.html).
+Setup Logging step is optional. Note the name of bucket you created.
+- Create user - [instructions, steps 1-5](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html#id_users_create_console).
+Note user key id and secret key, [instructions](http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html).
+Note the ARN of user you created (Select the user, and the Summary tab provides the user ARN.).
+- Grant permissions to user you just created to perform actions on bucket.
+Go to Amazon S3 console (Services -> S3), select bucket you just created, click on Properties btn in the top right corner.
+Expand Permissions section. Click on Add bucket policy btn. You'll see a pop-up window, where you can specify policy for bucket in json format.
+In case you need other set of permissions, you can use [policy generator](http://awspolicygen.s3.amazonaws.com/policygen.html).
+Also check out [policies examples](http://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html).
+
+- Example policy json (granting all permissions for bucket to user):
+    ```
+    {
+        "Version": "[version]",
+        "Id": "[some-unique-id]",
+        "Statement": [
+            {
+                "Sid": "[sid]",
+                "Effect": "Allow",
+                "Principal": {
+                    "AWS": "[arn_of_user_you_created]"
+                },
+                "Action": "s3:*",
+                "Resource": "arn:aws:s3:::[bucket-name]"
+            },
+            {
+                "Sid": "Stmt1464896157467",
+                "Effect": "Allow",
+                "Principal": {
+                    "AWS": "[arn_of_user_you_created]"
+                },
+                "Action": "s3:*",
+                "Resource": "arn:aws:s3:::[bucket-name]/*"
+            }
+        ]
+    }
+    ```
+
+### Vagrant Configuration
+
+These instructions only apply if you are already a vagrant user, or
+would like to use vagrant as an alternative to other installation
+options. 
+
+Other options include installing the required dependencies locally, such as PostgreSQL.
+
+#### Setting Up Vagrant
+
+Rename sample.env to .env
+
+Add in any environment settings that you wish
+
+Install Vagrant (here)[https://www.vagrantup.com/]
+
+Set up vagrant and install system
+
+`vagrant up`
+
+Log into vagrant and finalize set up. Caution it might take ten minutes to set up.
+
+`vagrant ssh`
+
+`cd project`
+
+Activate your virtualenv
+
+`source venv/bin/activate`
+
+Sync the database
+
+`python manage.py migrate`
+
+Create a super user to log in with
+
+`python manage.py createsuperuser`
+
+Run local development server
+
+`python manage.py runserver 0.0.0.0:8000 `
+
+Open your local browser to: http://localhost:8000/
+
 
 ### Throughput
 
