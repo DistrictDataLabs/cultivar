@@ -25,8 +25,13 @@
 
           <div class="pull-right">
           {% block dataset-controls %}
-            <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#notImplementedYetModal">
-              <i class="fa fa-star"></i> Star
+            <button id="star-btn"
+                    class="btn btn-xs btn-default btn-starred"
+                    aria-pressed="false"
+                    autocomplete="off">
+              <i class="fa fa-star"></i>
+              <span class="star">Star</span>
+              <span class="unstar">Unstar</span>
             </button>
 
             <!-- TODO: only show if the user has permissions to edit this! -->
@@ -92,74 +97,5 @@
 
 {% block javascripts %}
   {{ block.super }}
-  <script type="text/javascript">
-    $(document).ready(function() {
-
-      // Configure the dataset application
-      var csrfToken   = $('input[name="csrfmiddlewaretoken"]').val();
-      $.ajaxSetup({headers: {"X-CSRFToken": csrfToken}});
-
-      /*
-       * Trigger for when a file is changed in the upload button
-       * http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
-       */
-      $(document).on('change', '.btn-file :file', function() {
-          var input = $(this),
-              numFiles = input.get(0).files ? input.get(0).files.length : 1,
-              label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-          input.trigger('fileselect', [numFiles, label]);
-      });
-
-      // Handle the fileselect event
-      $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-          $("#uploadIcon").removeClass("fa-upload").addClass("fa-spinner").addClass("fa-spin");
-          $("#uploadForm").submit();
-      });
-
-      /*
-       * Handle the dataset info editing forms
-       */
-      function handleDatasetInfo(event) {
-        event.preventDefault();
-
-        var form   = $(event.target);
-        var url    = form.attr('action');
-        var method = form.attr('method');
-        var data   = utils.formData(form);
-
-        console.log(url,method, data);
-
-        // Clean the data from the form
-        delete data.csrfmiddlewaretoken
-
-        $.ajax({
-            "url": url,
-            "method": method,
-            "data": JSON.stringify(data),
-            "contentType": "application/json"
-        }).done(function(data) {
-            // Reload the page with the new information.
-            location.reload(true);
-        }).fail(function(xhr) {
-            data = xhr.responseJSON;
-            // Set the error
-            $.each(data, function(key, val) {
-                var field = $("#"+key);
-                field.parent().addClass("has-error");
-                field.parent().find('.help-block').text(val);
-            });
-        });
-        return false;
-      }
-
-      // Register handlers
-      $("#editDatasetInfoModal").submit(handleDatasetInfo);
-      $("#editDatasetReadmeModal").submit(handleDatasetInfo);
-
-
-      // Ready to handle datasets!
-      console.log("Ready to manage a dataset!");
-
-    });
-  </script>
+  <script src="{% static 'js/dataset.js' %}" type="text/javascript"></script>
 {% endblock %}

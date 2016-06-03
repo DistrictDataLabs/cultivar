@@ -24,6 +24,29 @@ p.dataset-description {
     margin-bottom: 6px;
 }
 
+
+/* Star btn stateful stuff */
+
+.btn-starred .unstar {
+    display: none;
+}
+
+.btn-starred .star {
+    display: inherit;
+}
+
+.btn-starred.active .fa-star {
+    color: #008cba;  /* golden */
+}
+
+.btn-starred.active .unstar {
+    display: inherit;
+}
+
+.btn-starred.active .star {
+    display: none;
+}
+
 /*
  * Bootstrap button for file input
  * http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
