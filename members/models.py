@@ -17,7 +17,7 @@ Models that store information about faculty and students.
 ## Imports
 ##########################################################################
 
-import urllib
+import urllib.parse
 
 from django.db import models
 from django.conf import settings
@@ -88,7 +88,7 @@ class Profile(TimeStampedModel):
         """
         size    = size or settings.GRAVATAR_DEFAULT_SIZE
         default = default or settings.GRAVATAR_DEFAULT_IMAGE
-        params  = urllib.urlencode({'d': default, 's': str(size)})
+        params  = urllib.parse.urlencode({'d': default, 's': str(size)})
 
         return "http://www.gravatar.com/avatar/{}?{}".format(
             self.email_hash, params
