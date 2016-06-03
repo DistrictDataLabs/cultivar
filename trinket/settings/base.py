@@ -25,6 +25,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 import os
 import dj_database_url
+from kombu import Exchange, Queue
 
 from trinket.utils import htmlize
 from django.conf import global_settings
@@ -115,6 +116,7 @@ INSTALLED_APPS = (
     'dataset',
     'members',
     'organization',
+    'trinket',
 )
 
 ## Request Handling
@@ -297,3 +299,34 @@ REST_FRAMEWORK = {
     'PAGINATE_BY_PARAM': 'per_page',
     'MAX_PAGINATE_BY': 200,
 }
+
+##########################################################################
+## Celery Configuration
+##########################################################################
+
+# Broker info
+BROKER_HOST = environ_setting("AMQP_HOST", "localhost")
+BROKER_PORT = 5672
+BROKER_USER = environ_setting("AMQP_USER", "guest")
+BROKER_PASSWORD = environ_setting("AMQP_PASSWORD", "")
+
+# Result Backend
+CELERY_RESULT_BACKEND = 'amqp'
+
+# Serialization
+CELERY_TASK_SERIALIZER     = 'json'
+CELERY_RESULT_SERIALIZER   = 'json'
+CELERY_ACCEPT_CONTENT      = ['json', 'yaml']
+
+# Time related
+CELERY_TASK_RESULT_EXPIRES = 3600
+CELERY_TIME_ZONE           ='America/New_York'
+CELERY_ENABLE_UTC          = False
+
+# Queue/Route related
+CELERY_DEFAULT_QUEUE = environ_setting("CELERY_DEFAULT_QUEUE", 'trinket')
+DEFAULT_EXCHANGE = Exchange(CELERY_DEFAULT_QUEUE, type='topic')
+
+CELERY_QUEUES = (
+    Queue(CELERY_DEFAULT_QUEUE, DEFAULT_EXCHANGE, routing_key=CELERY_DEFAULT_QUEUE),
+)
