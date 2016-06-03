@@ -32,6 +32,7 @@ from django.core.urlresolvers import reverse
 ## Helper Models
 ##########################################################################
 
+
 class License(TimeStampedModel):
     """
     Contains license boilerplate for datasets.
@@ -43,7 +44,7 @@ class License(TimeStampedModel):
     class Meta:
         db_table = 'license'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 ##########################################################################
@@ -84,7 +85,7 @@ class Dataset(TimeStampedModel):
     def get_absolute_url(self):
         return reverse('dataset:detail', args=(self.owner.name, self.name))
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 ##########################################################################
@@ -147,7 +148,7 @@ class DataFile(TimeStampedModel):
         self.dataset.close()
         return header
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 

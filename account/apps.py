@@ -26,6 +26,7 @@ from django.apps import AppConfig
 ## Configuration
 ##########################################################################
 
+
 class AccountConfig(AppConfig):
     name = 'account'
 
