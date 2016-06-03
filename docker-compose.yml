@@ -1,0 +1,65 @@
+version: '2'
+
+volumes:
+  postgres_data: {}
+  postgres_backup: {}
+  static_data: {}
+
+services:
+  postgres:
+    container_name: trinket-postgres
+    build: ./compose/postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_backup:/backups
+    env_file: .env
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  django:
+    container_name: trinket-django
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile
+    user: django
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+    command: /gunicorn.sh
+    env_file: .env
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - static_data:/data/staticfiles
+
+  celery:
+    container_name: trinket-celery
+    build:
+      context: .
+      dockerfile: ./compose/celery/Dockerfile
+    command: python manage.py help
+    depends_on:
+      - django
+      - rabbitmq
+    environment:
+      - DJANGO_DOCKER=True
+    links:
+      - django
+      - rabbitmq
+
+  nginx:
+    container_name: trinket-nginx
+    build: ./compose/nginx
+    depends_on:
+      - django
+    ports:
+      - "0.0.0.0:80:80"
+    volumes_from:
+      - django
+
+  redis:
+    container_name: trinket-redis
+    image: redis:3.0
+  
