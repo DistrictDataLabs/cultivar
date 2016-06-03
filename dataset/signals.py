@@ -19,7 +19,6 @@ Signals for handling dataset models and other app details.
 
 import base64
 import hashlib
-import unicodecsv as csv
 
 from dataset.models import DataFile
 from django.db.models.signals import pre_delete, pre_save
@@ -37,7 +36,7 @@ def datafile_file_compute(sender, instance, **kwargs):
 
     TODO: Switch over to Celery async processing for this
     TODO: Make this a lot better.
-    NOTE: Why can't we close this file without errors?
+
     """
     sha = hashlib.sha256()
     instance.data.open('rb')
@@ -48,15 +47,12 @@ def datafile_file_compute(sender, instance, **kwargs):
         sha.update(instance.data.read())
 
     if instance.datatype == instance.DATATYPE.csv:
-        reader = csv.reader(instance.data, delimiter=instance.delimiter.encode('utf-8'))
-        header = reader.next()
+        header, length = instance.read_csv_headers()
         instance.dimensions = len(header)
-        instance.length = sum(1 for row in reader)
+        instance.length = length
 
     instance.signature = base64.b64encode(sha.digest())
     instance.filesize  = instance.data.size
-
-    # No close method allowed?
 
 
 @receiver(pre_delete, sender=DataFile)
