@@ -182,3 +182,16 @@ class ColumnSchema(TimeStampedModel):
     colindex  = models.PositiveSmallIntegerField(**nullable)
     name      = models.CharField(max_length=60, **nullable)
     formatter = models.CharField(max_length=80, **nullable)
+
+
+##########################################################################
+## Starred Dataset Schema (User-Dataset many-to-many)
+##########################################################################
+
+
+class StarredDataset(TimeStampedModel):
+    """
+    Model for many-to-many relation between datasets and users through starring.
+    """
+    user = models.ForeignKey('auth.User')
+    dataset = models.ForeignKey('dataset.Dataset', related_name='starred_datasets')

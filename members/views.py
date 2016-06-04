@@ -16,11 +16,7 @@ Views for the members app.
 ##########################################################################
 ## Imports
 ##########################################################################
-
-
 from members.permissions import IsAdminOrSelf
-from django.contrib.auth.models import User
-from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.contrib.auth.models import User

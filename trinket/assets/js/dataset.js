@@ -74,10 +74,24 @@
       // click handler for star btn
       $('#star-btn').click(function(e) {
 
-         $(this).toggleClass('active');
-         $(this).attr('aria-pressed', $(this).hasClass('active'));
+         var data = {
+             'dataset_id': 1
+         };
 
-         console.log('fake ajax call to api');
+         $.ajax({
+            "url": '/api/stardatasets/1/',
+            "method": 'DELETE',
+            "data": JSON.stringify(data),
+            "contentType": "application/json"
+         }).done(function() {
+            $(this).toggleClass('active');
+            $(this).attr('aria-pressed', $(this).hasClass('active'));
+             console.log('dataset starred successfully');
+         }).fail(function(xhr) {
+            data = xhr.responseJSON;
+            console.log('error during dataset starring');
+         });
+
       });
 
       // Ready to handle datasets!

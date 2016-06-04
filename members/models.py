@@ -45,6 +45,7 @@ class Profile(TimeStampedModel):
     twitter      = models.CharField(max_length=100, **nullable)
     linkedin     = models.URLField(**nullable)
 
+
     class Meta:
         db_table = 'member_profiles'
 
@@ -105,6 +106,17 @@ class Profile(TimeStampedModel):
         Returns the detail view url for the object
         """
         return reverse('member:detail', args=(self.user.username,))
+
+    def get_star_dataset_url(self, dataset_id):
+        """
+        Returns url for view that handles starring of the dataset.
+        Args:
+            dataset_id: str
+
+        Returns: str
+
+        """
+        return reverse('api:')
 
     def __unicode__(self):
         return self.full_email

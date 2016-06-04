@@ -18,22 +18,27 @@ Views for the dataset application.
 ##########################################################################
 
 from django.db import IntegrityError
+from django.http import Http404
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from dataset.models import Dataset
+from dataset.models import Dataset, StarredDataset
 from dataset.forms import CreateDatasetForm
 from dataset.forms import DataFileUploadForm
+from members.permissions import IsAdminOrSelf
 
 from rest_framework import viewsets
-from dataset.serializers import DatasetSerializer
+from dataset.serializers import DatasetSerializer, StarredDatasetSerializer
 
 
 ##########################################################################
 ## HTML/Web Views
 ##########################################################################
+from rest_framework.decorators import detail_route
+from rest_framework.response import Response
+
 
 class DatasetCreateView(LoginRequiredMixin, CreateView):
 
@@ -169,3 +174,45 @@ class DatasetViewSet(viewsets.ModelViewSet):
 
     queryset = Dataset.objects.all()
     serializer_class = DatasetSerializer
+
+
+class StarredDatasetsViewSet(viewsets.ModelViewSet):
+
+    queryset = StarredDataset.objects.all()
+    serializer_class = StarredDatasetSerializer
+
+    def list(self, request, **kwargs):
+        """
+        Datasets starred by current user.
+        """
+        user_id = request.user.id
+        datasets_stars = self.queryset.filter(user_id=user_id)
+        serialized_stars = [self.serializer_class(star).data for star in datasets_stars]
+        return Response(serialized_stars)
+
+    def create(self, request, **kwargs):
+        """
+        Star some dataset for current user.
+        """
+        dataset_id = request.data['dataset_id']
+        user_id = request.user.id
+
+        serialized_data = self.serializer_class(data={
+          'dataset': dataset_id,
+          'user_id': user_id
+        })
+
+        if serialized_data.is_valid():
+            self.serializer_class.save(serialized_data)
+            return Response({'status': 'starred status created'})
+        raise Http404()
+
+    def destroy(self, request, pk=None, **kwargs):
+        """
+        Delete star for some dataset set by user.
+        """
+        user_id = request.user.id
+        dataset_id = request.data['dataset_id']
+        dataset_starred = self.queryset.filter(user_id=user_id, dataset_id=dataset_id).first()
+        dataset_starred.delete()
+        return Response({'status': 'starred status deleted'})

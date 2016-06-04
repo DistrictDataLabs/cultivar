@@ -21,6 +21,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from members.models import Profile
 
+
 ##########################################################################
 ## User and User Profile Serializers
 ##########################################################################
@@ -114,3 +115,4 @@ class PasswordSerializer(serializers.Serializer):
         if attrs['password'] != attrs['repeated']:
             raise serializers.ValidationError("passwords do not match!")
         return attrs
+
