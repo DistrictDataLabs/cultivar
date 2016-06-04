@@ -32,7 +32,7 @@ APPS := trinket account dataset members organization
 showenv:
 	@echo 'Environment:'
 	@echo '------------------------'
-	@$(PYTHON_BIN)/python -c "import sys; print 'sys.path:', sys.path"
+	@$(PYTHON_BIN)/python -c "import sys; print('sys.path:', sys.path)"
 	@echo 'PYTHONPATH:' $(PYTHONPATH)
 	@echo 'PROJECT:' $(PROJECT)
 	@echo 'DJANGO_SETTINGS_MODULE:' $(DJANGO_SETTINGS_MODULE)
