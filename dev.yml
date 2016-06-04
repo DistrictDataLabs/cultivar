@@ -11,8 +11,8 @@ services:
     volumes:
       - postgres_data_dev:/var/lib/postgresql/data
       - postgres_backup_dev:/backups
-    environment:
-      - POSTGRES_DB=trinket
+    env_file:
+      - .env.dev
     ports:
       # Export the port to access this locally.. if you like
       - "5441:5432"
@@ -35,12 +35,8 @@ services:
       - postgres
       - smtpd
       - rabbitmq
-    environment:
-      - DJANGO_DOCKER=True
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=trinket
-      - DJANGO_SETTINGS_MODULE=trinket.settings.development
-      - DATABASE_URL=postgres://postgres:postgres@postgres/trinket
+    env_file:
+      - .env.dev
     volumes:
       - .:/app
     ports:
@@ -55,12 +51,14 @@ services:
     build:
       context: .
       dockerfile: ./compose/celery/dev/Dockerfile
-    command: python manage.py help
+    command: celery worker -A trinket
     depends_on:
       - django
       - rabbitmq
+    env_file:
+      - .env.dev
     environment:
-      - DJANGO_DOCKER=True
+      - DJANGO_SETTINGS_MODULE=trinket.settings.base
     volumes:
       - .:/app
     links:

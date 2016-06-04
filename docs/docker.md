@@ -18,6 +18,13 @@ with Trinket!
 Start by cloning the trinket repository into a working directory:
 
     git clone git@github.com:DistrictDataLabs/trinket.git
+    
+Copy the sample.env file over to a development version
+
+    cp sample.env .env.dev
+    
+Edit this file to adjust the values of key parameters. The defaults are
+intended to work for a development setup, not counting the S3 parameters.
 
 ## Docker Setup
 
