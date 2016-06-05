@@ -38,8 +38,6 @@ from django.contrib import admin
 from rest_framework import routers
 from django.conf.urls import include, url
 
-from django.views.generic import TemplateView
-
 from trinket.views import *
 from members.views import *
 from dataset.views import *
@@ -53,6 +51,7 @@ router = routers.DefaultRouter()
 router.register(r'status', HeartbeatViewSet, "status")
 router.register(r'users', UserViewSet)
 router.register(r'datasets', DatasetViewSet)
+router.register(r'stars', StarredDatasetsViewSet, base_name='stars')
 
 ##########################################################################
 ## URL Patterns

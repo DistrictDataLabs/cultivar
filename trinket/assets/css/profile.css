@@ -116,3 +116,13 @@ ul.activity-stream li {
 .tab-pane {
     margin-top: 10px;
 }
+
+.stars-lead {
+    margin-bottom: 0;
+}
+
+.starred-dataset-link {
+    font-size: 15px;
+    margin: 10.5px 0;
+    display: block;
+}
