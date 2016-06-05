@@ -29,6 +29,7 @@ from account.models import Account
 ## Inline Adminstration
 ##########################################################################
 
+
 class ProfileInline(admin.StackedInline):
     """
     Inline administration descriptor for profile object
