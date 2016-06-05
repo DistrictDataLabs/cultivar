@@ -20,6 +20,7 @@ Models for the multi-file dataset application.
 from __future__ import unicode_literals
 
 import os
+from django.core.exceptions import ObjectDoesNotExist
 
 from django.db import models
 from model_utils import Choices
@@ -85,6 +86,13 @@ class Dataset(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse('dataset:detail', args=(self.owner.name, self.name))
+
+    def is_starred(self, user_id):
+        try:
+            self.users_starred.get(user_id=user_id)
+            return True
+        except ObjectDoesNotExist:
+            return False
 
     def __unicode__(self):
         return self.name
@@ -193,5 +201,8 @@ class StarredDataset(TimeStampedModel):
     """
     Model for many-to-many relation between datasets and users through starring.
     """
-    user = models.ForeignKey('auth.User')
-    dataset = models.ForeignKey('dataset.Dataset', related_name='starred_datasets')
+    user = models.ForeignKey('auth.User', related_name='starred_datasets')
+    dataset = models.ForeignKey('dataset.Dataset', related_name='users_starred')
+
+    class Meta:
+        unique_together = (('user', 'dataset'),)

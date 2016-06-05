@@ -25,11 +25,12 @@
 
           <div class="pull-right">
           {% block dataset-controls %}
-
+            <input type="hidden" id="stars-api-base-url"  value="{% url 'api:stars-list' %}" />
             <button id="star-btn"
-                    class="btn btn-xs btn-default btn-starred"
+                    class="btn btn-xs btn-default btn-starred {% if dataset_is_starred %} active {% endif %}"
                     aria-pressed="false"
-                    autocomplete="off">
+                    autocomplete="off"
+                    data-dataset-id="{{ dataset.id }}">
               <i class="fa fa-star"></i>
               <span class="star">Star</span>
               <span class="unstar">Unstar</span>

@@ -71,25 +71,39 @@
       $("#editDatasetInfoModal").submit(handleDatasetInfo);
       $("#editDatasetReadmeModal").submit(handleDatasetInfo);
 
+      var starsAPIbaseUrl = $("#stars-api-base-url").val();
+
       // click handler for star btn
-      $('#star-btn').click(function(e) {
+      $('#star-btn').click(function() {
 
-         var data = {
-             'dataset_id': 1
-         };
+         // get some info about situation: btn obj, dataset_id, action user wants to perform
+         var star_btn = $(this);
+         star_btn.prop('disabled', true);
+         var dataset_id = star_btn.data('dataset-id');
+         var wantToStar = !star_btn.hasClass('active');
 
-         $.ajax({
-            "url": '/api/stardatasets/1/',
-            "method": 'DELETE',
-            "data": JSON.stringify(data),
+         // construct request based on action: star or unstar
+         var request_dict = {
             "contentType": "application/json"
-         }).done(function() {
-            $(this).toggleClass('active');
-            $(this).attr('aria-pressed', $(this).hasClass('active'));
-             console.log('dataset starred successfully');
+         };
+         if (wantToStar) {
+             request_dict['method'] = 'POST';
+             request_dict['url'] = starsAPIbaseUrl;
+             request_dict['data'] = JSON.stringify({'dataset_id': dataset_id});
+         } else {
+             request_dict['method'] = 'DELETE';
+             request_dict['url'] = starsAPIbaseUrl + dataset_id + '/';
+         }
+
+         // perform ajax request & react to it's success by changing appearance of star btn
+         $.ajax(request_dict).done(function() {
+            star_btn.toggleClass('active');
+            star_btn.attr('aria-pressed',star_btn.hasClass('active'));
+             console.log('Dataset starred successfully');
          }).fail(function(xhr) {
-            data = xhr.responseJSON;
-            console.log('error during dataset starring');
+            console.log('Error during dataset starring: ' + xhr.responseJSON);
+         }).always(function(){
+             star_btn.prop('disabled', false);
          });
 
       });

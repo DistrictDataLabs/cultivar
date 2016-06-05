@@ -16,9 +16,8 @@ Views for the dataset application.
 ##########################################################################
 ## Imports
 ##########################################################################
-
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db import IntegrityError
-from django.http import Http404
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.detail import DetailView
@@ -27,17 +26,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from dataset.models import Dataset, StarredDataset
 from dataset.forms import CreateDatasetForm
 from dataset.forms import DataFileUploadForm
-from members.permissions import IsAdminOrSelf
 
 from rest_framework import viewsets
 from dataset.serializers import DatasetSerializer, StarredDatasetSerializer
-
 
 ##########################################################################
 ## HTML/Web Views
 ##########################################################################
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
+from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_204_NO_CONTENT, \
+    HTTP_500_INTERNAL_SERVER_ERROR
 
 
 class DatasetCreateView(LoginRequiredMixin, CreateView):
@@ -145,6 +144,7 @@ class DatasetDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(DatasetDetailView, self).get_context_data(**kwargs)
         context['panel_name'] = self.panel_name
+        context['dataset_is_starred'] = context['dataset'].is_starred(self.request.user.id)
         return context
 
 
@@ -178,17 +178,19 @@ class DatasetViewSet(viewsets.ModelViewSet):
 
 class StarredDatasetsViewSet(viewsets.ModelViewSet):
 
-    queryset = StarredDataset.objects.all()
     serializer_class = StarredDatasetSerializer
+    model = StarredDataset
 
-    def list(self, request, **kwargs):
+    def get_queryset(self):
         """
-        Datasets starred by current user.
+        Returns datasets starred by current user.
         """
-        user_id = request.user.id
-        datasets_stars = self.queryset.filter(user_id=user_id)
-        serialized_stars = [self.serializer_class(star).data for star in datasets_stars]
-        return Response(serialized_stars)
+        queryset = self.model.objects.all()
+        try:
+            user_id = self.request.user.id
+            return queryset.filter(user_id=user_id)
+        except AttributeError:
+            return []  # empty result for not logged in users
 
     def create(self, request, **kwargs):
         """
@@ -199,20 +201,23 @@ class StarredDatasetsViewSet(viewsets.ModelViewSet):
 
         serialized_data = self.serializer_class(data={
           'dataset': dataset_id,
-          'user_id': user_id
+          'user': user_id
         })
 
         if serialized_data.is_valid():
             self.serializer_class.save(serialized_data)
-            return Response({'status': 'starred status created'})
-        raise Http404()
+            return Response({'status': 'starred status created'}, status=HTTP_201_CREATED)
+        return Response({'errors': serialized_data.errors}, status=HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None, **kwargs):
         """
         Delete star for some dataset set by user.
         """
-        user_id = request.user.id
-        dataset_id = request.data['dataset_id']
-        dataset_starred = self.queryset.filter(user_id=user_id, dataset_id=dataset_id).first()
-        dataset_starred.delete()
-        return Response({'status': 'starred status deleted'})
+        try:
+            dataset_starred = self.model.objects.all().get(dataset_id=pk, user_id=request.user.id)
+            dataset_starred.delete()
+            return Response({'status': 'starred status deleted'}, status=HTTP_204_NO_CONTENT)
+        except ObjectDoesNotExist:
+            return Response({'status': 'starred status to delete not found'}, status=HTTP_404_NOT_FOUND)
+        except MultipleObjectsReturned:  # couldn't be multiple b/c of complex PK in model, means something went wrong
+            return Response(status=HTTP_500_INTERNAL_SERVER_ERROR)

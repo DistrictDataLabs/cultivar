@@ -51,7 +51,7 @@ router = routers.DefaultRouter()
 router.register(r'status', HeartbeatViewSet, "status")
 router.register(r'users', UserViewSet)
 router.register(r'datasets', DatasetViewSet)
-router.register(r'stardatasets', StarredDatasetsViewSet)
+router.register(r'stars', StarredDatasetsViewSet, base_name='stars')
 
 ##########################################################################
 ## URL Patterns
