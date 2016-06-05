@@ -144,6 +144,27 @@
               {% endif %}
             </div>
 
+            <!-- Starred datasets for this user -->
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4>
+                  <i class="fa fa-star"></i>
+                  Starred Datasets
+                </h4>
+              </div>
+              {% if member.starred_datasets.count == 0 %}
+                <div class="panel-body">
+                  <p class="lead stars-lead">Star some datasets to pin them here.</p>
+                </div>
+              {% endif %}
+              <ul class="list-group">
+                {% for star in member.starred_datasets.all %}
+                  <li class="list-group-item">
+                    <a href="{{ star.dataset.get_absolute_url }}" class="starred-dataset-link">{{ star.dataset.name }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
 
           </div>
 
@@ -160,7 +181,6 @@
       </div><!-- main profile area ends -->
     </div>
   </div>
-
 {% endblock %}
 
 {% block modals %}

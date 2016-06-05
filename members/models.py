@@ -17,7 +17,7 @@ Models that store information about faculty and students.
 ## Imports
 ##########################################################################
 
-import urllib
+import urllib.parse
 
 from django.db import models
 from django.conf import settings
@@ -44,6 +44,7 @@ class Profile(TimeStampedModel):
     biography    = MarkupField(markup_type='markdown', help_text='Edit in Markdown', **nullable)
     twitter      = models.CharField(max_length=100, **nullable)
     linkedin     = models.URLField(**nullable)
+
 
     class Meta:
         db_table = 'member_profiles'
@@ -88,7 +89,7 @@ class Profile(TimeStampedModel):
         """
         size    = size or settings.GRAVATAR_DEFAULT_SIZE
         default = default or settings.GRAVATAR_DEFAULT_IMAGE
-        params  = urllib.urlencode({'d': default, 's': str(size)})
+        params  = urllib.parse.urlencode({'d': default, 's': str(size)})
 
         return "http://www.gravatar.com/avatar/{}?{}".format(
             self.email_hash, params
@@ -105,6 +106,17 @@ class Profile(TimeStampedModel):
         Returns the detail view url for the object
         """
         return reverse('member:detail', args=(self.user.username,))
+
+    def get_star_dataset_url(self, dataset_id):
+        """
+        Returns url for view that handles starring of the dataset.
+        Args:
+            dataset_id: str
+
+        Returns: str
+
+        """
+        return reverse('api:')
 
     def __unicode__(self):
         return self.full_email

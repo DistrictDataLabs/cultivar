@@ -18,7 +18,7 @@ Serializers for API dataset interaction.
 ##########################################################################
 
 from rest_framework import serializers
-from dataset.models import Dataset
+from dataset.models import Dataset, StarredDataset
 
 
 ##########################################################################
@@ -40,3 +40,12 @@ class DatasetSerializer(serializers.HyperlinkedModelSerializer):
             'api_url', 'owner', 'version', 'name', 'description',
             'url', 'privacy', 'license', 'readme',
         )
+
+
+class StarredDatasetSerializer(serializers.ModelSerializer):
+    """
+    Serializes the StarredDataset object
+    """
+    class Meta:
+        model  = StarredDataset
+        fields = ('user', 'dataset')

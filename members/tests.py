@@ -96,7 +96,6 @@ class ProfileModelTest(TestCase):
         """
         Email should be hashed on user create
         """
-
         digest = hashlib.md5(fixtures['user']['email'].encode(encoding='utf-8')).hexdigest()
 
         self.assertIsNotNone(self.user.profile, "user has no profile?")

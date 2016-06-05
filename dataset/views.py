@@ -16,24 +16,28 @@ Views for the dataset application.
 ##########################################################################
 ## Imports
 ##########################################################################
-
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db import IntegrityError
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from dataset.models import Dataset
+from dataset.models import Dataset, StarredDataset
 from dataset.forms import CreateDatasetForm
 from dataset.forms import DataFileUploadForm
 
 from rest_framework import viewsets
-from dataset.serializers import DatasetSerializer
-
+from dataset.serializers import DatasetSerializer, StarredDatasetSerializer
 
 ##########################################################################
 ## HTML/Web Views
 ##########################################################################
+from rest_framework.decorators import detail_route
+from rest_framework.response import Response
+from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_204_NO_CONTENT, \
+    HTTP_500_INTERNAL_SERVER_ERROR
+
 
 class DatasetCreateView(LoginRequiredMixin, CreateView):
 
@@ -140,6 +144,7 @@ class DatasetDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(DatasetDetailView, self).get_context_data(**kwargs)
         context['panel_name'] = self.panel_name
+        context['dataset_is_starred'] = context['dataset'].is_starred(self.request.user.id)
         return context
 
 
@@ -169,3 +174,50 @@ class DatasetViewSet(viewsets.ModelViewSet):
 
     queryset = Dataset.objects.all()
     serializer_class = DatasetSerializer
+
+
+class StarredDatasetsViewSet(viewsets.ModelViewSet):
+
+    serializer_class = StarredDatasetSerializer
+    model = StarredDataset
+
+    def get_queryset(self):
+        """
+        Returns datasets starred by current user.
+        """
+        queryset = self.model.objects.all()
+        try:
+            user_id = self.request.user.id
+            return queryset.filter(user_id=user_id)
+        except AttributeError:
+            return []  # empty result for not logged in users
+
+    def create(self, request, **kwargs):
+        """
+        Star some dataset for current user.
+        """
+        dataset_id = request.data['dataset_id']
+        user_id = request.user.id
+
+        serialized_data = self.serializer_class(data={
+          'dataset': dataset_id,
+          'user': user_id
+        })
+
+        if serialized_data.is_valid():
+            self.serializer_class.save(serialized_data)
+            return Response({'status': 'starred status created'}, status=HTTP_201_CREATED)
+        return Response({'errors': serialized_data.errors}, status=HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk=None, **kwargs):
+        """
+        Delete star for some dataset set by user.
+        """
+        try:
+            dataset_starred = self.model.objects.all().get(dataset_id=pk, user_id=request.user.id)
+            dataset_starred.delete()
+            return Response({'status': 'starred status deleted'}, status=HTTP_204_NO_CONTENT)
+        except ObjectDoesNotExist:
+            return Response({'status': 'starred status to delete not found'}, status=HTTP_404_NOT_FOUND)
+        except MultipleObjectsReturned:  # couldn't be multiple b/c of complex PK in model, means something went wrong
+            return Response(status=HTTP_500_INTERNAL_SERVER_ERROR)
