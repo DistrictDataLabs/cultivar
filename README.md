@@ -152,6 +152,17 @@ Also check out [policies examples](http://docs.aws.amazon.com/AmazonS3/latest/de
     }
     ```
 
+### Docker Development Environment
+
+Docker containers make it easier to setup a working development environment
+when that environment involves multiple external applications. Trinket
+requires postgresql, rabbitmq, a Django process and a Celery process to 
+run the full suite of tools in development. 
+
+Trinket has been setup to use Docker in development. Please refer to the
+online documentation for Trinket [here]() for more details, or
+look at the [documentation here](docs/docker.md).
+
 ### Vagrant Configuration
 
 These instructions only apply if you are already a vagrant user, or

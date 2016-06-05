@@ -1,0 +1,10 @@
+-r base.txt
+
+## Celery Stuff
+amqp==1.4.9
+anyjson==0.3.3
+billiard==3.3.0.23
+celery==3.1.23
+defusedxml==0.4.1
+pytz==2016.4
+

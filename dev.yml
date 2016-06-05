@@ -1,0 +1,67 @@
+version: '2'
+
+volumes:
+  postgres_data_dev: {}
+  postgres_backup_dev: {}
+
+services:
+  postgres:
+    container_name: trinket-postgres
+    build: ./compose/postgres
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+      - postgres_backup_dev:/backups
+    env_file:
+      - .env.dev
+    ports:
+      # Export the port to access this locally.. if you like
+      - "5441:5432"
+
+  smtpd:
+    container_name: trinket-smtpd
+    build: ./compose/smtpd
+
+  rabbitmq:
+    container_name: trinket-rabbitmq
+    build: ./compose/rabbitmq
+
+  django:
+    container_name: trinket-django
+    build:
+      context: .
+      dockerfile: ./compose/django/dev/Dockerfile
+    command: python /app/manage.py runserver 0.0.0.0:8001
+    depends_on:
+      - postgres
+      - smtpd
+      - rabbitmq
+    env_file:
+      - .env.dev
+    volumes:
+      - .:/app
+    ports:
+      - "8001:8001"
+    links:
+      - postgres
+      - smtpd
+      - rabbitmq
+
+  celery:
+    container_name: trinket-celery
+    build:
+      context: .
+      dockerfile: ./compose/celery/dev/Dockerfile
+    command: celery worker -A trinket
+    depends_on:
+      - django
+      - rabbitmq
+    env_file:
+      - .env.dev
+    environment:
+      - DJANGO_SETTINGS_MODULE=trinket.settings.base
+    volumes:
+      - .:/app
+    links:
+      - django
+      - rabbitmq
+

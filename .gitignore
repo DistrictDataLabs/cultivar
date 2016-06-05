@@ -64,3 +64,4 @@ venv
 
 # pycharm
 .idea/
+.env.dev
