@@ -50,7 +50,6 @@ coverage.xml
 
 # Django stuff:
 *.log
-dataset/migrations/*
 
 # Sphinx documentation
 docs/_build/
