@@ -62,7 +62,7 @@ class Dataset(TimeStampedModel):
     PRIVACY = Choices('private', 'protected', 'public')
 
     owner   = models.ForeignKey('account.Account', related_name='datasets')
-    version = models.PositiveIntegerField(default=1, null=False, blank=True)
+    # version = models.PositiveIntegerField(default=1, null=False, blank=True)
     name    = models.SlugField(max_length=60, null=False, allow_unicode=True)
     description = models.CharField(max_length=255, **nullable)
     url     = models.URLField(**nullable)
@@ -76,8 +76,29 @@ class Dataset(TimeStampedModel):
         ordering = ('-created',)
         get_latest_by = 'created'
 
+    @property
+    def version(self):
+        return self.versions.latest().version
+
+    def next_version_number(self):
+        latest = self.latest_version()
+        if latest:
+            return latest.version + 1
+        else:
+            return 1
+
+    def latest_version(self):
+        try:
+            return self.versions.latest()
+        except ObjectDoesNotExist:
+            return None
+
     def latest_file(self):
-        return self.files.latest()
+        version = self.latest_version()
+        if version:
+            return self.latest_version().files.latest()
+        else:
+            return None
 
     def get_api_detail_url(self):
         """
@@ -98,6 +119,29 @@ class Dataset(TimeStampedModel):
     def __str__(self):
         return self.name
 
+
+##########################################################################
+## Dataset Version
+##########################################################################
+
+class DatasetVersion(TimeStampedModel):
+    """
+    A join model to connect DataFiles to Datasets tied to a version number
+    """
+    version = models.PositiveIntegerField(null=False, blank=False)
+    dataset = models.ForeignKey('dataset.Dataset', related_name='versions')
+    bundle_available = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "dataset_versions"
+        get_latest_by = 'created'
+        ordering = ('-created',)
+
+    def __str__(self):
+        return 'v{}'.format(self.version)
+
+
+
 ##########################################################################
 ## Data Files
 ##########################################################################
@@ -109,8 +153,8 @@ def dataset_directory_path(instance, filename):
     """
     return os.path.join(
         'datasets',
-        instance.dataset.owner.name,
-        instance.dataset.name,
+        instance.version.dataset.owner.name,
+        instance.version.dataset.name,
         filename
     )
 
@@ -123,7 +167,7 @@ class DataFile(TimeStampedModel):
     DATATYPE    = Choices('csv', 'json', 'xml')
 
     uploader    = models.ForeignKey('auth.User', related_name='+')
-    dataset     = models.ForeignKey('dataset.Dataset', related_name='files')
+    version     = models.ForeignKey('dataset.DatasetVersion', related_name='files')
     data        = models.FileField(upload_to=dataset_directory_path)
     description = models.CharField(max_length=128, **nullable)
     dimensions  = models.PositiveIntegerField(default=0)

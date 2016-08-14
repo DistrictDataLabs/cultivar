@@ -56,7 +56,7 @@
         <div class="clearfix"></div>
       </div>
       <table class="table">
-        {% for file in dataset.files.all %}
+        {% for file in dataset.latest_version.files.all %}
         <tr>
           <td><i class="fa fa-file-text-o"></i> {{ file.name }}</td>
           <td class="text-center">{{ file.datatype|upper }} data</td>
@@ -67,7 +67,7 @@
         </tr>
         {% empty %}
         <tr>
-          <td>No files added to dataset quite yet!</td>
+          <td>No files added to dataset quite yet!XXX</td>
         </tr>
         {% endfor %}
       </table>

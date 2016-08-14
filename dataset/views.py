@@ -95,7 +95,7 @@ class DataFileUploadView(LoginRequiredMixin, FormView):
         """
         Returns the user back to the dataset view.
         """
-        return self.object.dataset.get_absolute_url()
+        return self.object.version.dataset.get_absolute_url()
 
     def get_context_data(self, **kwargs):
         context = super(DataFileUploadView, self).get_context_data(**kwargs)
@@ -145,6 +145,10 @@ class DatasetDetailView(LoginRequiredMixin, DetailView):
         context = super(DatasetDetailView, self).get_context_data(**kwargs)
         context['panel_name'] = self.panel_name
         context['dataset_is_starred'] = context['dataset'].is_starred(self.request.user.id)
+        # if context['dataset'].versions.count() > 0:
+        #     context['files'] = context['dataset'].versions.latest().files
+        # else:
+        #     context['files']
         return context
 
 
