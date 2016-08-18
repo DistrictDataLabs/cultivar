@@ -34,9 +34,15 @@
           {% csrf_token %}
           <input type="hidden" value="{{ dataset.id }}" name="dataset" />
         </form>
-        <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#notImplementedYetModal">
+        {% if dataset.latest_version.bundle_available %}
+        <a href="{{ dataset.latest_version.data.url }}"><button class="btn btn-xs btn-default" data-toggle="modal">
+          <i class="fa fa-download"></i> Download
+        </button></a>
+        {% else %}
+        <button class="btn btn-xs btn-default btn-warning" data-toggle="modal" data-target="#bundleNotAvailable">
           <i class="fa fa-download"></i> Download
         </button>
+        {% endif %}
       </div>
       <div class="clearfix"></div>
     </div>
@@ -98,5 +104,25 @@
 
   </div><!-- column ends -->
 </div><!-- row ends -->
+
+<div id="bundleNotAvailable" class="modal fade" tabindex="-1"
+  role="dialog" aria-labelledby="bundleNotAvailable" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Download Unavailable</h4>
+        </div>
+        <div class="modal-body">
+          <p>The download for this dataset is being created now.  Please check back soon.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        </div>
+      </div> <!-- .modal-content -->
+    </div> <!-- .modal-dialog -->
+</div> <!-- .modal -->
 
 {% endblock %}

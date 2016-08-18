@@ -145,10 +145,6 @@ class DatasetDetailView(LoginRequiredMixin, DetailView):
         context = super(DatasetDetailView, self).get_context_data(**kwargs)
         context['panel_name'] = self.panel_name
         context['dataset_is_starred'] = context['dataset'].is_starred(self.request.user.id)
-        # if context['dataset'].versions.count() > 0:
-        #     context['files'] = context['dataset'].versions.latest().files
-        # else:
-        #     context['files']
         return context
 
 
