@@ -19,6 +19,7 @@ HTML forms for managing dataset objects directly.
 
 from django import forms
 from dataset.models import Dataset, DataFile, DatasetVersion
+from dataset.signals import bundle_version
 
 
 ##########################################################################
@@ -44,7 +45,6 @@ class CreateDatasetForm(forms.ModelForm):
         """
         self.cleaned_data['owner'] = self.request.user.profile.account
         dataset = Dataset.objects.create(**self.cleaned_data)
-        import pdb; pdb.set_trace()
         return dataset
 
 
@@ -88,19 +88,25 @@ class DataFileUploadForm(forms.Form):
         """
         Associate the file with the dataset and upload to S3.
         """
-        dataset = self.cleaned_data['dataset']
         files = []
+        dataset = self.cleaned_data['dataset']
         if dataset.latest_version():
             files = dataset.latest_version().files.all()
 
         version = DatasetVersion.objects.create(
             version=dataset.next_version_number(),
             dataset=dataset,
+            bundle_available=False,
         )
         version.files = files
 
-        return DataFile.objects.create(
+        datafile = DataFile.objects.create(
             version=version,
             uploader=self.request.user,
             data=self.cleaned_data['datafile']
         )
+
+        # emit signal for version bundle
+        bundle_version.send(sender=None, instance=version)
+
+        return datafile
