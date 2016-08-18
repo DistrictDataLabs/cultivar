@@ -51,14 +51,10 @@
     {% block filelist %}
     <div class="panel panel-info">
       <div class="panel-heading">
-        {% with latest=dataset.latest_file %}
         <h3 class="pull-left panel-title">
-          <img src="{% gravatar_url latest.uploader.email 18 %}" />
-          <a href="{{ latest.uploader.get_absolute_url }}">{{ latest.uploader.username }}</a>
-          <span class="text-muted">{{ latest.name }}</span>
+            Version {{ dataset.version }}
         </h3>
-        {% endwith %}
-        <h3 class="pull-right panel-title">Version {{ dataset.version }} on {{ dataset.modified|date }}</h3>
+        <h3 class="pull-right panel-title">last updated {{ dataset.modified|date }}</h3>
         <div class="clearfix"></div>
       </div>
       <table class="table">
