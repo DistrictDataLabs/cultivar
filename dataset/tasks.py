@@ -36,7 +36,6 @@ logger = get_task_logger(__name__)
 
 @app.task(ignore_result=True)
 def bundle_dataset_version(version_id):
-    print(version_id)
     version = DatasetVersion.objects.get(pk=version_id)
     logger.info('Bundle Request: Dataset: {}, Version: {}'.format(
         version.dataset.name,
