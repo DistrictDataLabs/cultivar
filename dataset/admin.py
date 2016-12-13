@@ -19,6 +19,7 @@ Administrative utilities for Dataset models.
 
 from django.contrib import admin
 from dataset.models import Dataset
+from dataset.models import DatasetVersion
 from dataset.models import DataFile
 from dataset.models import License
 
@@ -37,12 +38,23 @@ class DataFilesInline(admin.StackedInline):
     verbose_name_plural = 'files'
 
 
+class DatasetVersionsInline(admin.StackedInline):
+    """
+    Inline administration descriptor
+    """
+
+    model = DatasetVersion
+    extra = 1
+    verbose_name_plural = 'versions'
+
+
 class DatasetAdmin(admin.ModelAdmin):
     """
     Defines the administration for a dataset in the CMS.
     """
 
-    inlines = (DataFilesInline,)
+    # inlines = (DataFilesInline,)
+    versions = (DatasetVersionsInline,)
 
 ##########################################################################
 ## Register Admin

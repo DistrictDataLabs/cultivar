@@ -95,7 +95,7 @@ class DataFileUploadView(LoginRequiredMixin, FormView):
         """
         Returns the user back to the dataset view.
         """
-        return self.object.dataset.get_absolute_url()
+        return self.object.version.dataset.get_absolute_url()
 
     def get_context_data(self, **kwargs):
         context = super(DataFileUploadView, self).get_context_data(**kwargs)

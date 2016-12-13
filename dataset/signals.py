@@ -21,8 +21,30 @@ import base64
 import hashlib
 
 from dataset.models import DataFile
-from django.db.models.signals import pre_delete, pre_save
+from django.db.models.signals import pre_delete, pre_save, post_save
 from django.dispatch.dispatcher import receiver
+from django.dispatch import Signal
+
+from dataset.tasks import bundle_dataset_version
+
+# import the logging library
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
+##########################################################################
+## DatasetVersion Signals
+##########################################################################
+
+bundle_version = Signal(providing_args=["instance"])
+
+@receiver(bundle_version)
+def dataset_version_bundle_enqueue(sender, instance, **kwargs):
+    logger.warn("Task Enqueue Request: dataset_version_bundle_enqueue, {}".format(
+        instance.id
+    ))
+    bundle_dataset_version.delay(instance.id)
 
 ##########################################################################
 ## DataFile Signals
