@@ -64,3 +64,6 @@ venv
 # pycharm
 .idea/
 .env.dev
+
+# Django default file storage
+trinket/media/*
