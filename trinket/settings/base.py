@@ -106,8 +106,6 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 
     # Third party apps
-    'social.apps.django_app.default',
-    'social_django'
     'rest_framework',
     'django_gravatar',
     'storages',
