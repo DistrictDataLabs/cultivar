@@ -14,7 +14,7 @@ psycopg2==2.6.1
 dj-database-url==0.4.1
 
 ## Social Authentication Dependencies
-python-social-auth==0.2.5
+python-social-auth==0.2.19
 
 # Utilities
 six==1.10.0
