@@ -182,12 +182,13 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 ##########################################################################
 ## AWS S3 Storage
 ##########################################################################
-
-DEFAULT_FILE_STORAGE    = 'storages.backends.s3boto.S3BotoStorage'
-
-AWS_ACCESS_KEY_ID       = environ_setting("AWS_ACCESS_KEY_ID", "")
-AWS_SECRET_ACCESS_KEY   = environ_setting("AWS_SECRET_ACCESS_KEY", "")
-AWS_STORAGE_BUCKET_NAME = environ_setting("AWS_STORAGE_BUCKET_NAME", "trinket-coffer")
+#if AWS env settings are present, then those settings will be used for storage.  Otherwise, the Django
+#DEFAULT_FILE_STORAGE will be used, which is based on the MEDIA_ROOT setting
+if environ_setting("AWS_ACCESS_KEY_ID", "") and environ_setting("AWS_SECRET_ACCESS_KEY", ""):
+    DEFAULT_FILE_STORAGE    = 'storages.backends.s3boto.S3BotoStorage'
+    AWS_ACCESS_KEY_ID       = environ_setting("AWS_ACCESS_KEY_ID", "")
+    AWS_SECRET_ACCESS_KEY   = environ_setting("AWS_SECRET_ACCESS_KEY", "")
+    AWS_STORAGE_BUCKET_NAME = environ_setting("AWS_STORAGE_BUCKET_NAME", "trinket-coffer")
 
 ##########################################################################
 ## Logging and Error Reporting

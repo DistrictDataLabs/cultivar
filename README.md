@@ -95,8 +95,8 @@ test modules.
     DJANGO_SETTINGS_MODULE=trinket.settings.development
     EMAIL_HOST_USER=None
     EMAIL_HOST_PASSWORD=None
-    AWS_ACCESS_KEY_ID=<insert>
-    AWS_SECRET_ACCESS_KEY=<insert>
+    AWS_ACCESS_KEY_ID=None
+    AWS_SECRET_ACCESS_KEY=None
     SECRET_KEY=BLAH
     DATABASE_URL=postgres://<insertDBUSERNAME>:<insertDBUSERPASSWORD>@127.0.0.1:5432/<insertDBNAME>
     AMQP_HOST=<insert>
@@ -106,10 +106,9 @@ test modules.
 
 8. Run `python manage.py runserver` and go to http://localhost:8000.  Optionally, you can use the Makefile by executing `make runserver` from the command line.
 
-9. Trinket uses Amazon S3 as file storage.
-In case you want to have file uploads working locally, you need to create a bucket (file storage directory at AWS)
+9. *[OPTIONAL]* If you do not supply AWS credentials as an environment variable, Trinket will use local file storage by default.
+If you want to use S3-backed file storage, you need to create a bucket (file storage directory at AWS)
 and user with permissions to access that bucket.
-As another option, you can use local file storage for DEFAULT_FILE_STORAGE settings variable.
 
 To setup Amazon S3 bucket:
 - Setup AWS account if you have none at [amazon homepage](http://aws.amazon.com/).

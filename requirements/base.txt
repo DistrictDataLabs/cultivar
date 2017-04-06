@@ -1,6 +1,6 @@
 # Web Application
 Django==1.9.5
-djangorestframework==3.3.3
+djangorestframework==3.6.2
 django-model-utils==2.4
 django-grappelli==2.8.1
 django-dotenv==1.4.1
@@ -14,7 +14,7 @@ psycopg2==2.6.1
 dj-database-url==0.4.1
 
 ## Social Authentication Dependencies
-python-social-auth>=0.2.14
+python-social-auth==0.2.19
 
 # Utilities
 six==1.10.0
