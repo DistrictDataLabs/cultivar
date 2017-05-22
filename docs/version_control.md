@@ -2,13 +2,13 @@
 
 ## Overview    
 
-Trinket offers state-of-the-art version control and provenance that are optimized for dataset management.
+Cultivar offers state-of-the-art version control and provenance that are optimized for dataset management.
 
 Duplication is the single most significant problem in versioning and version control (Mashtizadeh et al. 2013; Zhang et al. 2013; Ramasubramanian et al. 2009; Santry et al. 1999). For example, if minor changes are made to Version 1 of a file, and the updated Version 2 is then also saved to the data store, most of the information stored in Versions 1 and 2 is identical. That duplication corresponds directly to wasted storage space, which is directly correlated to monetary cost. On the other hand, partitioning files in such a way as to reduce duplication also makes the reconstitution of those files expensive in terms of memory processing power. These reasons are precisely why Cloud-based storage services prefer duplication and to pass the costs onto their customers.
 
 ## Architecture    
 
-As such, Trinket provides a way for users not only to store datasets in stable Cloud-based repositories, but also to modify those datasets, share them with others, branch off new versions for testing and experimentation, and explore the data using the auto-analysis and visual analytics features. To support and sustain this kind of exploration, Trinket’s dataset versioning solution implements theories initially explored in Chervenak et al. (2000), Palankar et al. (2008), and Ramasubramanian et al. (2009). It aims to balance the tradeoff between the availability of the data (to which users want ready access), and the storage of that data (which becomes less accessible but much cheaper as it is increasingly compressed and archived).
+As such, Cultivar provides a way for users not only to store datasets in stable Cloud-based repositories, but also to modify those datasets, share them with others, branch off new versions for testing and experimentation, and explore the data using the auto-analysis and visual analytics features. To support and sustain this kind of exploration, Cultivar’s dataset versioning solution implements theories initially explored in Chervenak et al. (2000), Palankar et al. (2008), and Ramasubramanian et al. (2009). It aims to balance the tradeoff between the availability of the data (to which users want ready access), and the storage of that data (which becomes less accessible but much cheaper as it is increasingly compressed and archived).
 
 ## References    
 
