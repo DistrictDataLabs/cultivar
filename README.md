@@ -55,14 +55,22 @@ Take your pick! Several development environments are supported right now.
 
 1. Download and install [Docker CE from the Docker Store for your OS](https://www.docker.com/community-edition#/download)
 2. Clone repo
+    ```
     git clone git@github.com:DistrictDataLabs/cultivar.git
+    ```
 3. Copy the `.env.docker.sample` file over to this target location.
+    ```
     cp .env.docker.sample .env.docker
+    ```
 4. Build and start containers with `dev.yml` docker-compose configuration.
+    ```
     docker-compose -f dev.yml up -d
+    ```
 5. Migrate database and create a dev superuser
+    ```
     docker-compose -f dev.yml exec django python manage.py migrate
     docker-compose -f dev.yml exec django python manage.py createsuperuser
+    ```
 6. It's a site at http://localhost:8001!
 
 #### Need more details on the Docker installation?
