@@ -1,18 +1,18 @@
-# Development and Deployment of Trinket via Docker
+# Development and Deployment of Cultivar via Docker
 
-Trinket requires multiple processes to be configured and running during
+Cultivar requires multiple processes to be configured and running during
 development. One option is to setup these processes on each development
 machine. The other option is to use Docker containers for the dependant
 services needed.
 
-Docker files have been setup in the project and can be used to buid a
-working development environment for Trinket.
+Docker files have been setup in the project and can be used to build a
+working development environment for Cultivar.
 
 ## Local Setup
 
-Start by cloning the trinket repository into a working directory:
+Start by cloning the cultivar repository into a working directory:
 
-    git clone git@github.com:DistrictDataLabs/trinket.git
+    git clone git@github.com:DistrictDataLabs/cultivar.git
     
 Copy the `.env.docker.sample` file over to this target location:
 
@@ -30,19 +30,18 @@ The docker-compose command uses a **compose file** with the
 default name of docker-compose.yml. For development, we want to use
 dev.yml instead.
 
-#### Docker Compose File
+#### Docker Compose File: `dev.yml`
 
-If you define the environment variable COMPOSE_FILE, you can change the
-default file to use:
-
-    export COMPOSE_FILE=dev.yml
-
-This makes it easier in development. Without the environment variable,
-use the -f command for each docker-compose usage:
+The docker compose file you need to use for local development is called `dev.yml`. Any `docker-compose` commands should specify this file with the `-f` flag like so:
 
     docker-compose -f dev.yml <command> [options]
 
-The commands below will not assume that the COMPOSE_FILE variable has
+**Tip!**: If you define `dev.yml` as the value for the environment variable COMPOSE_FILE, you will override the default and no longer need to use the `-f` flag.
+
+    export COMPOSE_FILE=dev.yml
+    docker-compose <command> [options] #knows to use dev.yml without -f
+
+This makes it easier in development. The commands below will not assume that the COMPOSE_FILE variable has
 been setup, but in practice, this is highly recommended.
 
 ### Building with Docker
@@ -51,10 +50,7 @@ The compose file defines the containers and details needed to launch and
 load the app. To start and run all of the containers, you must first
 build them. By default, the _up_ command will build them if needed, but
 it is also easy to explicitly build the containers before starting
-them. 
-
-Remember: if you setup your COMPOSE_FILE environment variable, you can leave out the -f dev.yml in
-the commmand.
+them.
 
     docker-compose -f dev.yml build
 
@@ -101,14 +97,14 @@ http://0.0.0.0:8001, which you can access at [http://localhost:8001](http://loca
 
 ## Production Use
 
-The current recommendation with Trinket is to run on heroku. The project
+The current recommendation with Cultivar is to run on heroku. The project
 includes the required Procfile for this purpose.
 
 It is possible to run the project using docker in production, and the
 docker-compose.yml file is provided for this case, but that
 configuration has not been tested, and is not currently supported.
 
-## Making Docker a little Easier
+## General Docker/docker-compose tips
 
 Here are a few of my tips for making things easier using docker.
 
@@ -116,7 +112,7 @@ Here are a few of my tips for making things easier using docker.
 
     alias dc='docker-compose'
 
-2. Running manage.py via docker-compose is a bit a bit long also. Create a local bash script to wrap the long command into a *short* command that works similarly:
+2. Running manage.py via docker-compose is a bit long also. Create a local bash script to wrap the long command into a *short* command that works similarly:
 
     Create a bash script named 'manage'
 
@@ -132,6 +128,11 @@ Here are a few of my tips for making things easier using docker.
 	Now, you can do this:
 
         ./manage migrate --list
+
+3. To simulate an interactive shell running 'inside' a given container, use the following:
+
+    docker exec -it <container-name> /bin/bash
+
         
 # PostgreSQL Data
 

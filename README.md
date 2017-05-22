@@ -45,9 +45,29 @@ If you are a member of the District Data Labs Faculty group, you have direct acc
 
 Take your pick! Several development environments are supported right now.
 
-- [Bare metal Mac OS X](#initial-setup-mac-os-x)
 - [With Docker](#with-docker)
+- [Bare metal Mac OS X](#initial-setup-mac-os-x)
 - [With Vagrant](#with-vagrant)
+
+### With Docker
+
+#### Quick Start
+
+1. Download and install [Docker CE from the Docker Store for your OS](https://www.docker.com/community-edition#/download)
+2. Clone repo
+    git clone git@github.com:DistrictDataLabs/cultivar.git
+3. Copy the `.env.docker.sample` file over to this target location.
+    cp .env.docker.sample .env.docker
+4. Build and start containers with `dev.yml` docker-compose configuration.
+    docker-compose -f dev.yml up -d
+5. Migrate database and create a dev superuser
+    docker-compose exec -f dev.yml django python manage.py migrate
+    docker-compose exec -f dev.yml django python manage.py createsuperuser
+6. It's a site at http://localhost:8001!
+
+#### Need more details on the Docker installation?
+
+Extended Docker install documentation, tips, and troubleshooting is at [docs/docker.md](docs/docker.md).
 
 ### Initial Setup (Mac OS X)
 
@@ -158,17 +178,6 @@ Also check out [policies examples](http://docs.aws.amazon.com/AmazonS3/latest/de
         ]
     }
     ```
-
-### With Docker
-
-Docker containers make it easier to setup a working development environment
-when that environment involves multiple external applications. Trinket
-requires postgresql, rabbitmq, a Django process and a Celery process to 
-run the full suite of tools in development. 
-
-Trinket has been setup to use Docker in development. Please refer to the
-online documentation for Trinket [here]() for more details, or
-look at the [documentation here](docs/docker.md).
 
 ### With Vagrant
 
