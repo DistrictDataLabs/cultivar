@@ -17,10 +17,6 @@ services:
       # Export the port to access this locally.. if you like
       - "5441:5432"
 
-  smtpd:
-    container_name: trinket-smtpd
-    build: ./compose/smtpd
-
   rabbitmq:
     container_name: trinket-rabbitmq
     build: ./compose/rabbitmq
@@ -33,7 +29,6 @@ services:
     command: python /app/manage.py runserver 0.0.0.0:8001
     depends_on:
       - postgres
-      - smtpd
       - rabbitmq
     env_file:
       - .env.docker
@@ -43,7 +38,6 @@ services:
       - "8001:8001"
     links:
       - postgres
-      - smtpd
       - rabbitmq
 
   celery:
