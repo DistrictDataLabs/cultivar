@@ -41,6 +41,42 @@ If you are a member of the District Data Labs Faculty group, you have direct acc
 
 4. Repeat. Releases will be routinely pushed into master via release branches, then deployed to the server.
 
+## Development Installation
+
+Take your pick! Several development environments are supported right now.
+
+- [With Docker](#with-docker)
+- [Bare metal Mac OS X](#initial-setup-mac-os-x)
+- [With Vagrant](#with-vagrant)
+
+### With Docker
+
+#### Quick Start
+
+1. Download and install [Docker CE from the Docker Store for your OS](https://www.docker.com/community-edition#/download)
+2. Clone repo
+    ```
+    git clone git@github.com:DistrictDataLabs/cultivar.git
+    ```
+3. Copy the `.env.docker.sample` file over to this target location.
+    ```
+    cp .env.docker.sample .env.docker
+    ```
+4. Build and start containers with `dev.yml` docker-compose configuration.
+    ```
+    docker-compose -f dev.yml up -d
+    ```
+5. Migrate database and create a dev superuser
+    ```
+    docker-compose -f dev.yml exec django python manage.py migrate
+    docker-compose -f dev.yml exec django python manage.py createsuperuser
+    ```
+6. It's a site at http://localhost:8001!
+
+#### Need more details on the Docker installation?
+
+Extended Docker install documentation, tips, and troubleshooting is at [docs/docker.md](docs/docker.md).
+
 ### Initial Setup (Mac OS X)
 
 1. Clone the repository to your local computer.  To clone from the command line (instead of a windowed application) use the following bash command.  If you are cloning a forked copy then you will need to update the repository address.
@@ -93,10 +129,10 @@ test modules.
 
     ```
     DJANGO_SETTINGS_MODULE=trinket.settings.development
-    EMAIL_HOST_USER=None
-    EMAIL_HOST_PASSWORD=None
-    AWS_ACCESS_KEY_ID=None
-    AWS_SECRET_ACCESS_KEY=None
+    EMAIL_HOST_USER=
+    EMAIL_HOST_PASSWORD=
+    AWS_ACCESS_KEY_ID=<insert if using s3 bucket>
+    AWS_SECRET_ACCESS_KEY=<insert if using s3 bucket>
     SECRET_KEY=BLAH
     DATABASE_URL=postgres://<insertDBUSERNAME>:<insertDBUSERPASSWORD>@127.0.0.1:5432/<insertDBNAME>
     AMQP_HOST=<insert>
@@ -151,18 +187,7 @@ Also check out [policies examples](http://docs.aws.amazon.com/AmazonS3/latest/de
     }
     ```
 
-### Docker Development Environment
-
-Docker containers make it easier to setup a working development environment
-when that environment involves multiple external applications. Trinket
-requires postgresql, rabbitmq, a Django process and a Celery process to 
-run the full suite of tools in development. 
-
-Trinket has been setup to use Docker in development. Please refer to the
-online documentation for Trinket [here]() for more details, or
-look at the [documentation here](docs/docker.md).
-
-### Vagrant Configuration
+### With Vagrant
 
 These instructions only apply if you are already a vagrant user, or
 would like to use vagrant as an alternative to other installation
@@ -172,39 +197,41 @@ Other options include installing the required dependencies locally, such as Post
 
 #### Setting Up Vagrant
 
-Rename sample.env to .env
+1. Copy sample.env to .env
 
-Add in any environment settings that you wish
+    cp sample.env .env
 
-Install Vagrant (here)[https://www.vagrantup.com/]
+Add in any environment settings that you wish, however this is set up to work with the vagrant development environment out of the box.
 
-Set up vagrant and install system
+2. Install Vagrant [here](https://www.vagrantup.com/)
+
+3. Set up vagrant and install system
 
 `vagrant up`
 
-Log into vagrant and finalize set up. Caution it might take ten minutes to set up.
+4. Log into vagrant and finalize set up. Caution it might take ten minutes to set up.
 
 `vagrant ssh`
 
 `cd project`
 
-Activate your virtualenv
+- Activate your virtualenv
 
 `source venv/bin/activate`
 
-Sync the database
+- Sync the database
 
 `python manage.py migrate`
 
-Create a super user to log in with
+- Create a super user to log in with
 
 `python manage.py createsuperuser`
 
-Run local development server
+- Run local development server
 
 `python manage.py runserver 0.0.0.0:8000 `
 
-Open your local browser to: http://localhost:8000/
+- Open your local browser to: http://localhost:8000/
 
 
 ### Throughput
