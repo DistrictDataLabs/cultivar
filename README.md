@@ -61,8 +61,8 @@ Take your pick! Several development environments are supported right now.
 4. Build and start containers with `dev.yml` docker-compose configuration.
     docker-compose -f dev.yml up -d
 5. Migrate database and create a dev superuser
-    docker-compose exec -f dev.yml django python manage.py migrate
-    docker-compose exec -f dev.yml django python manage.py createsuperuser
+    docker-compose -f dev.yml exec django python manage.py migrate
+    docker-compose -f dev.yml exec django python manage.py createsuperuser
 6. It's a site at http://localhost:8001!
 
 #### Need more details on the Docker installation?

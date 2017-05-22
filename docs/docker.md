@@ -64,11 +64,11 @@ The postgres container will have created a database already, but we need
 to migrate the Django project to this database. The general way to run
 the manage.py command in docker is like this:
 
-    docker-compose exec -f dev.yml django python manage.py <manage command and options>
+    docker-compose -f dev.yml exec django python manage.py <manage command and options>
     
 For example:
 
-	docker-compose exec -f dev.yml django python manage.py migrate --list
+	docker-compose -f dev.yml exec django python manage.py migrate --list
 
 
 #### First Instance considerations
@@ -79,8 +79,8 @@ superuser.
 
 Perform the following steps:
 
-    docker-compose exec -f dev.yml django python manage.py migrate
-    docker-compose exec -f dev.yml django python manage.py createsuperuser
+    docker-compose -f dev.yml exec django python manage.py migrate
+    docker-compose -f dev.yml exec django python manage.py createsuperuser
 
 You should see all of the migrations complete after the first command.
 
@@ -155,8 +155,8 @@ container again.
 	
 At this point, you should have a new DB, but none of the data is setup.
 
-	docker-compose exec -f dev.yml python manage.py migrate
-	docker-compose exec -f dev.yml python manage.py createsuperuser
+	docker-compose -f dev.yml exec python manage.py migrate
+	docker-compose -f dev.yml exec python manage.py createsuperuser
 	
 
     
