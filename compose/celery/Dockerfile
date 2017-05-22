@@ -13,10 +13,6 @@ RUN pip install -r /requirements/celery_prod.txt
 RUN groupadd -r django && useradd -r -g django django
 RUN chown -R django /app
 
-COPY ./compose/celery/entrypoint.sh /entrypoint.sh
-RUN sed -i 's/\r//' /entrypoint.sh
-RUN chmod +x /entrypoint.sh && chown django /entrypoint.sh
-
 WORKDIR /app
 
-ENTRYPOINT ["/entrypoint.sh"]
+USER django

@@ -7,10 +7,5 @@ COPY ./requirements /requirements
 RUN pip install -U pip
 RUN pip install -r /requirements/celery.txt
 
-COPY ./compose/django/entrypoint.sh /entrypoint.sh
-RUN sed -i 's/\r//' /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
 WORKDIR /app
 
-ENTRYPOINT ["/entrypoint.sh"]
