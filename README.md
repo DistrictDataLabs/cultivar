@@ -41,6 +41,14 @@ If you are a member of the District Data Labs Faculty group, you have direct acc
 
 4. Repeat. Releases will be routinely pushed into master via release branches, then deployed to the server.
 
+## Development Installation
+
+Take your pick! Several development environments are supported right now.
+
+- [Bare metal Mac OS X](#initial-setup-mac-os-x)
+- [With Docker](#with-docker)
+- [With Vagrant](#with-vagrant)
+
 ### Initial Setup (Mac OS X)
 
 1. Clone the repository to your local computer.  To clone from the command line (instead of a windowed application) use the following bash command.  If you are cloning a forked copy then you will need to update the repository address.
@@ -151,7 +159,7 @@ Also check out [policies examples](http://docs.aws.amazon.com/AmazonS3/latest/de
     }
     ```
 
-### Docker Development Environment
+### With Docker
 
 Docker containers make it easier to setup a working development environment
 when that environment involves multiple external applications. Trinket
@@ -162,7 +170,7 @@ Trinket has been setup to use Docker in development. Please refer to the
 online documentation for Trinket [here]() for more details, or
 look at the [documentation here](docs/docker.md).
 
-### Vagrant Configuration
+### With Vagrant
 
 These instructions only apply if you are already a vagrant user, or
 would like to use vagrant as an alternative to other installation
