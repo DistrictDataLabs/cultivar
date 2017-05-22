@@ -93,10 +93,10 @@ test modules.
 
     ```
     DJANGO_SETTINGS_MODULE=trinket.settings.development
-    EMAIL_HOST_USER=None
-    EMAIL_HOST_PASSWORD=None
-    AWS_ACCESS_KEY_ID=None
-    AWS_SECRET_ACCESS_KEY=None
+    EMAIL_HOST_USER=
+    EMAIL_HOST_PASSWORD=
+    AWS_ACCESS_KEY_ID=<insert if using s3 bucket>
+    AWS_SECRET_ACCESS_KEY=<insert if using s3 bucket>
     SECRET_KEY=BLAH
     DATABASE_URL=postgres://<insertDBUSERNAME>:<insertDBUSERPASSWORD>@127.0.0.1:5432/<insertDBNAME>
     AMQP_HOST=<insert>
