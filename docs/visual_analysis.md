@@ -4,7 +4,7 @@
 
 Separability analysis is critical to the machine learning phase in the data science pipeline, but it becomes increasingly difficult as dimensionality increases. High dimensional data is particularly difficult to explore because most people cannot visualize beyond two- or three-dimensions. Even lower dimensional data can be tedious to visualize because it still requires writing a substantial amount of code, regardless of the programming language one uses.
 
-Trinket's visual analysis tools are designed to enable the user to interact with visualizations to help them understand the data. In particular, Trinket aims to deliver visual analytics features that enable separability analysis for multidimensional and unstructured data.
+Cultivar's visual analysis tools are designed to enable the user to interact with visualizations to help them understand the data. In particular, Cultivar aims to deliver visual analytics features that enable separability analysis for multidimensional and unstructured data.
 
 ## Architecture    
 
@@ -16,7 +16,7 @@ Scatter matrices, parallel coordinates, and radviz are three promising visual ap
 
 ![Radviz](images/radviz.png)
 
-The underlying architecture of the visualization tools is an implementation of hierarchical (agglomerative) clustering and brushing as described in Elmqvist and Fekete (2010) and Fua, Ward and Rundensteiner (1999) using `scikit-learn`. This clustering approach results in distance metrics necessary to do instance identification, and provides “cuts” that can be viewed at multiple different levels using brushing. Trinket also provides a two-dimensional rank-by-feature framework as described by Seo and Schneiderman (2004, 2005, 2006), including color-coded scatterplot matrices to identify linear, quadratic, Pearson, and Spearman relationships between pairs of variables, and tools to facilitate separability analysis, such as radial visualization, dendrograms, and parallel coordinates as described in Wegman (1990), Fua, Ward, and Rundensteiner (1999), and Inselberg (2004).
+The underlying architecture of the visualization tools is an implementation of hierarchical (agglomerative) clustering and brushing as described in Elmqvist and Fekete (2010) and Fua, Ward and Rundensteiner (1999) using `scikit-learn`. This clustering approach results in distance metrics necessary to do instance identification, and provides “cuts” that can be viewed at multiple different levels using brushing. Cultivar also provides a two-dimensional rank-by-feature framework as described by Seo and Schneiderman (2004, 2005, 2006), including color-coded scatterplot matrices to identify linear, quadratic, Pearson, and Spearman relationships between pairs of variables, and tools to facilitate separability analysis, such as radial visualization, dendrograms, and parallel coordinates as described in Wegman (1990), Fua, Ward, and Rundensteiner (1999), and Inselberg (2004).
 
 ## References    
 
