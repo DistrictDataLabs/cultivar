@@ -69,3 +69,6 @@ venv
 
 # Django default file storage
 trinket/media/*
+
+# Vagrant
+.vagrant/
