@@ -29,15 +29,3 @@ DEBUG            = True
 
 ## Hosts
 ALLOWED_HOSTS    = ['localhost', '127.0.0.1']
-
-## Database Settings
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': environ_setting('DB_NAME', 'trinket'),
-        'USER': environ_setting('DB_USER', 'postgres'),
-        'PASSWORD': environ_setting('DB_PASS', ''),
-        'HOST': environ_setting('DB_HOST', 'localhost'),
-        'PORT': environ_setting('DB_PORT', '5432'),
-    },
-}
