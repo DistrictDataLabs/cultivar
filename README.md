@@ -172,39 +172,41 @@ Other options include installing the required dependencies locally, such as Post
 
 #### Setting Up Vagrant
 
-Rename sample.env to .env
+1. Copy sample.env to .env
 
-Add in any environment settings that you wish
+    cp sample.env .env
 
-Install Vagrant (here)[https://www.vagrantup.com/]
+Add in any environment settings that you wish, however this is set up to work with the vagrant development environment out of the box.
 
-Set up vagrant and install system
+2. Install Vagrant [here](https://www.vagrantup.com/)
+
+3. Set up vagrant and install system
 
 `vagrant up`
 
-Log into vagrant and finalize set up. Caution it might take ten minutes to set up.
+4. Log into vagrant and finalize set up. Caution it might take ten minutes to set up.
 
 `vagrant ssh`
 
 `cd project`
 
-Activate your virtualenv
+- Activate your virtualenv
 
 `source venv/bin/activate`
 
-Sync the database
+- Sync the database
 
 `python manage.py migrate`
 
-Create a super user to log in with
+- Create a super user to log in with
 
 `python manage.py createsuperuser`
 
-Run local development server
+- Run local development server
 
 `python manage.py runserver 0.0.0.0:8000 `
 
-Open your local browser to: http://localhost:8000/
+- Open your local browser to: http://localhost:8000/
 
 
 ### Throughput
