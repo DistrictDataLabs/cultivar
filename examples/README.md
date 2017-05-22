@@ -6,23 +6,23 @@ Over the last several years, Python developers interested in data science and an
 
 Over the next few years, we are sure to witness the introduction of new tools that are increasingly intelligent and have the ability to automate more complex analytical processes. However, as we begin using these tools (and developing new ones), we should strongly consider the level of automation that is most appropriate for each case. Some analytical processes are technically difficult to automate, and therefore require large degrees of human steering. Others are relatively easy to automate but perhaps should not be due to the unpredictability of results or outputs requiring a level of compassionate decision-making that machines simply don’t possess. Such processes would benefit greatly from the collaboration between automated machine tasks and uniquely human ones. After all, it is often systems that utilize a combination of both human and machine intelligence that achieve better results than either could on their own.
 
-## About the Framework
+## Data Exploration Framework
 
-Exploratory data analysis (EDA) is an important pillar of data science, a critical step required to complete every project regardless of the domain or the type of data you are working with. It is exploratory analysis that gives us a sense of what additional work should be performed to quantify and extract insights from our data. It also informs us as to what the end product of our analytical process should be. Yet, in the decade that I've been working in analytics and data science, I've often seen people grasping at straws when it comes to exploring their data and trying to find insights.
+Exploratory data analysis (EDA) is an important pillar of data science, a critical step required to complete every project regardless of the domain or the type of data you are working with. It is exploratory analysis that gives us a sense of what additional work should be performed to quantify and extract insights from our data. It also informs us as to what the end product of our analytical process should be. Yet, we've often seen people grasping at straws when it comes to exploring their data and trying to find insights.
 
-Having witnessed the lack of structure in conventional approaches, I decided to document my own process in an attempt to come up with a framework for data exploration. I wanted the resulting framework to provide a more structured path to insight discovery: one that allows us to view insight discovery as a problem, break that problem down into manageable components, and then start working toward a solution.
+Having witnessed the lack of structure in conventional approaches, we decided to document our own processes in an attempt to come up with a framework for data exploration. We want the resulting framework to provide a more structured path to insight discovery: one that allows us to view insight discovery as a problem, break that problem down into manageable components, and then start working toward a solution.
 
 ![Framework](../docs/images/framework.png)
 
 The following blogs go into the framework in more detail:
 
-[Part 1](http://blog.districtdatalabs.com/data-exploration-with-python-1)
+* [Data Exploration with Python, Part 1](http://blog.districtdatalabs.com/data-exploration-with-python-1)
 
-[Part 2](http://blog.districtdatalabs.com/data-exploration-with-python-2)
+* [Data Exploration with Python, Part 2](http://blog.districtdatalabs.com/data-exploration-with-python-2)
 
-[Part 3](http://blog.districtdatalabs.com/data-exploration-with-python-3)
+* [Data Exploration with Python, Part 3](http://blog.districtdatalabs.com/data-exploration-with-python-3)
 
-## Sprints
+## PyCon Sprints
 
 During these sprints, we would like to have participants to do the following:
 
