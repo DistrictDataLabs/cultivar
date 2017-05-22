@@ -1,7 +1,7 @@
-CREATE ROLE trinketuser WITH LOGIN PASSWORD 'trinketpassword';
-GRANT ALL PRIVILEGES ON DATABASE trinket to trinketuser;
-ALTER USER trinketuser CREATEDB;
+CREATE ROLE cultivar WITH LOGIN PASSWORD 'cultivar';
+GRANT ALL PRIVILEGES ON DATABASE cultivar to cultivar;
+ALTER USER cultivar CREATEDB;
 
-CREATE ROLE vagrant WITH LOGIN PASSWORD 'trinketpassword';
-GRANT ALL PRIVILEGES ON DATABASE trinket to vagrant;
+CREATE ROLE vagrant WITH LOGIN PASSWORD 'cultivar';
+GRANT ALL PRIVILEGES ON DATABASE cultivar to vagrant;
 ALTER USER vagrant CREATEDB;
