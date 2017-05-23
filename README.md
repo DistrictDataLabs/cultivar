@@ -71,7 +71,7 @@ Take your pick! Several development environments are supported right now.
     docker-compose -f dev.yml exec django python manage.py migrate
     docker-compose -f dev.yml exec django python manage.py createsuperuser
     ```
-6. It's a site at http://localhost:8001!
+6. It's a site at http://localhost:8001 !
 
 #### Need more details on the Docker installation?
 
@@ -87,7 +87,7 @@ Extended Docker install documentation, tips, and troubleshooting is at [docs/doc
 
 2. Install required services.  Trinket relies on PostgreSQL for the database layer and so please ensure that a recent version is installed and running.  If using a Mac, we recommend the excellent [PostgresApp](http://postgresapp.com/)
 
-3. Create Postres database for local development, see [instructions](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04#create-a-database-and-database-user).
+3. Create Postgres database for local development, see [instructions](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04#create-a-database-and-database-user).
 Note name of db, as well as username and password of db user you created.
 
 4. (Optional) Create and install your python virtual environment.  The bash commands below are provided as an example.
@@ -121,24 +121,7 @@ test modules.
 
 6. Create the needed environment variables in the `.env` file.  `.env` files allow you to easily specify the environmental variables which Trinket requires for execution.  Note that a sample/template has been provided with `sample.env`.
 
-    ```
-    vim .env
-    ```
-
-7. Update the contents of the `.env` file:
-
-    ```
-    DJANGO_SETTINGS_MODULE=trinket.settings.development
-    EMAIL_HOST_USER=
-    EMAIL_HOST_PASSWORD=
-    AWS_ACCESS_KEY_ID=<insert if using s3 bucket>
-    AWS_SECRET_ACCESS_KEY=<insert if using s3 bucket>
-    SECRET_KEY=BLAH
-    DATABASE_URL=postgres://<insertDBUSERNAME>:<insertDBUSERPASSWORD>@127.0.0.1:5432/<insertDBNAME>
-    AMQP_HOST=<insert>
-    AMQP_USER=<insert>
-    AMQP_PASSWORD=<insert>
-    ```
+7. Update the contents of the `.env` file.
 
 8. Run `python manage.py runserver` and go to http://localhost:8000.  Optionally, you can use the Makefile by executing `make runserver` from the command line.
 
